@@ -1,0 +1,42 @@
+.logo {
+    height: 26px;
+    margin: 16px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-left: -30px;
+  }
+
+  .logo__img {
+    width: 20%;
+    border: .5px solid black;
+    border-radius: 999px;
+
+  }
+
+  /* .site-layout-background {
+    background-color: #fff;
+  } */
+
+  .hideicon {
+      position: absolute;
+      left: 190px;
+      padding: 0 24px;
+      font-size: 20px;
+      line-height: 64px;
+      cursor: pointer;
+      transition-delay: 2s;
+        -webkit-transition-delay: 2s;
+  }
+  .showicon {
+    position: absolute;
+      left: 1px;
+      padding: 0 24px;
+      font-size: 20px;
+      line-height: 64px;
+      cursor: pointer;
+
+  }
+
+ 
