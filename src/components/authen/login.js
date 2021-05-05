@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "antd/dist/antd.css";
 import './css/login.css';
+
 import { Form, Input, Button, Checkbox } from 'antd';
 import {
     BrowserRouter as Router,
@@ -28,7 +29,14 @@ function Login(props) {
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
       };
+    const onSubmit = (values) => {
+      console.log("hello",values);
+    }
+    
+
+
   return (
+    
     isSuccess ?
     <div className="authen-container">
       <Form
@@ -39,6 +47,7 @@ function Login(props) {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        onClick={onSubmit}
       >
         <img src="images/logo2.png" alt="" className="login-logo" />
 
@@ -64,17 +73,17 @@ function Login(props) {
               required: true,
               message: "Mật khẩu không được để trống!",
             },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                // if (!value || getFieldValue("password") === value) {
-                //   return Promise.resolve();
-                // }
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject("Mật khẩu không khớp!");
-              },
-            }),
+            // ({ getFieldValue }) => ({
+            //   validator(_, value) {
+            //     // if (!value || getFieldValue("password") === value) {
+            //     //   return Promise.resolve();
+            //     // }
+            //     if (!value || getFieldValue("password") === value) {
+            //       return Promise.resolve();
+            //     }
+            //     return Promise.reject("Mật khẩu không khớp!");
+            //   },
+            // }),
           ]}
         >
           <Input.Password />
@@ -108,9 +117,8 @@ function Login(props) {
             className="logo-img"
           />
         </div>
-        
       </Form>
-    </div> : <Redirect to="dashbroad" />
+    </div> : <Redirect to="product" />
   );
 }
 
