@@ -4,8 +4,6 @@ html, body {
 
 #root, .App, .authen-container {
     height: 100%;
-    margin-bottom: -80px;
-    
 }
 
 .login-logo {
@@ -23,7 +21,8 @@ html, body {
 }
 
 .authen-container {
-    margin-top: 50px;
+    margin-top:210px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

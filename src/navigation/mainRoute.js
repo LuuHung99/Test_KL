@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "../Layout/Login/index";
-import Register from "../Layout/Register/index";
+import Login from "../components/authen/login";
+import Register from "../components/authen/register";
 import Dashbroad from "../components/dashbroad/dashbroad";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";

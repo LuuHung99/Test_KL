@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/sidebar.css";
+import Tools from "../../Tools/Tools";
+// import Data from "../../api/index";
 import { Layout, Menu, Input, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -39,6 +41,22 @@ const initData = [
           {
             id: 2,
             title: "Bước 2",
+            items: [
+              {
+                id: 1,
+                text: "Quả việt quất có thể giúp hỗ trợ giảm cân lành mạnh",
+              },
+              {
+                id: 2,
+                text:
+                  "Thêm bưởi vào chế độ ăn uống của bạn có thể làm giảm nguy cơ kháng insulin, tiền thân của bệnh tiểu đường loại 2",
+              },
+              {
+                id: 3,
+                text:
+                  "Táo đóng một vai trò trong việc giảm lượng cholesterol cao",
+              },
+            ],
           },
           {
             id: 3,
@@ -124,7 +142,6 @@ function Sidebar(props) {
               text.titles.map((item) => {
                 return <Menu.Item key={item.id}>{item.name}</Menu.Item>;
               })}
-            {/* <AddProduct product={product} /> */}
           </SubMenu>
         );
       })
@@ -144,7 +161,6 @@ function Sidebar(props) {
         }}
         className="site-layout-sider-light sidebar-wrapper"
       >
-        {/* <MenuFoldOutlined className="showicon" onClick={Showicon} /> */}
         <div className="logo">
           <img src="images/male-farmer.svg" className="logo__img" />
           <p>Hi Hung</p>
@@ -152,7 +168,6 @@ function Sidebar(props) {
 
         <Input
           placeholder="Tìm kiếm"
-          // onChange={searchCategory}
           prefix={<SearchOutlined />}
           style={{
             paddingLeft: "5px",
@@ -161,26 +176,11 @@ function Sidebar(props) {
             width: "95%",
           }}
         />
-        {/* <form>
-            <Input
-              // value={newCategory}
-              placeholder="Thêm sản phẩm"
-              prefix={<PlusOutlined />}
-              style={{
-                paddingLeft: "5px",
-                paddingRight: "5px",
-                marginBottom: "10px",
-                width: "95%",
-              }}
-            />
-          </form> */}
-
         <Menu theme="light" mode="inline">
           {renderProductList()}
         </Menu>
       </Sider>
 
-      
     </Layout>
   );
 }

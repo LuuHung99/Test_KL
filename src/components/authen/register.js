@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "antd/dist/antd.css";
 import "./css/login.css";
 import Tools from "../../Tools/Tools";
+import LayoutPage from '../common/layout';
 import { Form, Input, Button, Checkbox } from "antd";
 import {
   BrowserRouter as Router,
@@ -47,7 +48,8 @@ function Register(props) {
   }
 
   return (
-    isSuccess ? <Redirect to="/" /> :
+    <LayoutPage>
+     {isSuccess ? <Redirect to="/" /> :
     <div className="authen-container">
       <Form
         {...layout}
@@ -158,7 +160,8 @@ function Register(props) {
           Bạn đã có tài khoản? <Link to="/">Đăng nhập</Link>
         </p>
       </Form>
-    </div>
+    </div> }
+    </LayoutPage>
   );
 }
 
