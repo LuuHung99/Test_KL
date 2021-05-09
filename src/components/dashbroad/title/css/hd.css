@@ -1,0 +1,33 @@
+.header {
+    background-color: rgb(234, 238, 236);
+    position: fixed;
+    width: 100%;
+  }
+  
+  .header__block {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .header__img {
+    width: 15%;
+  }
+  
+  .header__name {
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(38, 0, 255);
+  
+  }
+  
+  @media only screen and (max-width: 1300px) {
+    .header__name {
+      font-size: 18px;
+    }
+  }
+  
+  
+  @media only screen and (max-width: 900px) {
+   
+  }

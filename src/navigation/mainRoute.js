@@ -5,6 +5,7 @@ import { Skeleton } from "antd";
 const Login = lazy(() => import("../components/authen/login"));
 const Register = lazy(() => import("../components/authen/register"));
 const Dashbroad = lazy(() => import("../components/dashbroad/dashbroad"));
+const HomePage = lazy(() => import("../components/home/index"));
 
 function MainRoute(props) {
   return (
@@ -20,6 +21,10 @@ function MainRoute(props) {
         <Route path="/dashbroad">
             <Dashbroad />
         </Route>
+        <Route path="/home">
+          <HomePage />
+        </Route>
+        
       </Switch>
       </Suspense>
 

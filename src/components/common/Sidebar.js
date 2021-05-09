@@ -154,10 +154,11 @@ function Sidebar(props) {
         style={{
           marginTop: "65px",
           overflow: "auto",
-          height: "100vh",
+          height: "91vh",
           position: "fixed",
           left: 0,
           backgroundColor: "#fff",
+          marginBottom: '30px'
         }}
         className="site-layout-sider-light sidebar-wrapper"
       >
