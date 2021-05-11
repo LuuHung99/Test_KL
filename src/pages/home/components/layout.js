@@ -5,7 +5,7 @@ import HeaderPage from "../../../components/Header";
 import MenuPage from "./menu";
 import FooterPage from "../../../components/Footer";
 
-const { Header, Content, Footer } = Layout;
+const {Content } = Layout;
 
 function LayoutPage(props) {
   return (

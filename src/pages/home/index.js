@@ -5,14 +5,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+
 } from "react-router-dom";
 
-const Home = lazy(() => import("./pages/home"));
-const About = lazy(() => import("./pages/about"));
-const Products = lazy(() => import("./pages/product"));
-const Blog = lazy(() => import("./pages/blog"));
-const Contact = lazy(() => import("./pages/contact"));
+const Home = lazy(() => import("./pages/home/home"));
+const About = lazy(() => import("./pages/about/about"));
+const Products = lazy(() => import("./pages/product/product"));
+const Blog = lazy(() => import("./pages/blog/blog"));
+const Contact = lazy(() => import("./pages/contact/contact"));
 const Logout = lazy(() => import("../authen/login"));
 const Movies = () => {
   return (

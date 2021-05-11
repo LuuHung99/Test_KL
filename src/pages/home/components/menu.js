@@ -1,8 +1,8 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu} from "antd";
 import { NavLink} from "react-router-dom";
-const { Header, Content, Footer } = Layout;
+const { Header } = Layout;
 
 function MenuPage(props) {
 

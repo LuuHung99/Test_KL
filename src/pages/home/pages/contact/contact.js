@@ -1,5 +1,5 @@
 import React from 'react';
-import LayoutPage from "../components/layout";
+import LayoutPage from "../../components/layout";
 
 function Contact(props) {
     return (

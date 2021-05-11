@@ -3,11 +3,9 @@ import "antd/dist/antd.css";
 import "./css/login.css";
 import Tools from "../../Tools/Tools";
 import LayoutPage from '../../components/layout';
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, } from "antd";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+
   Link,
   Redirect,
 } from "react-router-dom";
@@ -23,9 +21,9 @@ const tailLayout = {
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+  // const onFinish = (values) => {
+  //   console.log("Success:", values);
+  // };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

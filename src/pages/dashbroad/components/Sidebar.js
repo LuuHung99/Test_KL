@@ -2,130 +2,13 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/sidebar.css";
 // import Data from "../../api/index";
-import { Layout, Menu, Input, Button } from "antd";
-import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
+import { Layout, Menu, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
-const { Header, Content, Footer, Sider } = Layout;
+import {initData} from "../../../services/api";
+
+const {  Sider } = Layout;
 const { SubMenu } = Menu;
-
-const initData = [
-  {
-    id: 1,
-    names: "Táo",
-    titles: [
-      {
-        id: 1,
-        name: "Táo tàu",
-        details: [
-          {
-            id: 1,
-            title: "Bước 1",
-            items: [
-              {
-                id: 1,
-                text: "Quả việt quất có thể giúp hỗ trợ giảm cân lành mạnh",
-              },
-              {
-                id: 2,
-                text:
-                  "Thêm bưởi vào chế độ ăn uống của bạn có thể làm giảm nguy cơ kháng insulin, tiền thân của bệnh tiểu đường loại 2",
-              },
-              {
-                id: 3,
-                text:
-                  "Táo đóng một vai trò trong việc giảm lượng cholesterol cao",
-              },
-            ],
-          },
-          {
-            id: 2,
-            title: "Bước 2",
-            items: [
-              {
-                id: 1,
-                text: "Quả việt quất có thể giúp hỗ trợ giảm cân lành mạnh",
-              },
-              {
-                id: 2,
-                text:
-                  "Thêm bưởi vào chế độ ăn uống của bạn có thể làm giảm nguy cơ kháng insulin, tiền thân của bệnh tiểu đường loại 2",
-              },
-              {
-                id: 3,
-                text:
-                  "Táo đóng một vai trò trong việc giảm lượng cholesterol cao",
-              },
-            ],
-          },
-          {
-            id: 3,
-            title: "Bước 3",
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: "Táo tây",
-      },
-    ],
-  },
-  {
-    id: 2,
-    names: "Mít",
-    titles: [
-      {
-        id: 3,
-        name: "Mít thái",
-      },
-      {
-        id: 4,
-        name: "Mít ta",
-      },
-    ],
-  },
-  {
-    id: 3,
-    names: "Xoài",
-    titles: [
-      {
-        id: 5,
-        name: "Xoài cát",
-      },
-      {
-        id: 6,
-        name: "Xoài thái",
-      },
-    ],
-  },
-  {
-    id: 4,
-    names: "Chuối",
-    titles: [
-      {
-        id: 7,
-        name: "Chuối hột",
-      },
-      {
-        id: 8,
-        name: "Chuối ta",
-      },
-    ],
-  },
-  {
-    id: 5,
-    names: "Cam",
-    titles: [
-      {
-        id: 9,
-        name: "Cam sành",
-      },
-      {
-        id: 10,
-        name: "Cam chua",
-      },
-    ],
-  },
-];
 
 function Sidebar(props) {
   // const [collapse, setCollapse] = useState(false);
@@ -162,7 +45,7 @@ function Sidebar(props) {
         className="site-layout-sider-light sidebar-wrapper"
       >
         <div className="logo">
-          <img src="images/male-farmer.svg" className="logo__img" />
+          <img src="images/male-farmer.svg" className="logo__img" alt="" />
           <p>Hi Hung</p>
         </div>
 

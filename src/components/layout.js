@@ -1,10 +1,10 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout} from "antd";
 import HeaderPage from "./Header";
 import FooterPage from "./Footer";
 
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 function LayoutPage(props) {
   return (
