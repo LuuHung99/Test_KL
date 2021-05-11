@@ -13,13 +13,13 @@ const About = lazy(() => import("./pages/about"));
 const Products = lazy(() => import("./pages/product"));
 const Blog = lazy(() => import("./pages/blog"));
 const Contact = lazy(() => import("./pages/contact"));
-
+const Logout = lazy(() => import("../authen/login"));
 const Movies = () => {
   return (
     <Router>
       <Suspense fallback={<Skeleton active />}>
         <Switch>
-          <Route exact path="/home">
+          <Route path="/home">
             <Home />
           </Route>
           <Route path="/about">
@@ -33,6 +33,9 @@ const Movies = () => {
           </Route>
           <Route path="/contact">
             <Contact />
+          </Route>
+          <Route path="/">
+            <Logout />
           </Route>
         </Switch>
       </Suspense>

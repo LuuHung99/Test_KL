@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Menu, Row, Col } from "antd";
 import "./css/hd.css";
+import { MenuOutlined } from "@ant-design/icons";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+
 const { Header } = Layout;
 function HeaderTest(props) {
+  const [nextPage, setNextPage] = useState(true);
+
+
   return (
-    <Header className="header">
+    <div>
+      {nextPage ? <Header className="header">
       <Col className="header__block">
         <div className="header__logo">
           <img src="images/logo.png" className="header__img" />
@@ -13,8 +26,16 @@ function HeaderTest(props) {
         <div className="header__logo">
           <img src="images/logo.png" className="header__img" />
         </div>
+       
+          <Link className="header_menu" >
+            <MenuOutlined />
+          </Link>
+        
       </Col>
-    </Header>
+    </Header> : <Redirect to="home" />}
+    </div>
+    
+    
   );
 }
 

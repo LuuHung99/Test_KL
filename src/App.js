@@ -1,10 +1,10 @@
 import './App.css';
-import Test from './navigation/mainRoute';
+import AppRouter from './pages/index';
 
 function App() {
   return (
     <div className="App">
-        <Test />
+        <AppRouter />
     </div>
   );
 }

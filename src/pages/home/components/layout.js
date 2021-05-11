@@ -1,9 +1,9 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Layout, Menu, Breadcrumb } from "antd";
-import HeaderPage from "../../common/Header";
+import { Layout } from "antd";
+import HeaderPage from "../../../components/Header";
 import MenuPage from "./menu";
-import FooterPage from "../../common/Footer";
+import FooterPage from "../../../components/Footer";
 
 const { Header, Content, Footer } = Layout;
 

@@ -2,7 +2,6 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Layout, Menu, Breadcrumb } from "antd";
 import { NavLink} from "react-router-dom";
-
 const { Header, Content, Footer } = Layout;
 
 function MenuPage(props) {
@@ -27,14 +26,8 @@ function MenuPage(props) {
           <NavLink to="/contact">Contact</NavLink>
         </Menu.Item>
    
-          {/* <Menu.Item key="/login">
-            <NavLink to="/login">Login</NavLink>
-          </Menu.Item> */}
-        <Menu.Item>Hi: Luu Hung</Menu.Item>
+        <Menu.Item ><NavLink to="/">Log out</NavLink></Menu.Item>
         
-          {/* <Menu.Item>
-            <span onClick={() => logout()}>Logout</span>
-          </Menu.Item> */}
       </Menu>
     </Header>
   );

@@ -331,7 +331,7 @@ function Products(props) {
   }
 
   return (
-    <Layout>
+    <>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
         <div className="header_fix">
           
@@ -354,7 +354,7 @@ function Products(props) {
           </div>
         </Content>
       </Layout>
-    </Layout>
+      </>
   );
 }
 

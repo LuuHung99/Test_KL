@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "antd/dist/antd.css";
 import './css/login.css';
-import LayoutPage from '../common/layout';
+import LayoutPage from '../../components/layout';
 
 import { Form, Input, Button, Checkbox } from 'antd';
 import {
@@ -120,7 +120,7 @@ function Login(props) {
           />
         </div>
       </Form>
-    </div> : <Redirect to="product" /> }
+    </div> : <Redirect to="dashbroad" /> }
     </LayoutPage>
   );
 }
