@@ -2,14 +2,16 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Layout, Menu} from "antd";
 import { NavLink} from "react-router-dom";
+import './menu.css';
 const { Header } = Layout;
+
 
 function MenuPage(props) {
 
 
   return (
     <Header style={{  backgroundColor: 'rgb(117 120 119)'}}  >
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{backgroundColor: 'rgb(117 120 119)', display: 'flex', justifyContent: 'space-around', margin: '0px 250px'}}>
+      <Menu  mode="horizontal" defaultSelectedKeys={["2"]} style={{backgroundColor: '#fff', display: 'flex', justifyContent: 'space-around', padding: '30px 200px', fontSize: '20px'}}>
         <Menu.Item key="/home">
           <NavLink to="/home">Home</NavLink>
         </Menu.Item>

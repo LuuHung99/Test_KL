@@ -15,7 +15,6 @@ const tailLayout = {
 };
 
 function Login(props) {
-  // const [isSuccess, setIsSuccess] = useState(true);
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -24,9 +23,7 @@ function Login(props) {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  // const onSubmit = (values) => {
-  //   console.log("hello", values);
-  // };
+
 
   return (
     <LayoutPage>

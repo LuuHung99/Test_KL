@@ -1,5 +1,5 @@
 .header {
-    background-color: rgb(234, 238, 236);
+    background-color: rgb(243, 245, 244);
     position: fixed;
     width: 100%;
   }
@@ -10,7 +10,7 @@
   }
   
   .header__img {
-    width: 15%;
+    width: 50%;
   }
   
   .header__name {
@@ -23,7 +23,7 @@
 
   .header_menu {
     position: absolute;
-    color: gray;
+    /* color: gray; */
     /* padding-left: 500px; */
     /* right: 0; */
     font-size: 30px;

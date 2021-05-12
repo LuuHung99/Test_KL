@@ -12,7 +12,7 @@ function LayoutPage(props) {
     <Layout className="layout">
       <HeaderPage />
       <MenuPage />
-      <Content style={{ padding: "50px", backgroundColor: "white" }}>
+      <Content style={{ padding: "70px 0px", backgroundColor: "white" }}>
         <div className="site-layout-content">{props.children}</div>
       </Content>
       <FooterPage />

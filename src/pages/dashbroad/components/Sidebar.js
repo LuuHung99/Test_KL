@@ -40,7 +40,6 @@ function Sidebar(props) {
           position: "fixed",
           left: 0,
           backgroundColor: "#fff",
-          marginBottom: '30px'
         }}
         className="site-layout-sider-light sidebar-wrapper"
       >
