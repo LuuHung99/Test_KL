@@ -10,7 +10,7 @@ const HomePage = lazy(() => import("./home/index"));
 function AppRouter(props) {
   return (
     <Router>
-      <Suspense fallback={<Skeleton active />}>
+      <Suspense fallback={<h1>Loading ...</h1>}>
         <Switch>
           <Route exact path="/">
             <Login />

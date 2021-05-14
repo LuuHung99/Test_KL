@@ -1,8 +1,10 @@
+
 .header {
   background-color: rgb(243, 245, 244);
   /* position: fixed; */
   width: 100%;
   font-family: 'Roboto', sans-serif;
+  list-style-type: none;
 }
 
 .header__block {
@@ -37,7 +39,7 @@
 
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
   .header__name {
     font-size: 10px;
   }

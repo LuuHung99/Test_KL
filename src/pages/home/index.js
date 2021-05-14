@@ -17,7 +17,7 @@ const Logout = lazy(() => import("../authen/login"));
 const Movies = () => {
   return (
     <Router>
-      <Suspense fallback={<Skeleton active />}>
+      <Suspense fallback={<h1>Loading ...</h1>}>
         <Switch>
           <Route path="/home">
             <Home />
