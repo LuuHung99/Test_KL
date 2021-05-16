@@ -10,9 +10,9 @@ function LayoutPage(props) {
   return (
     <Layout className="layout">
       <HeaderPage/>
-      <Content>
-        <div className="site-layout-content">{props.children}</div>
-      </Content>
+        <Content>
+          <div className="site-layout-content">{props.children}</div>
+        </Content>
       <FooterPage />
     </Layout>
   );

@@ -38,3 +38,7 @@ button.ant-btn {
   margin-top: 10px;
 }
 
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-add {
+  display: none;
+}
+

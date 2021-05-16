@@ -35,13 +35,26 @@
     color: green
   }
   
-  @media only screen and (max-width: 1300px) {
-    .header__name {
-      font-size: 18px;
-    }
+ 
+@media only screen and (max-width: 1300px) {
+  .header__name {
+    font-size: 18px;
   }
-  
-  
-  @media only screen and (max-width: 900px) {
-   
+}
+
+
+@media only screen and (max-width: 950px) {
+  .header__name {
+    font-size: 15px;
+
   }
+
+}
+
+@media only screen and (max-width: 768px) {
+  .header__name {
+    font-size: 10px;
+
+  }
+
+}
