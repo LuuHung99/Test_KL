@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 //lazy, Suspense: Giúp load component tối ưu nhất
-import { Skeleton } from "antd";
 import {
   BrowserRouter as Router,
   Switch,
