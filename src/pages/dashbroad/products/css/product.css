@@ -42,3 +42,89 @@ button.ant-btn {
   display: none;
 }
 
+/*Side bar*/
+#sidebar-wrapper {
+  /* position: absolute; */
+  top: 64px;
+  position: fixed;
+  left: -200px;
+  max-height: 91vh;
+  width: 200px;
+  transition: all .5s ease;
+  background-color: white;
+
+}
+
+.logo {
+    height: 26px;
+    margin: 16px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-left: -30px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 30px;
+    line-height: 1;
+  }
+  
+  .logo__img {
+    margin-right: 10px;
+    width: 20%;
+    border: 0.5px solid black;
+    border-radius: 999px;
+  }
+
+  
+  #check{
+    display: none;
+  }
+
+  label #icon1 {
+    position: absolute;
+    position : fixed;
+    top: 62px;
+    left: 19px;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: -20px;
+    color:rgb(38, 0, 255);
+    transition: all .5s ;
+  }
+
+  label #icon2 {
+    position: absolute;
+    font-size: 22px;
+    cursor: pointer;
+    color:rgb(38, 0, 255);
+    left: -20px;
+    transition: all .5s ease;
+    top: 42px;
+    position : fixed;
+  }
+
+  #check:checked ~ label #icon1{
+    left: 200px;
+    opacity: 0;
+    pointer-events: none;
+  }
+ 
+
+  #check:checked ~ #sidebar-wrapper {
+    left: 0px;
+
+  }
+  
+  #check:checked ~ label #icon2{
+    left: 0px;
+    
+  }
+
+  #check:checked ~ .site-layout, #check:checked ~ footer{
+    margin-left: 200px;
+    transition: all .5s ease;
+  }
+   
+  

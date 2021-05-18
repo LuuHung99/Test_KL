@@ -9,7 +9,8 @@
 
 .header__block {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .header__img {
@@ -22,6 +23,11 @@
   font-weight: bold;
   color: rgb(38, 0, 255);
 
+}
+
+.header__logo2 {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 1300px) {

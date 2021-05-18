@@ -18,7 +18,7 @@ const Movies = () => {
     <Router>
       <Suspense fallback={false}>
         <Switch>
-          <Route path="/home">
+          <Route exact path="/home">
             <Home />
           </Route>
           <Route path="/about">

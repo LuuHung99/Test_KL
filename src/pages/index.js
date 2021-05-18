@@ -9,7 +9,7 @@ const HomePage = lazy(() => import("./home/index"));
 function AppRouter(props) {
   return (
     <Router>
-      <Suspense fallback={<h1>Loading ...</h1>}>
+      <Suspense fallback={<h1 style={{textAlign: "center", marginTop: '40px'}}>Loading ...</h1>}>
         <Switch>
           <Route exact path="/">
             <Login />

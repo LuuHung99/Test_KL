@@ -3,7 +3,16 @@ import { Layout } from "antd";
 const { Footer } = Layout;
 function FooterTest(props) {
   return (
-    <Footer style={{ textAlign: "center", fontSize: "20px", backgroundColor: '#848484', color: '#fff', paddingLeft: '300px'}}>
+    <Footer
+      style={{
+        textAlign: "center",
+        fontSize: "20px",
+        backgroundColor: "rgb(189, 189, 189)",
+        color: "black",
+        // position: "absolute",
+        
+      }}
+    >
       Ant Design ©2021 Created by LH Dev
     </Footer>
   );

@@ -4,7 +4,7 @@ import AppRouter from './pages/index';
 
 function App() {
   return (
-    <div className="App">
+    <div >
         <AppRouter />
     </div>
   );
