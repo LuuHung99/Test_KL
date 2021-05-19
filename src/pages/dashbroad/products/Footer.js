@@ -9,7 +9,7 @@ function FooterTest(props) {
         fontSize: "20px",
         backgroundColor: "rgb(189, 189, 189)",
         color: "black",
-        // position: "absolute",
+        
         
       }}
     >

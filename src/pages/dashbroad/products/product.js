@@ -5,7 +5,7 @@ import { Layout, Menu, Input, Tabs } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 
-import { initData } from "../../../services/api";
+import { dataFake } from "../../../services/tree";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,13 +16,14 @@ const initialPanes = [
   {
     title: "Tab 1",
     content:
-      "Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor, Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor,Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctorReprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro  ",
+      "Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor, Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor,Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctorReprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porroadipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor, Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor,Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctorReprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro  ",
     key: "1",
   },
 
   {
     title: "Tab 2",
-    content: "Content of Tab 2",
+    content:
+      "Trồng cây xanh trong vườn đã khó còn chăm sóc và gìn giữ chúng tươi mới còn khó khăn hơn. Chắc chắn rằng nếu bạn không chăm sóc đúng đắn thì cây sẽ chết, làm mất đi vẻ đẹp của khu vườn. Vậy chăm sóc cây xanh trong vườn như thế nào đúng cách nhất. Hôm nay Vinafarm chia sẻ đến tất cả mọi người cách chăm sóc cây xanh trong vườn luôn tươi tốt. Để chăm sóc cây cảnh luôn tươi tốt yếu tố đầu tiên bạn cần lưu ý là ánh sáng. Tuy nhiên mỗi cây sẽ có lượng ánh sáng khác nhau. Có những loại cây cảnh chịu được những ánh sáng thấp, nhưng cũng có những một số cây cảnh chỉ cần ánh sáng tự nhiên mới phát triển được.",
     key: "2",
   },
 
@@ -34,7 +35,7 @@ const initialPanes = [
 ];
 
 function Products(props) {
-  const [data, setData] = useState(initData);
+  const [data, setData] = useState(dataFake);
 
   const [activeKey, setActiveKey] = useState(initialPanes[0].key);
   const [panes, setPanes] = useState(initialPanes);
@@ -80,13 +81,33 @@ function Products(props) {
     return (
       Array.isArray(data) &&
       data.map((text) => {
+        if (text.subs.length > 0)
+          return (
+            <SubMenu key={text.id} title={text.title}>
+              {Array.isArray(text.subs) &&
+                text.subs.map((item) => {
+                  return (
+                    <Menu.Item
+                      key={item.id}
+                      onClick={() => {
+                        console.log(item.path);
+                      }}
+                    >
+                      {item.title}
+                    </Menu.Item>
+                  );
+                })}
+            </SubMenu>
+          );
         return (
-          <SubMenu key={text.id} title={text.names}>
-            {Array.isArray(text.titles) &&
-              text.titles.map((item) => {
-                return <Menu.Item key={item.id}>{item.name}</Menu.Item>;
-              })}
-          </SubMenu>
+          <Menu.Item
+            key={text.id}
+            onClick={() => {
+              console.log(text.path);
+            }}
+          >
+            {text.title}
+          </Menu.Item>
         );
       })
     );
@@ -103,7 +124,7 @@ function Products(props) {
       </label>
 
       <Layout id="sidebar-wrapper">
-        <Sider style={{height: '91vh', backgroundColor: 'white'}}>
+        <Sider className="sidebar_container">
           <div className="logo">
             <img src="images/male-farmer.svg" className="logo__img" alt="" />
             <p>Hi Hung</p>
@@ -118,9 +139,7 @@ function Products(props) {
               width: "95%",
             }}
           />
-          <Menu theme="light" mode="inline">
-            {renderProductList()}
-          </Menu>
+          <Menu mode="inline">{renderProductList()}</Menu>
         </Sider>
       </Layout>
 
@@ -129,7 +148,7 @@ function Products(props) {
         className="site-layout"
         style={{
           // marginLeft: 200,
-          marginTop: "64px",
+          paddingTop: "90px",
           backgroundColor: "#BDBDBD",
         }}
       >
@@ -139,14 +158,14 @@ function Products(props) {
           activeKey={activeKey}
           onEdit={remove}
           // onEdit={onEdit}
-          style={{ margin: "0px 20px", marginTop: "20px"}}
+          style={{ margin: "0px 20px", marginTop: "20px" }}
         >
           {panes.map((pane) => (
             <TabPane
               tab={pane.title}
               key={pane.key}
               closable={pane.closable}
-              style={{ backgroundColor: "#fff", padding: '30px'}}
+              style={{ backgroundColor: "#fff", padding: "30px" }}
             >
               {pane.content}
             </TabPane>
