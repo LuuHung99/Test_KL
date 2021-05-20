@@ -60,6 +60,7 @@ button.ant-btn {
 
 .sidebar_container {
   background-color: white;
+
   overflow-y: scroll;
 }
 

@@ -1,48 +1,28 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/product.css";
-import { Layout, Menu, Input, Tabs } from "antd";
+import { Layout, Menu, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+// import DetailProducts from "./detail";
 
 import { dataFake } from "../../../services/tree";
+import { dataPath } from "../../../services/path";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const { TabPane } = Tabs;
-
-const initialPanes = [
-  {
-    title: "Tab 1",
-    content:
-      "Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor, Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor,Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctorReprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porroadipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor, Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctor,Reprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro quo. Molestie est alias, magni, tempora, fuga, turpis exercitation condimentum hendrerit erat doloribus, nam dolore, tincidunt senectus, iste aperiam adipisicing voluptas nec viverra sed maiores. Reprehenderit nostrud. Consequatur ut amet sapien, perferendis culpa. Semper vulputate placerat nobis nostrum mauris occaecati quod auctor cumque distinctio hic mus sodales, massa conubia, optio, fugiat aut deleniti harum veniam dictumst architecto deleniti, faucibus pulvinar distinctio imperdiet dolores quisque arcu dolorum velit per magni adipisicing molestiae aliqua dolore, placerat magnam! Beatae auctorReprehenderit tristique sociosqu, fames fugit eaque modi viverra quisquam sit necessitatibus? Nec quas sit lacinia minus doloremque eaque! Volutpat occaecati ea, dignissim porro  ",
-    key: "1",
-  },
-
-  {
-    title: "Tab 2",
-    content:
-      "Trồng cây xanh trong vườn đã khó còn chăm sóc và gìn giữ chúng tươi mới còn khó khăn hơn. Chắc chắn rằng nếu bạn không chăm sóc đúng đắn thì cây sẽ chết, làm mất đi vẻ đẹp của khu vườn. Vậy chăm sóc cây xanh trong vườn như thế nào đúng cách nhất. Hôm nay Vinafarm chia sẻ đến tất cả mọi người cách chăm sóc cây xanh trong vườn luôn tươi tốt. Để chăm sóc cây cảnh luôn tươi tốt yếu tố đầu tiên bạn cần lưu ý là ánh sáng. Tuy nhiên mỗi cây sẽ có lượng ánh sáng khác nhau. Có những loại cây cảnh chịu được những ánh sáng thấp, nhưng cũng có những một số cây cảnh chỉ cần ánh sáng tự nhiên mới phát triển được.",
-    key: "2",
-  },
-
-  {
-    title: "Tab 3",
-    content: "Content of Tab 3",
-    key: "3",
-  },
-];
-
 function Products(props) {
-  const [data, setData] = useState(dataFake);
+  const [searchSidebar, setSearchSidebar] = useState("");
 
-  const [activeKey, setActiveKey] = useState(initialPanes[0].key);
-  const [panes, setPanes] = useState(initialPanes);
+  // const [activeKey, setActiveKey] = useState(initialPanes[0].key);
+  const [menus, setMenus] = useState(dataFake);
+  const [path, setPath] = useState(dataPath);
 
-  const onChange = (activeKey) => {
-    setActiveKey(activeKey);
-  };
+  // const onChange = (activeKey) => {
+  //   setActiveKey(activeKey);
+  // };
 
   //  const onEdit = (targetKey, action) => {
   //     this[action](targetKey);
@@ -71,47 +51,58 @@ function Products(props) {
   const remove = (targetKey) => {
     console.log("key: ", targetKey);
 
-    const newPanes = panes.filter((pane) => pane.key !== targetKey);
+    const newPanes = menus.filter((pane) => pane.key !== targetKey);
 
-    setPanes(newPanes);
+    setMenus(newPanes);
+  };
+
+  const handleProductOnClick = (item) => {
+    console.log("products", item);
   };
 
   //Side bar
   function renderProductList() {
     return (
-      Array.isArray(data) &&
-      data.map((text) => {
+      Array.isArray(menus) &&
+      menus.map((text) => {
         if (text.subs.length > 0)
           return (
+            
             <SubMenu key={text.id} title={text.title}>
               {Array.isArray(text.subs) &&
                 text.subs.map((item) => {
                   return (
                     <Menu.Item
                       key={item.id}
-                      onClick={() => {
-                        console.log(item.path);
-                      }}
+                      onClick={() => handleProductOnClick(item)}
                     >
-                      {item.title}
+                      <Link to={`${item.path}/${item.id}`}>{item.title}</Link>
                     </Menu.Item>
                   );
                 })}
             </SubMenu>
+            
           );
         return (
-          <Menu.Item
-            key={text.id}
-            onClick={() => {
-              console.log(text.path);
-            }}
-          >
-            {text.title}
+          <Menu.Item key={text.id} onClick={() => handleProductOnClick(text)}>
+            <Link to={`${text.path}/${text.id}`}>{text.title}</Link>
           </Menu.Item>
         );
       })
     );
   }
+
+
+  //Search Sidebar
+  // const onchangeSearchSidebar = (value) => {
+  //   console.log("Nhap gia tri", value);
+  //   setSearchSidebar("");
+  // };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   console.log(event);
+  // };
 
   return (
     <>
@@ -129,22 +120,29 @@ function Products(props) {
             <img src="images/male-farmer.svg" className="logo__img" alt="" />
             <p>Hi Hung</p>
           </div>
-          <Input
-            placeholder="Tìm kiếm"
-            prefix={<SearchOutlined />}
-            style={{
-              marginLeft: "5px",
-              marginRight: "5px",
-              marginBottom: "10px",
-              width: "95%",
-            }}
-          />
+          <form type="submit">
+            <Input
+              placeholder="Tìm kiếm"
+              prefix={<SearchOutlined />}
+              style={{
+                marginLeft: "5px",
+                marginRight: "5px",
+                marginBottom: "10px",
+                width: "95%",
+              }}
+              val={searchSidebar}
+              // onPressEnter={(value) => onchangeSearchSidebar(value)}
+              onChange={(e) => setSearchSidebar(e.target.value)}
+            />
+          </form>
           <Menu mode="inline">{renderProductList()}</Menu>
         </Sider>
       </Layout>
 
+      {/* <DetailProducts /> */}
+
       {/* Content */}
-      <Layout
+      {/* <Layout
         className="site-layout"
         style={{
           // marginLeft: 200,
@@ -154,24 +152,24 @@ function Products(props) {
       >
         <Tabs
           type="editable-card"
-          onChange={onChange}
-          activeKey={activeKey}
+          // onChange={onChange}
+          // activeKey={activeKey}
           onEdit={remove}
           // onEdit={onEdit}
           style={{ margin: "0px 20px", marginTop: "20px" }}
         >
-          {panes.map((pane) => (
+          {path.map((menu) => (
             <TabPane
-              tab={pane.title}
-              key={pane.key}
-              closable={pane.closable}
+              tab={menu.title}
+              key={menu.key}
+              closable={menu.closable}
               style={{ backgroundColor: "#fff", padding: "30px" }}
             >
-              {pane.content}
+              {menu.content}
             </TabPane>
           ))}
         </Tabs>
-      </Layout>
+      </Layout> */}
     </>
   );
 }

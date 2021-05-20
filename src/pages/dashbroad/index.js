@@ -5,16 +5,18 @@ import "antd/dist/antd.css";
 import Product from "./products/product";
 import Title from "./products/hd";
 import FooterPage from "./products/Footer";
-
-import { BrowserRouter as Router } from "react-router-dom";
+import DetailProducts from "./products/detail";
 
 function Dashbroad(props) {
   return (
-    <Router>
+    <>
       <Title />
-      <Product></Product>
+      <Product>
+        
+      </Product>
+      {/* <DetailProducts path="/cay-than-go/:id" /> */}
       <FooterPage />
-    </Router>
+    </>
   );
 }
 

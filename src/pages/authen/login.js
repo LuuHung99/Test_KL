@@ -26,7 +26,8 @@ function Login(props) {
 
 
   return (
-    <LayoutPage>
+    <LayoutPage >
+      <div className="authen_wrapper">
       <div className="authen-container">
         <Form
           {...layout}
@@ -94,6 +95,7 @@ function Login(props) {
             <img src="images/phone.png" alt="" className="logo-img" />
           </div>
         </Form>
+      </div>
       </div>
     </LayoutPage>
   );
