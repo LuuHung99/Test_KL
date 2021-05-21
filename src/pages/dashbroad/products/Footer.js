@@ -9,8 +9,6 @@ function FooterTest(props) {
         fontSize: "20px",
         backgroundColor: "rgb(189, 189, 189)",
         color: "black",
-        
-        
       }}
     >
       Ant Design ©2021 Created by LH Dev

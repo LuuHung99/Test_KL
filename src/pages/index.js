@@ -3,14 +3,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useRouteMatch,
 } from "react-router-dom";
 
 const Login = lazy(() => import("./authen/login"));
 const Register = lazy(() => import("./authen/register"));
 const Dashbroad = lazy(() => import("./dashbroad/index"));
 const HomePage = lazy(() => import("./home/index"));
-const DetailProducts = lazy(() => import("./dashbroad/products/detail"));
+// const DetailProducts = lazy(() => import("./dashbroad/products/detail"));
 
 function AppRouter(props) {
   // let path = useRouteMatch();
@@ -35,7 +34,6 @@ function AppRouter(props) {
           </Route>
           <Route path="/dashbroad">
             <Dashbroad />
-              
           </Route>
         </Switch>
       </Suspense>
