@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import { MenuOutlined, CloseOutlined,SearchOutlined } from "@ant-design/icons";
 import {  Link, useRouteMatch } from "react-router-dom";
-import DetailProducts from "./detail";
+import DetailProducts from "./products";
 
 import { dataFake } from "../../../services/tree";
 
@@ -88,7 +87,6 @@ function Products(props) {
           <Menu mode="inline">{renderProductList()}</Menu>
         </Sider>
       </Layout>
-
       <DetailProducts item={selected} />
     </>
   );

@@ -9,10 +9,9 @@ const Login = lazy(() => import("./authen/login"));
 const Register = lazy(() => import("./authen/register"));
 const Dashbroad = lazy(() => import("./dashbroad/index"));
 const HomePage = lazy(() => import("./home/index"));
-// const DetailProducts = lazy(() => import("./dashbroad/products/detail"));
+const Sidebars = lazy(() => import("./dashbroad/products/sidebar"));
 
 function AppRouter(props) {
-  // let path = useRouteMatch();
   return (
     <Router>
       <Suspense
@@ -34,6 +33,9 @@ function AppRouter(props) {
           </Route>
           <Route path="/dashbroad">
             <Dashbroad />
+          </Route>
+          <Route path="/dashbroad/:id">
+            <Sidebars />
           </Route>
         </Switch>
       </Suspense>
