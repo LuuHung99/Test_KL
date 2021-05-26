@@ -19,7 +19,7 @@ function DetailProducts() {
       if (i.path === "/" + id) check = true;
     });
     if (!check) {
-      setPanes([item, ...panes]);
+      setPanes([...panes ,item ]);
     }
   }
 
