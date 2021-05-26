@@ -6,16 +6,14 @@ import { dataFake } from "../../../services/tree";
 import { useParams, useHistory } from "react-router-dom";
 const { TabPane } = Tabs;
 
-const arrayItems = [];
-
 function DetailProducts() {
   const { id } = useParams();
   const history = useHistory();
-  const [panes, setPanes] = useState(arrayItems);
-  let activeKey = researchItem(id).path;
+  const [panes, setPanes] = useState([]);
+
+  let item = researchItem(id);
 
   if (researchItem(id) !== undefined) {
-    let item = researchItem(id);
     let check = false;
     panes.forEach((i) => {
       if (i.path === "/" + id) check = true;
@@ -59,28 +57,32 @@ function DetailProducts() {
         height: "100vh",
       }}
     >
-      <Tabs
-        type="editable-card"
-        onChange={onChange}
-        onEdit={onEdit}
-        tabBarGutter="10px"
-        style={{ margin: "0px 20px" }}
-      >
-        {panes.map((pane) => (
-          <TabPane
-            tab={pane.title}
-            key={pane.path}
-            active={"/" + id}
-            style={{
-              backgroundColor: "#fff",
-              padding: "30px",
-              minHeight: "80vh",
-            }}
-          >
-            {pane.content}
-          </TabPane>
-        ))}
-      </Tabs>
+      {panes.length > 0 ? (
+        <Tabs
+          type="editable-card"
+          onChange={onChange}
+          onEdit={onEdit}
+          tabBarGutter="10px"
+          activeKey={item.path}
+          style={{ margin: "0px 20px" }}
+        >
+          {panes.map((pane) => (
+            <TabPane
+              tab={pane.title}
+              key={pane.path}
+              style={{
+                backgroundColor: "#fff",
+                padding: "30px",
+                minHeight: "80vh",
+              }}
+            >
+              {pane.content}
+            </TabPane>
+          ))}
+        </Tabs>
+      ) : (
+        <div>Link active false</div>
+      )}
     </Layout>
   );
 }
