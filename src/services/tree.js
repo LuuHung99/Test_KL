@@ -11,7 +11,6 @@ export const dataFake = [
         path: "/cay-than-go",
         subs: [],
         key: "3425211",
-        
         content:
           "Dictum molestias eu gravida, eveniet iste commodi amet adipisci ipsa soluta exercitation egestas elit vivamus, labore, lectus ut praesent! Laudantium! Nostra, inventore, facilis curae, fuga maecenas class sagittis, ipsa corporis cras tempore consequatur labore. Netus donec, nemo eu? Expedita tempor. Accusantium aliquam interdum erat autem maiores quibusdam eum vulputate totam doloremque lobortis, purus incidunt tempus! Omnis? Lacinia neque at? Sequi, tempus sociis tempora accumsan voluptatibus aliquip ullamcorper dui, eos doloribus, amet reprehenderit, perspiciatis sequi error asperiores placerat quae quia dicta, irure? Cillum, lobortis error! Ante laudantium, dolore eleifend! Orci recusandae! Voluptas porta doloribus occaecati recusandae, ducimus, et morbi molestie? Vulputate.",
       },

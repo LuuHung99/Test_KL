@@ -1,61 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/product.css";
-import { Tabs, Layout } from "antd";
-
+import { Layout, Tabs } from "antd";
+import { dataFake } from "../../../services/tree";
+import { useParams, useHistory } from "react-router-dom";
 const { TabPane } = Tabs;
 
-function DetailProducts(props) {
-  const [arrayItem, setArrayItem] = useState([]);
+function DetailProducts() {
+  const { id } = useParams();
+  const history = useHistory();
+  const [panes, setPanes] = useState([]);
+  console.log(panes);
 
-  const { item } = props;
+  let item = researchItem(id);
 
-  if (item !== "") {
+  if (researchItem(id) !== undefined) {
     let check = false;
-    arrayItem.forEach((x) => {
-      if (x.id === item.id) {
-        check = true;
-      }
+    panes.forEach((i) => {
+      if (i.path === "/" + id) check = true;
     });
     if (!check) {
-      arrayItem.push(item);
+      setPanes([...panes ,item ]);
     }
   }
 
-  // const add = (item) => {
-  //   const newTabIndex = 0;
-
-  //   // const { panes } = this.state;
-  //   const activeKeys = `newTab${newTabIndex+1}`;
-  //   const newPanes = [...panes];
-  //   newPanes.push({
-  //     ...item,
-  //     title: item.title,
-  //     content: item.content,
-  //     key: activeKeys,
-  //   });
-  //   setPanes(newPanes);
-  //   // setActiveKey(activeKeys);
-
-  //   // this.setState({
-  //   //   panes: newPanes,
-  //   //   activeKey,
-  //   // });
-  // };
-
   const remove = (activeKey) => {
     console.log("key: ", activeKey);
-    const newArray = [...arrayItem];
+    // const newArray = [...panes];
 
-    const newPanes = newArray.filter((pane) => pane.key !== activeKey);
+    
 
-    setArrayItem(newPanes);
+    const newPanes = panes.filter((pane) => pane.path !== activeKey);
+
+    setPanes(newPanes);
   };
 
-  const changeTabs = (key) => {
-    console.log("key: ", key);
+  const onChange = (activeKey) => {
+    history.push(`/dashbroad${activeKey}`);
+   
   };
 
+  // const onEdit = (targetKey, action) => {
+  //   console.log([action], targetKey);
+  // };
+
+  function researchItem(id) {
+    let result = [];
+    let item_parent = dataFake.filter((x) => x.path === "/" + id);
+    if (item_parent.length === 0) {
+      let item = [];
+      dataFake.forEach((i) => {
+        if (i.subs.length > 0) {
+          let check = i.subs.filter((x) => x.path === "/" + id);
+          if (check.length > 0) item = check;
+        }
+      });
+      result = item;
+    } else {
+      result = item_parent;
+    }
+    return result[0];
+  }
   return (
     //
     <Layout
@@ -63,31 +68,35 @@ function DetailProducts(props) {
       style={{
         paddingTop: "90px",
         backgroundColor: "#BDBDBD",
+        height: "100vh",
       }}
     >
-      <Tabs
-        type="editable-card"
-        tabBarGutter="10px"
-        activeKey={item.key}
-        onChange={changeTabs}
-        onEdit={remove}
-        style={{ margin: "0px 20px" }}
-      >
-        {arrayItem.length > 0
-          ? arrayItem.map((x) => {
-              return (
-                <TabPane
-                  tab={x.title}
-                  key={x.key}
-                  closable={x.closable}
-                  style={{ backgroundColor: "#fff", padding: "30px" }}
-                >
-                  {x.content}
-                </TabPane>
-              );
-            })
-          : null}
-      </Tabs>
+      {panes.length > 0 ? (
+        <Tabs
+          type="editable-card"
+          onChange={onChange}
+          onEdit={remove}
+          tabBarGutter="10px"
+          activeKey={item.path}
+          style={{ margin: "0px 20px" }}
+        >
+          {panes.map((pane) => (
+            <TabPane
+              tab={pane.title}
+              key={pane.path}
+              style={{
+                backgroundColor: "#fff",
+                padding: "30px",
+                minHeight: "80vh",
+              }}
+            >
+              {pane.content}
+            </TabPane>
+          ))}
+        </Tabs>
+      ) : (
+        <div>Link active false</div>
+      )}
     </Layout>
   );
 }

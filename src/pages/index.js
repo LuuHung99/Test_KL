@@ -10,8 +10,7 @@ const Register = lazy(() => import("./authen/register"));
 const Dashbroad = lazy(() => import("./dashbroad/index"));
 const HomePage = lazy(() => import("./home/index"));
 
-function AppRouter(props) {
- 
+function AppRouter() {
   return (
     <Router>
       <Suspense
