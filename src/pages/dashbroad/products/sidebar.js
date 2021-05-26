@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
 import { MenuOutlined, CloseOutlined,SearchOutlined } from "@ant-design/icons";
-import {  Link, useRouteMatch } from "react-router-dom";
+import {  Link, useRouteMatch, BrowserRouter as Router, Route  } from "react-router-dom";
 import DetailProducts from "./products";
 
 import { dataFake } from "../../../services/tree";
@@ -43,16 +43,17 @@ function Products(props) {
             </SubMenu>
           );
         return (
-          <Menu.Item key={text.id} onClick={() => handleProductOnClick(text)}>
+          <Menu.Item 
+            key={text.id} 
+            onClick={() => handleProductOnClick(text)}
+          >
             <Link to={`${match.path}${text.path}`}>{text.title}</Link>
           </Menu.Item>
         );
       })
     );
   }
-
-
-
+ 
   return (
     <>
       {/* Sidebar */}

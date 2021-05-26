@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import "./css/product.css";
-import { Layout, Tabs } from "antd";
-// import {useHistory } from "react-router-dom";
+import { Tabs, Layout } from "antd";
+
 const { TabPane } = Tabs;
 
 function DetailProducts(props) {
-  // const [path, setPath] = useState(dataPath);
-  // const history = useHistory();
   const [arrayItem, setArrayItem] = useState([]);
-  console.log(arrayItem);
-  // console.log(arrayItems);
+
   const { item } = props;
 
   if (item !== "") {
@@ -20,24 +17,10 @@ function DetailProducts(props) {
         check = true;
       }
     });
-    console.log(check);
     if (!check) {
       arrayItem.push(item);
-      
     }
   }
-
-  // window.store = arrayItems;
-
-  // const onChange = (activeKey) => {
-  //   setActiveKey(activeKey);
-  // };
-
-  //  const onEdit = (targetKey, action) => {
-  //     this[action](targetKey);
-  //   };
-
-  // const [addKey, setAddKey] = useState([]);
 
   // const add = (item) => {
   //   const newTabIndex = 0;
@@ -60,16 +43,21 @@ function DetailProducts(props) {
   //   // });
   // };
 
-  // const remove = (activeKey) => {
-  //   console.log("key: ", activeKey);
-  //   const newArray = [...arrayItem];
+  const remove = (activeKey) => {
+    console.log("key: ", activeKey);
+    const newArray = [...arrayItem];
 
-  //   const newPanes = newArray.filter((pane) => pane.key !== activeKey);
+    const newPanes = newArray.filter((pane) => pane.key !== activeKey);
 
-  //   setArrayItem(newPanes);
-  // };
+    setArrayItem(newPanes);
+  };
+
+  const changeTabs = (key) => {
+    setArrayItem(key);
+  };
 
   return (
+    //
     <Layout
       className="site-layout"
       style={{
@@ -80,10 +68,9 @@ function DetailProducts(props) {
       <Tabs
         type="editable-card"
         tabBarGutter="10px"
-        // onChange={onChange}
-        // activeKey={activeKey}
-        // onEdit={remove}
-        // onEdit={onEdit}
+        activeKey={item.key}
+        onChange={changeTabs}
+        onEdit={remove}
         style={{ margin: "0px 20px" }}
       >
         {arrayItem.length > 0
@@ -91,7 +78,7 @@ function DetailProducts(props) {
               return (
                 <TabPane
                   tab={x.title}
-                  key={x.id}
+                  key={x.key}
                   closable={x.closable}
                   style={{ backgroundColor: "#fff", padding: "30px" }}
                 >

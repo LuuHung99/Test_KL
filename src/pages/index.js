@@ -9,9 +9,9 @@ const Login = lazy(() => import("./authen/login"));
 const Register = lazy(() => import("./authen/register"));
 const Dashbroad = lazy(() => import("./dashbroad/index"));
 const HomePage = lazy(() => import("./home/index"));
-const Sidebars = lazy(() => import("./dashbroad/products/sidebar"));
 
 function AppRouter(props) {
+ 
   return (
     <Router>
       <Suspense
@@ -33,9 +33,6 @@ function AppRouter(props) {
           </Route>
           <Route path="/dashbroad">
             <Dashbroad />
-          </Route>
-          <Route path="/dashbroad/:id">
-            <Sidebars />
           </Route>
         </Switch>
       </Suspense>
