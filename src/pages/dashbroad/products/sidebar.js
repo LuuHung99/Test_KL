@@ -16,7 +16,7 @@ function Products(props) {
   const [searchSidebar, setSearchSidebar] = useState("");
   const [menus, setMenus] = useState(dataFake);
   const [selected, setSelected] = useState("");
-
+  
   const handleProductOnClick = (selected) => {
     setSelected(selected);
   };
