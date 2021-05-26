@@ -28,8 +28,6 @@ function DetailProducts() {
     console.log("key: ", activeKey);
     // const newArray = [...panes];
 
-    
-
     const newPanes = panes.filter((pane) => pane.path !== activeKey);
 
     setPanes(newPanes);
