@@ -12,7 +12,7 @@ function DetailProducts() {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState(arrayItems);
-  let activeKey = `/${id}`;
+  let activeKey = researchItem(id).path;
 
   if (researchItem(id) !== undefined) {
     let item = researchItem(id);
@@ -21,7 +21,7 @@ function DetailProducts() {
       if (i.path === "/" + id) check = true;
     });
     if (!check) {
-      setPanes([...panes, item]);
+      setPanes([item, ...panes]);
     }
   }
 
@@ -66,31 +66,20 @@ function DetailProducts() {
         tabBarGutter="10px"
         style={{ margin: "0px 20px" }}
       >
-        {panes.length > 0 ? (
-          panes.map((pane) => (
-            <TabPane
-              tab={pane.title}
-              key={pane.path}
-              activeKey={activeKey}
-              style={{
-                backgroundColor: "#fff",
-                padding: "30px",
-                minHeight: "80vh",
-              }}
-            >
-              {pane.content}
-            </TabPane>
-          ))
-        ) : (
-          <div
+        {panes.map((pane) => (
+          <TabPane
+            tab={pane.title}
+            key={pane.path}
+            active={"/" + id}
             style={{
               backgroundColor: "#fff",
               padding: "30px",
-              width: "100%",
               minHeight: "80vh",
             }}
-          ></div>
-        )}
+          >
+            {pane.content}
+          </TabPane>
+        ))}
       </Tabs>
     </Layout>
   );
