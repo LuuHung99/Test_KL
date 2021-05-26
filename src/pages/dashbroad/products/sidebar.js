@@ -17,8 +17,8 @@ function Products(props) {
   const [menus, setMenus] = useState(dataFake);
   const [selected, setSelected] = useState("");
   
-  const handleProductOnClick = (selected) => {
-    setSelected(selected);
+  const handleProductOnClick = (selected, key) => {
+    setSelected(selected, key);
   };
 
   //Side bar

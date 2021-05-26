@@ -53,7 +53,7 @@ function DetailProducts(props) {
   };
 
   const changeTabs = (key) => {
-    setArrayItem(key);
+    console.log("key: ", key);
   };
 
   return (
