@@ -2,104 +2,95 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
-// import {useHistory } from "react-router-dom";
+import { dataFake } from "../../../services/tree";
+import { useParams, useHistory } from "react-router-dom";
 const { TabPane } = Tabs;
 
-function DetailProducts(props) {
-  // const [path, setPath] = useState(dataPath);
-  // const history = useHistory();
-  const [arrayItem, setArrayItem] = useState([]);
-  console.log(arrayItem);
-  // console.log(arrayItems);
-  const { item } = props;
+const arrayItems = [];
 
-  if (item !== "") {
+function DetailProducts() {
+  const { id } = useParams();
+  const history = useHistory();
+  const [panes, setPanes] = useState(arrayItems);
+  let activeKey = `/${id}`;
+
+  if (researchItem(id) !== undefined) {
+    let item = researchItem(id);
     let check = false;
-    arrayItem.forEach((x) => {
-      if (x.id === item.id) {
-        check = true;
-      }
+    panes.forEach((i) => {
+      if (i.path === "/" + id) check = true;
     });
-    console.log(check);
     if (!check) {
-      arrayItem.push(item);
-      
+      setPanes([...panes, item]);
     }
   }
 
-  // window.store = arrayItems;
+  const onChange = (activeKey) => {
+    history.push(`/dashbroad${activeKey}`);
+  };
 
-  // const onChange = (activeKey) => {
-  //   setActiveKey(activeKey);
-  // };
+  const onEdit = (targetKey, action) => {
+    console.log([action], targetKey);
+  };
 
-  //  const onEdit = (targetKey, action) => {
-  //     this[action](targetKey);
-  //   };
-
-  // const [addKey, setAddKey] = useState([]);
-
-  // const add = (item) => {
-  //   const newTabIndex = 0;
-
-  //   // const { panes } = this.state;
-  //   const activeKeys = `newTab${newTabIndex+1}`;
-  //   const newPanes = [...panes];
-  //   newPanes.push({
-  //     ...item,
-  //     title: item.title,
-  //     content: item.content,
-  //     key: activeKeys,
-  //   });
-  //   setPanes(newPanes);
-  //   // setActiveKey(activeKeys);
-
-  //   // this.setState({
-  //   //   panes: newPanes,
-  //   //   activeKey,
-  //   // });
-  // };
-
-  // const remove = (activeKey) => {
-  //   console.log("key: ", activeKey);
-  //   const newArray = [...arrayItem];
-
-  //   const newPanes = newArray.filter((pane) => pane.key !== activeKey);
-
-  //   setArrayItem(newPanes);
-  // };
-
+  function researchItem(id) {
+    let result = [];
+    let item_parent = dataFake.filter((x) => x.path === "/" + id);
+    if (item_parent.length === 0) {
+      let item = [];
+      dataFake.forEach((i) => {
+        if (i.subs.length > 0) {
+          let check = i.subs.filter((x) => x.path === "/" + id);
+          if (check.length > 0) item = check;
+        }
+      });
+      result = item;
+    } else {
+      result = item_parent;
+    }
+    return result[0];
+  }
   return (
     <Layout
       className="site-layout"
       style={{
         paddingTop: "90px",
         backgroundColor: "#BDBDBD",
+        height: "100vh",
       }}
     >
       <Tabs
         type="editable-card"
+        onChange={onChange}
+        onEdit={onEdit}
         tabBarGutter="10px"
-        // onChange={onChange}
-        // activeKey={activeKey}
-        // onEdit={remove}
-        // onEdit={onEdit}
         style={{ margin: "0px 20px" }}
       >
-        {arrayItem.length > 0
-          ? arrayItem.map((x) => {
-              return (
-                <TabPane
-                  tab={x.title}
-                  key={x.id}
-                  closable={x.closable}
-                  style={{ backgroundColor: "#fff", padding: "30px" }}
-                >
-                  {x.content}
-                </TabPane>
-              );
-            })
-          : null}
+        {panes.length > 0 ? (
+          panes.map((pane) => (
+            <TabPane
+              tab={pane.title}
+              key={pane.path}
+              activeKey={activeKey}
+              style={{
+                backgroundColor: "#fff",
+                padding: "30px",
+                minHeight: "80vh",
+              }}
+            >
+              {pane.content}
+            </TabPane>
+          ))
+        ) : (
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "30px",
+              width: "100%",
+              minHeight: "80vh",
+            }}
+          ></div>
+        )}
       </Tabs>
     </Layout>
   );

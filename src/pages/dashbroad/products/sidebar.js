@@ -4,7 +4,6 @@ import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
 import { MenuOutlined, CloseOutlined,SearchOutlined } from "@ant-design/icons";
 import {  Link, useRouteMatch } from "react-router-dom";
-import DetailProducts from "./products";
 
 import { dataFake } from "../../../services/tree";
 
@@ -14,12 +13,7 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  const [menus, setMenus] = useState(dataFake);
-  const [selected, setSelected] = useState("");
-
-  const handleProductOnClick = (selected) => {
-    setSelected(selected);
-  };
+  const menus = dataFake;
 
   //Side bar
   function renderProductList() {
@@ -34,7 +28,7 @@ function Products(props) {
                   return (
                     <Menu.Item
                       key={item.id}
-                      onClick={() => handleProductOnClick(item)}
+                      path={item.path}
                     >
                       <Link to={`${match.path}${item.path}`}>{item.title}</Link>
                     </Menu.Item>
@@ -43,7 +37,7 @@ function Products(props) {
             </SubMenu>
           );
         return (
-          <Menu.Item key={text.id} onClick={() => handleProductOnClick(text)}>
+          <Menu.Item key={text.id} path={text.path}>
             <Link to={`${match.path}${text.path}`}>{text.title}</Link>
           </Menu.Item>
         );
@@ -87,7 +81,7 @@ function Products(props) {
           <Menu mode="inline">{renderProductList()}</Menu>
         </Sider>
       </Layout>
-      <DetailProducts item={selected} />
+      {props.children}
     </>
   );
 }
