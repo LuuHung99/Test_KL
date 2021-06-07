@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "antd/dist/antd.css";
+import axios from "axios";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
 import { MenuOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
-import Tools from "../../../Tools/Tools";
 
-import { dataFake } from "../../../services/tree";
+// import { dataFake } from "../../../services/tree";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -14,25 +13,52 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  const [menus, setMenus] = useState(dataFake);
-  console.log(menus);
+  // const [menus, setMenus] = useState(dataFake);
 
-  // useEffect(() => {
-  //   let results = [];
+  //Call api 
+  const [data, setData] = useState([]);
+    useEffect(() => {
+      let res = axios.get("http://localhost:5000/api/root/frontend");
+      res
+        .then((response) => {
+          let r = createCategories(response.data);
+          setData(r);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+    function createCategories(categories, parentId = null) {
+      const categoryList = [];
+  
+      let category;
+      if (parentId != null) {
+        category = categories.filter((cat) => cat.parentId === parentId);
+      } else {
+        category = categories.filter((cat) => cat.parentId === "");
+      }
 
-  //   for (let i = 0; i < menus.children.length; i++) {
-  //     const oneChild = menus.filter((item) =>
-  //       item.children[i].title.toLowerCase().includes(searchSidebar)
-  //     );
-  //     results.push(oneChild);
-  //   }
-  // }, [searchSidebar]);
+      for (let cate of category) {
+        categoryList.push({
+          _id: cate._id,
+          title: cate.title,
+          url: cate.url,
+          parentId: cate.parentId,
+          description: cate.description,
+          author: cate.author,
+          activated: cate.activated,
+          subs: createCategories(categories, cate._id),
+        });
+      }
+  
+      return categoryList;
+    }
 
   //Side bar
   function renderProductList() {
     return (
-      Array.isArray(menus) &&
-      menus
+      Array.isArray(data) &&
+      data
         .filter((val) => {
           if (searchSidebar === "") {
             return val;
@@ -49,8 +75,8 @@ function Products(props) {
                 {Array.isArray(text.subs) &&
                   text.subs.map((item) => {
                     return (
-                      <Menu.Item key={item.id} path={item.path}>
-                        <Link to={`${match.path}${item.path}`}>
+                      <Menu.Item key={item.id} path={item.url}>
+                        <Link to={`${match.url}/${item.url}`}>
                           {item.title}
                         </Link>
                       </Menu.Item>
@@ -59,8 +85,8 @@ function Products(props) {
               </SubMenu>
             );
           return (
-            <Menu.Item key={text.id} path={text.path}>
-              <Link to={`${match.path}${text.path}`}>{text.title}</Link>
+            <Menu.Item key={text.id} path={text.url}>
+              <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
             </Menu.Item>
           );
         })
@@ -69,8 +95,6 @@ function Products(props) {
 
   return (
     <>
-      {/* Sidebar */}
-
       <input type="checkbox" id="check" />
       <label htmlFor="check">
         <MenuOutlined id="icon1" />
@@ -99,10 +123,8 @@ function Products(props) {
               marginTop: "70px",
             }}
             value={searchSidebar}
-            // onPressEnter={onPressEnter}
             onChange={(e) => setSearchSidebar(e.target.value)}
           />
-
           <Menu mode="inline" style={{ marginTop: "10px" }}>
             {renderProductList()}
           </Menu>

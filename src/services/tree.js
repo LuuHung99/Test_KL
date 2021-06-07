@@ -1,5 +1,14 @@
 export const dataFake = [
   {
+    id: 99,
+    title: 'Tab Data',
+    path: '/tab-data',
+    key: '101221',
+    subs: [],
+    content: "",
+  },
+
+  {
     id: 1,
     title: "Tưới cây",
     path: "/tuoi-cay",
@@ -134,3 +143,5 @@ export const dataFake = [
     subs: [],
   },
 ];
+
+ 

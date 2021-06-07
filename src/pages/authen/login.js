@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import "./css/login.css";
 import LayoutPage from "../../components/layout";
 
@@ -26,6 +25,7 @@ function Login(props) {
 
 
   return (
+    <React.Fragment>
     <LayoutPage >
       <div className="authen_wrapper">
       <div className="authen-container">
@@ -98,6 +98,7 @@ function Login(props) {
       </div>
       </div>
     </LayoutPage>
+    </React.Fragment>
   );
 }
 

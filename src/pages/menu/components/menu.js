@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import { Layout, Menu } from "antd";
 import { NavLink } from "react-router-dom";
 import "./menu.css";
@@ -7,6 +6,7 @@ const { Header } = Layout;
 
 function MenuPage(props) {
   return (
+    <React.Fragment>
     <Header style={{ backgroundColor: "rgb(117 120 119)" }}>
       <Menu
         mode="horizontal"
@@ -40,6 +40,7 @@ function MenuPage(props) {
         </Menu.Item>
       </Menu>
     </Header>
+    </React.Fragment>
   );
 }
 

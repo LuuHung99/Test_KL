@@ -54,13 +54,13 @@ button.ant-btn {
   height: calc(100vh - 50px);
   transition: all 0.5s ease;
   position: fixed;
-  bottom: 10px;
+  
   width: 200px;
 }
 
 .sidebar_container {
   background-color: white;
-
+  margin-bottom: 15px;
   overflow-y: scroll;
 }
 
@@ -135,3 +135,19 @@ label #icon2 {
   margin-left: 200px;
   transition: all 0.5s ease;
 }
+
+.tab_data {
+  margin: 23px;
+  cursor: pointer;
+}
+
+.link_tab {
+  color: black;
+}
+
+.link_tab:hover {
+   color: blue
+}
+
+
+ 

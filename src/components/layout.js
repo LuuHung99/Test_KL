@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import { Layout} from "antd";
 import HeaderPage from "./Header";
 import FooterPage from "./Footer";

@@ -1,11 +1,14 @@
 import React from 'react';
-import AppRouter from './pages/index';
+import "antd/dist/antd.css";
+// import AppRouter from './pages/index';
+import ProductApi from './views/ProductApi';
 
 function App() {
   return (
-    <div >
-        <AppRouter />
-    </div>
+    <>
+        {/* <AppRouter /> */}
+        <ProductApi />
+    </>
   );
 }
 

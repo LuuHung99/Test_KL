@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import { Layout } from "antd";
 import HeaderPage from "../../../components/Header";
 import MenuPage from "./menu";
@@ -9,6 +8,7 @@ const {Content } = Layout;
 
 function LayoutPage(props) {
   return (
+    <>
     <Layout className="layout">
       <HeaderPage />
       <MenuPage />
@@ -17,6 +17,7 @@ function LayoutPage(props) {
       </Content>
       <FooterPage />
     </Layout>
+    </>
   );
 }
 

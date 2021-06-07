@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import "./css/product.css";
 // import LayoutPage from "../common/layout";
 import { Layout } from "antd";

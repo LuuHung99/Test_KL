@@ -33,7 +33,7 @@ function HeaderTest(props) {
             <li><Link to="/about">About</Link></li>
             <li><Link to="/services">Services</Link></li>
             <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/info">Info</Link></li>
+            <li><Link to="/">Logout</Link></li>
           </ul>
         </div>
       ) : null}
