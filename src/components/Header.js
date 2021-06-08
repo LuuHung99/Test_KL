@@ -6,7 +6,7 @@ const { Header } = Layout;
 function HeaderTest(props) {
   return (
     <Header className="header">
-      <Col className="header__block">
+      <div className="header__block">
         <div className="header__logo">
           <img src="images/logo.svg" className="header__img" alt="" />
         </div>
@@ -14,8 +14,7 @@ function HeaderTest(props) {
         <div className="header__logo2">
           <img src="images/logo.svg" className="header__img" alt="" />
         </div>
-        
-      </Col>
+      </div>
     </Header>
   );
 }

@@ -39,7 +39,7 @@ function Register(props) {
   };
 
   return (
-    <React.Fragment>
+ 
     <LayoutPage>
       {isSuccess ? (
         <Redirect to="/" />
@@ -147,13 +147,13 @@ function Register(props) {
               </Button>
             </Form.Item>
             <p style={{ textAlign: "center" }}>
-              Bạn đã có tài khoản? <Link to="/">Đăng nhập</Link>
+              Bạn đã có tài khoản? <Link to="/" style={{color: "blue", fontWeight: 'bold'}}>Đăng nhập</Link>
             </p>
           </Form>
         </div>
       )}
     </LayoutPage>
-    </React.Fragment>
+    
   );
   
 }

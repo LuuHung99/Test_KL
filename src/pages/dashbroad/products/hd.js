@@ -8,7 +8,7 @@ const { Header } = Layout;
 function HeaderTest(props) {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <Header className="header">
+    <Header className="headerPd">
       <Col className="header__block">
         <div className="header__logo">
           <img src="images/logo.svg" className="header__img" alt="" />

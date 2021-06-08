@@ -10,8 +10,10 @@ const Products = lazy(() => import("./menu/pages/product/product"));
 const Blog = lazy(() => import("./menu/pages/blog/blog"));
 const Contact = lazy(() => import("./menu/pages/contact/contact"));
 const Logout = lazy(() => import("./authen/login"));
+const TabData = lazy(() => import("./dashbroad/products/tabData"));
 
 function AppRouter() {
+ 
   return (
     <Router>
       <Suspense
@@ -31,6 +33,9 @@ function AppRouter() {
           <Route path="/dashbroad">
             <Dashbroad />
           </Route>
+          <Route path="/tab-data">
+            <TabData />
+          </Route>
           <Route exact path="/home">
             <Home />
           </Route>
@@ -49,6 +54,7 @@ function AppRouter() {
           <Route path="/">
             <Logout />
           </Route>
+          
         </Switch>
       </Suspense>
     </Router>

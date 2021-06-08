@@ -25,9 +25,7 @@ function Login(props) {
 
 
   return (
-    <React.Fragment>
     <LayoutPage >
-      <div className="authen_wrapper">
       <div className="authen-container">
         <Form
           {...layout}
@@ -87,7 +85,7 @@ function Login(props) {
           </Form.Item>
 
           <p style={{ textAlign: "center" }}>
-            Bạn chưa có tài khoản? <Link to="register">Đăng ký</Link>
+            Bạn chưa có tài khoản? <Link to="register" style={{color: "blue", fontWeight: 'bold'}}>Đăng ký</Link>
           </p>
           <div className="social-network-wrapper">
             <img src="images/facebook.png" alt="" className="logo-img" />
@@ -96,9 +94,7 @@ function Login(props) {
           </div>
         </Form>
       </div>
-      </div>
     </LayoutPage>
-    </React.Fragment>
   );
 }
 

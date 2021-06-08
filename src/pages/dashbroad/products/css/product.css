@@ -50,11 +50,10 @@ button.ant-btn {
 #sidebar-wrapper {
   /* position: absolute; */
   top: 64px;
-  left: -200px;
+  left: 0px;
   height: calc(100vh - 50px);
   transition: all 0.5s ease;
   position: fixed;
-  
   width: 200px;
 }
 
@@ -100,9 +99,9 @@ label #icon1 {
   left: 19px;
   font-size: 20px;
   cursor: pointer;
-  margin-left: -20px;
+  margin-left: -40px;
   color: #1890ff;
-  transition: all 0.5s;
+  transition: all 0.5s ease;
 }
 
 label #icon2 {
@@ -110,28 +109,33 @@ label #icon2 {
   font-size: 22px;
   cursor: pointer;
   color: #1890ff;
-  left: -20px;
+  left:  0px;
   transition: all 0.5s ease;
   top: 42px;
   position: fixed;
 }
 
 #check:checked ~ label #icon1 {
-  left: 200px;
+  left: 40px;
+}
+
+#check:checked ~ #sidebar-wrapper {
+  left: -200px;
+}
+
+#check:checked ~ label #icon2 {
+  left: -20px;
   opacity: 0;
   pointer-events: none;
 }
 
-#check:checked ~ #sidebar-wrapper {
-  left: 0px;
-}
-
-#check:checked ~ label #icon2 {
-  left: 0px;
-}
-
 #check:checked ~ .site-layout,
 #check:checked ~ footer {
+  margin-left: 0px;
+  transition: all 0.5s ease;
+}
+
+.site-layout {
   margin-left: 200px;
   transition: all 0.5s ease;
 }
