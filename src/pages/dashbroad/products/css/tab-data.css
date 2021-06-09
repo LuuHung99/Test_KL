@@ -1,0 +1,28 @@
+ .table_col {
+   padding-top: 30px;
+ }
+.table_col_header {
+  background-color: #bbaeaed9;
+}
+
+.table_col_header th {
+  padding: 20px;
+}
+
+.table_col_content td:nth-child(4), .table_col_content_unactivated td:nth-child(4) {
+  padding-left: 35px;
+}
+
+.table_col_content td {
+  padding: 20px;
+  cursor: pointer;
+  background-color: rgb(176, 194, 194);
+  margin-bottom: 10px;
+}
+
+.table_col_content_unactivated td {
+  cursor: pointer;
+  padding: 20px;
+}
+
+   

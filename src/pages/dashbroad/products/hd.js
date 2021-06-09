@@ -31,7 +31,8 @@ function HeaderTest(props) {
           <ul id="menu">
             <li><Link to="/home">Home</Link></li>
             <li><Link to="/about">About</Link></li>
-            <li><Link to="/services">Services</Link></li>
+            <li><Link to="/dashbroad">Dashbroad</Link></li>
+            <li><Link to="/products">Products</Link></li>
             <li><Link to="/contact">Contact</Link></li>
             <li><Link to="/">Logout</Link></li>
           </ul>

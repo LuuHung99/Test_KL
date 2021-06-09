@@ -1,11 +1,11 @@
 import React from 'react';
-import LayoutPage from "../../components/layout";
+import LayoutMenuPage from "../../../dashbroad/products/layoutMenu";
 
 function Contact(props) {
     return (
-        <LayoutPage>
+        <LayoutMenuPage>
             <h1>Contact</h1>
-        </LayoutPage>
+        </LayoutMenuPage>
     );
 }
 

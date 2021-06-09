@@ -15,7 +15,7 @@ const tailLayout = {
 function ProductApi() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState({});
  
   useEffect(() => {
     let res = axios.get("http://localhost:5000/api/root/frontend");

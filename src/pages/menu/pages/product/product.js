@@ -1,11 +1,11 @@
 import React from 'react';
-import LayoutPage from "../../components/layout";
+import LayoutMenuPage from "../../../dashbroad/products/layoutMenu";
 
 function Products(props) {
     return (
-        <LayoutPage>
+        <LayoutMenuPage>
             <h1>Products</h1>
-        </LayoutPage>
+        </LayoutMenuPage>
     );
 }
 

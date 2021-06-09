@@ -12,9 +12,7 @@ const { SubMenu } = Menu;
 
 function Products(props) {
   let match = useRouteMatch();
-  // console.log(`${match.url}/tab-data`);
   const [searchSidebar, setSearchSidebar] = useState("");
-  // const [menus, setMenus] = useState(dataFake);
 
   //Call api
   const [data, setData] = useState([]);
@@ -106,32 +104,18 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src="images/male-farmer.svg" className="logo__img" alt="" />
+            <img src="images/male-farmer.svg" className="logo__img" alt="" /> 
             <p style={{ marginTop: 10, fontSize: 18 }}>Hi Hung</p>
           </div>
-
           <Input
             type="text"
             placeholder="Tìm kiếm"
             prefix={<SearchOutlined style={{ fontSize: "20px" }} />}
-            style={{
-              padding: "10px",
-              width: "100%",
-              border: "none",
-              background: "#f9f9f9d9",
-              borderRadius: "999px",
-              color: "#000",
-              height: "auto",
-              marginTop: "70px",
-            }}
+            
+            className="search_sidebar"
             value={searchSidebar}
             onChange={(e) => setSearchSidebar(e.target.value)}
           />
-          <div style={{ marginTop: "30px", marginLeft: 24, cursor: "pointer" }}>
-            <Link to="/tab-data" style={{ color: "black" }}>
-              Tab Data
-            </Link>
-          </div>
           <Menu mode="inline" style={{ marginTop: "10px" }}>
             {renderProductList()}
           </Menu>

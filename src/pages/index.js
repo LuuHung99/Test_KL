@@ -33,9 +33,9 @@ function AppRouter() {
           <Route path="/dashbroad">
             <Dashbroad />
           </Route>
-          <Route path="/tab-data">
+          {/* <Route path="/tab-data">
             <TabData />
-          </Route>
+          </Route> */}
           <Route exact path="/home">
             <Home />
           </Route>

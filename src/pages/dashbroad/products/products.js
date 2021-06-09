@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/product.css";
-import { Layout, Tabs, Table, Tag, Space } from "antd";
+import { Layout, Tabs } from "antd";
 import { dataFix } from "../../../services/fixdata";
 import { useParams, useHistory } from "react-router-dom";
+import TabData from "./tabData";
 const { TabPane } = Tabs;
 
 function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-
+  console.log(panes);
   let item = researchItem(id);
 
   if (researchItem(id) !== undefined) {
@@ -76,9 +77,8 @@ function DetailProducts(props) {
   // }
 
   function researchItem(id) {
-    
     let result = [];
-    
+
     let item_parent = dataFix.filter((x) => x.url === "/" + id);
     if (item_parent.length === 0) {
       let item = [];
@@ -94,26 +94,17 @@ function DetailProducts(props) {
       result = item_parent;
     }
     return result[0];
-    
   }
   return (
-    
-    <Layout
-      className="site-layout"
-      style={{
-        paddingTop: "90px",
-        backgroundColor: "#BDBDBD",
-        height: "100vh",
-      }}
-    >
-      {panes.length > 0 ? (
+    <Layout className="site-layout">
+      {panes.length > 0 ? ( 
         <Tabs
           type="editable-card"
           onChange={onChange}
           onEdit={remove}
           tabBarGutter="10px"
           activeKey={item.url}
-          style={{ margin: "0px 20px" }}
+          style={{ margin: "0px 15px" }}
         >
           {panes.map((pane) => (
             <TabPane
@@ -121,11 +112,12 @@ function DetailProducts(props) {
               key={pane.url}
               style={{
                 backgroundColor: "#fff",
-                padding: "30px",
-                minHeight: "80vh",
               }}
             >
-              {pane.description}
+              <div className="content_product">
+                {pane.url === "/tab-data" ? <TabData  /> : null}
+                {pane.description}
+              </div>
             </TabPane>
           ))}
         </Tabs>

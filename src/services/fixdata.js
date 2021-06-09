@@ -54,4 +54,21 @@ export const dataFix = [
     url: "/bon-phan",
     _id: "60bda3fd11dd9116ec0f476c",
   },
+  {
+    _id: "60c01f8bdd9839b92ac6e6f2",
+    title: "Biện pháp",
+    url: "/bien-phap",
+    parentId: "",
+    subs: [],
+    description:
+      "Explicabo duis in cubilia proident mauris porta libero leo neque potenti eget officiis! Corrupti habitasse laboris similique varius excepturi voluptates, mattis metus assumenda habitasse. Explicabo duis in cubilia proident mauris porta libero leo neque potenti eget officiis! Corrupti habitasse laboris similique varius excepturi voluptates, mattis metus assumenda habitasse.",
+    author: "Hung Nguyen",
+    activated: false,
+  },
+  {
+    _id: "60c044611ae61e3c7eec343b",
+    title: "Tab Data",
+    url: "/tab-data",
+    subs: [],
+  },
 ];

@@ -57,6 +57,7 @@ button.ant-btn {
   width: 200px;
 }
 
+
 .sidebar_container {
   background-color: white;
   margin-bottom: 15px;
@@ -138,6 +139,19 @@ label #icon2 {
 .site-layout {
   margin-left: 200px;
   transition: all 0.5s ease;
+  padding-top: 20px;
+  background-color: #BDBDBD;
+  position: fixed;
+  margin-top: 65px;
+}
+
+.content_product {
+  top: 0;
+  overflow-y: scroll;
+  height: 81vh;
+  width: auto;
+  padding: 30px;
+ 
 }
 
 .tab_data {
@@ -154,4 +168,16 @@ label #icon2 {
 }
 
 
+/*Search sidebar */
+.search_sidebar {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: #f9f9f9d9;
+  border-radius: 999px;
+  color: #000;
+  height: auto;
+  margin-top: 70px;
+}
+ 
  

@@ -79,8 +79,8 @@ function Login(props) {
 
           <br />
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit" type="primary" className="button">
-              <Link to="dashbroad" >Đăng nhập</Link>
+            <Button htmlType="submit" type="primary" >
+              <Link to="dashbroad" className="button" >Đăng nhập</Link>
             </Button>
           </Form.Item>
 
