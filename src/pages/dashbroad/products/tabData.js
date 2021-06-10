@@ -55,10 +55,7 @@ const layout = {
 
 function TabData(props) {
   const [dataPd, setDataPd] = useState([]);
-  const [bgColor, setBgColor] = useState();
   const [visible, setVisible] = useState(false);
-  // const [userClicked, setUserClicked] = useState(null);
-  const [show, setShow] = useState();
   const [searchProduct, setSearchProduct] = useState("");
 
   useEffect(() => {
@@ -137,104 +134,118 @@ function TabData(props) {
             <th>Activated</th>
             <th>Author</th>
           </tr>
-          {dataPd.length > 0 ?
-            dataPd
-              .filter((val) => {
-                if (searchProduct === "") {
-                  return val;
-                } else if (
-                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
-                ) {
-                  return val;
-                }
-              })
-              .map((item, index) =>
-                item.description !== "" ? (
-                  <>
-                  <hr style={{width: 0, opacity: 0.6, marginTop: 0 }} />
-                  <tr
-                    className={
-                      String(item.activated) === "true"
-                        ? "table_col_content"
-                        : "table_col_content_unactivated"
-                    }
-                    key={index}
-                    onClick={handleShowBox}
-                  >
-                    <td>{item.title}</td>
-                    <td>{item.url}</td>
-                    <td>{item.description}</td>
-                    <td>
-                      {String(item.activated) === "true" ? (
-                        <CheckOutlined
-                          style={{
-                            color: "green",
-                            fontSize: "20px",
-                            marginLeft: 20,
-                          }}
-                        />
-                      ) : (
-                        <CloseOutlined
-                          style={{
-                            color: "red",
-                            fontSize: "20px",
-                            marginLeft: 20,
-                          }}
-                        />
-                      )}
-                    </td>
+          {dataPd.length > 0
+            ? dataPd
+                .filter((val) => {
+                  if (searchProduct === "") {
+                    return val;
+                  } else if (
+                    val.title
+                      .toLowerCase()
+                      .includes(searchProduct.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                })
+                .map((item, index) =>
+                  item.description !== "" ? (
+                    <>
+                      <hr style={{ width: 0, opacity: 0.6, marginTop: 0 }} />
+                      <tr
+                        className={
+                          String(item.activated) === "true"
+                            ? "table_col_content"
+                            : "table_col_content_unactivated"
+                        }
+                        key={index}
+                        onClick={handleShowBox}
+                      >
+                        <td>{item.title}</td>
+                        <td>{item.url}</td>
+                        <td>{item.description}</td>
+                        <td>
+                          {String(item.activated) === "true" ? (
+                            <CheckOutlined
+                              style={{
+                                color: "green",
+                                fontSize: "20px",
+                                marginLeft: 20,
+                              }}
+                            />
+                          ) : (
+                            <CloseOutlined
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                                marginLeft: 20,
+                              }}
+                            />
+                          )}
+                        </td>
 
-                    <td>{item.author}</td>
-                  </tr>
-                   
-                   </>
-                ) : null
-              ) : null}
+                        <td>{item.author}</td>
+                      </tr>
+                      {visible && (
+                        <Modal
+                          visible={visible}
+                          title={`Thay đổi trạng thái ${item.title} `}
+                          onOk={handleOk}
+                          onCancel={handleCancel}
+                          footer={[]}
+                          
+                        >
+                          <Form
+                            {...layout}
+                            // initialValues={userClicked}
+                            name="control-hooks"
+                            onFinish={handleFormSubmit}
+                            // form={form}
+                          >
+                            <h2>Lý do</h2>
+                            <TextArea rows={4} />
+
+                            <Form.Item
+                              name="role"
+                              label="Trạng thái"
+                              style={{ marginTop: 20 }}
+                            >
+                              <Select style={{ width: 230 }}>
+                                <Select.Option value="Activated">
+                                  Activated
+                                </Select.Option>
+                                <Select.Option value="UnActivated">
+                                  UnActivated
+                                </Select.Option>
+                              </Select>
+                            </Form.Item>
+
+                            <div
+                              style={{
+                                justifyContent: "center",
+                                display: "flex",
+                                alignContent: "center",
+                              }}
+                            >
+                              <Button
+                                key="submit"
+                                type="primary"
+                                htmlType="submit"
+                              >
+                                Cập nhật
+                              </Button>
+                              <Button type="danger" onClick={ChangeBox}>
+                                Cancel
+                              </Button>
+                            </div>
+                          </Form>
+                        </Modal>
+                      )}
+                    </>
+                  ) : null
+                )
+            : null}
         </table>
       </div>
-
-      {visible && (
-        <Modal
-          visible={visible}
-          title={`Thay đổi trạng thái `}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[]}
-        >
-          <Form
-            {...layout}
-            // initialValues={userClicked}
-            name="control-hooks"
-            onFinish={handleFormSubmit}
-            // form={form}
-          >
-            <h2>Lý do</h2>
-            <TextArea rows={4} />
-
-            <Form.Item name="role" label="Trạng thái" style={{ marginTop: 20 }}>
-              <Select style={{ width: 230 }}>
-                <Select.Option value="Activated">Activated</Select.Option>
-                <Select.Option value="UnActivated">UnActivated</Select.Option>
-              </Select>
-            </Form.Item>
-
-            <div
-              style={{
-                justifyContent: "center",
-                display: "flex",
-                alignContent: "center",
-              }}
-            >
-              <Button key="submit" type="primary" htmlType="submit">
-                Cập nhật
-              </Button>
-              <Button type="danger" onClick={ChangeBox}>
-                Cancel
-              </Button>
-            </div>
-          </Form>
-        </Modal>
-      )}
     </div>
   );
 }

@@ -8,9 +8,9 @@ import ApiV1 from './services/apiv1';
 function App() {
   return (
     <div >
-        <AppRouter />
+        {/* <AppRouter /> */}
         {/* <TabData /> */}
-        {/* <ProductApi /> */}
+        <ProductApi />
     </div>
   );
 }

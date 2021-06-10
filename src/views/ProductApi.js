@@ -65,7 +65,7 @@ function ProductApi() {
     
     if (product ) {
       console.log("product",product);
-      let req = axios.put(`http://localhost:5000/api/root/frontend`, product );
+      let req = axios.post(`http://localhost:5000/api/root/frontend`, product );
       req
         .then(() => {
           console.log("Create successful");
