@@ -185,66 +185,57 @@ function TabData(props) {
 
                         <td>{item.author}</td>
                       </tr>
-                      {visible && (
-                        <Modal
-                          visible={visible}
-                          title={`Thay đổi trạng thái ${item.title} `}
-                          onOk={handleOk}
-                          onCancel={handleCancel}
-                          footer={[]}
-                          
-                        >
-                          <Form
-                            {...layout}
-                            // initialValues={userClicked}
-                            name="control-hooks"
-                            onFinish={handleFormSubmit}
-                            // form={form}
-                          >
-                            <h2>Lý do</h2>
-                            <TextArea rows={4} />
-
-                            <Form.Item
-                              name="role"
-                              label="Trạng thái"
-                              style={{ marginTop: 20 }}
-                            >
-                              <Select style={{ width: 230 }}>
-                                <Select.Option value="Activated">
-                                  Activated
-                                </Select.Option>
-                                <Select.Option value="UnActivated">
-                                  UnActivated
-                                </Select.Option>
-                              </Select>
-                            </Form.Item>
-
-                            <div
-                              style={{
-                                justifyContent: "center",
-                                display: "flex",
-                                alignContent: "center",
-                              }}
-                            >
-                              <Button
-                                key="submit"
-                                type="primary"
-                                htmlType="submit"
-                              >
-                                Cập nhật
-                              </Button>
-                              <Button type="danger" onClick={ChangeBox}>
-                                Cancel
-                              </Button>
-                            </div>
-                          </Form>
-                        </Modal>
-                      )}
                     </>
                   ) : null
                 )
             : null}
         </table>
+        {visible && (
+          <Modal
+            visible={visible}
+            title={`Thay đổi trạng thái  `}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form
+              {...layout}
+              // initialValues={userClicked}
+              name="control-hooks"
+              onFinish={handleFormSubmit}
+              // form={form}
+            >
+              <h2>Lý do</h2>
+              <TextArea rows={4} />
+
+              <Form.Item
+                name="role"
+                label="Trạng thái"
+                style={{ marginTop: 20 }}
+              >
+                <Select style={{ width: 230 }}>
+                  <Select.Option value="Activated">Activated</Select.Option>
+                  <Select.Option value="UnActivated">UnActivated</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  alignContent: "center",
+                }}
+              >
+                <Button key="submit" type="primary" htmlType="submit">
+                  Cập nhật
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
       </div>
     </div>
   );

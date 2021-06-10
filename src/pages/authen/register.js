@@ -142,7 +142,7 @@ function Register(props) {
               <Input />
             </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button htmlType="submit" type="primary" className="button">
+              <Button htmlType="submit" type="primary" className="button_authen">
                 Hoàn tất
               </Button>
             </Form.Item>

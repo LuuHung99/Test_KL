@@ -61,11 +61,10 @@ function ProductApi() {
   }
 
   const onFinish = (values) => {
-    console.log( values);
     
     if (product ) {
       console.log("product",product);
-      let req = axios.post(`http://localhost:5000/api/root/frontend`, product );
+      let req = axios.put(`http://localhost:5000/api/root/frontend`, values );
       req
         .then(() => {
           console.log("Create successful");
@@ -74,7 +73,7 @@ function ProductApi() {
           console.log("Create failed", error);
         });
     }
-    setProduct({product, values});
+    setProduct({product});
   };
 
   const onFinishFailed = (errorInfo) => {

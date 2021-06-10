@@ -26,6 +26,7 @@ function Login(props) {
 
   return (
     <LayoutPage >
+      <React.Fragment>
       <div className="authen-container">
         <Form
           {...layout}
@@ -41,6 +42,7 @@ function Login(props) {
 
           <h1>Đăng nhập</h1>
           <Form.Item
+            className="input_info"
             label="Email"
             name="email"
             rules={[
@@ -54,6 +56,7 @@ function Login(props) {
           </Form.Item>
 
           <Form.Item
+          className="input_info"
             label="Mật khẩu"
             name="password"
             rules={[
@@ -79,8 +82,8 @@ function Login(props) {
 
           <br />
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit" type="primary" >
-              <Link to="dashbroad" className="button" >Đăng nhập</Link>
+            <Button htmlType="submit" type="primary" className="button_authen"  >
+              <Link to="dashbroad" >Đăng nhập</Link>
             </Button>
           </Form.Item>
 
@@ -94,6 +97,7 @@ function Login(props) {
           </div>
         </Form>
       </div>
+      </React.Fragment>
     </LayoutPage>
   );
 }
