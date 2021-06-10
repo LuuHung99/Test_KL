@@ -1,5 +1,6 @@
  .table_col {
    padding-top: 30px;
+   position: relative;
  }
 .table_col_header {
   background-color: #bbaeaed9;

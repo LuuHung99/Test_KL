@@ -133,6 +133,7 @@ label #icon2 {
 #check:checked ~ .site-layout,
 #check:checked ~ footer {
   margin-left: 0px;
+  width: 100%;
   transition: all 0.5s ease;
 }
 
@@ -143,6 +144,7 @@ label #icon2 {
   background-color: #BDBDBD;
   position: fixed;
   margin-top: 65px;
+  width: 86%;
 }
 
 .content_product {

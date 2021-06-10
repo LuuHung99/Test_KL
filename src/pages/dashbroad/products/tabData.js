@@ -93,7 +93,7 @@ function TabData(props) {
   return (
     <div className="container_tabdata">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1 style={{ color: "green"  }}>Bảng chức năng</h1>
+        <h1 style={{ color: "green" }}>Bảng chức năng</h1>
         <Input
           type="text"
           placeholder="Search ..."
@@ -129,9 +129,7 @@ function TabData(props) {
         />
       )} */}
       <div className="table_col">
-        <table style={{ width: "100%" }}
-          onClick={handleShowBox}
-        >
+        <table style={{ width: "100%" }}>
           <tr className="table_col_header">
             <th>Title</th>
             <th>Url</th>
@@ -139,7 +137,7 @@ function TabData(props) {
             <th>Activated</th>
             <th>Author</th>
           </tr>
-          {dataPd.length > 0 &&
+          {dataPd.length > 0 ?
             dataPd
               .filter((val) => {
                 if (searchProduct === "") {
@@ -150,35 +148,48 @@ function TabData(props) {
                   return val;
                 }
               })
-              .map((item, index) => (  (item.description !== "") ?
-                <tr className={String(item.activated) === "true" ? "table_col_content" : "table_col_content_unactivated" } key= {index}>
-                  <td>{item.title}</td>
-                  <td>{item.url}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    {String(item.activated) === "true" ? (
-                      <CheckOutlined
-                        style={{
-                          color: "green",
-                          fontSize: "20px",
-                          marginLeft: 20,
-                        }}
-                      />
-                    ) : (
-                      <CloseOutlined
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                          marginLeft: 20,
-                        }}
-                      />
-                    )}
-                  </td>
+              .map((item, index) =>
+                item.description !== "" ? (
+                  <>
+                  <hr style={{width: 0, opacity: 0.6, marginTop: 0 }} />
+                  <tr
+                    className={
+                      String(item.activated) === "true"
+                        ? "table_col_content"
+                        : "table_col_content_unactivated"
+                    }
+                    key={index}
+                    onClick={handleShowBox}
+                  >
+                    <td>{item.title}</td>
+                    <td>{item.url}</td>
+                    <td>{item.description}</td>
+                    <td>
+                      {String(item.activated) === "true" ? (
+                        <CheckOutlined
+                          style={{
+                            color: "green",
+                            fontSize: "20px",
+                            marginLeft: 20,
+                          }}
+                        />
+                      ) : (
+                        <CloseOutlined
+                          style={{
+                            color: "red",
+                            fontSize: "20px",
+                            marginLeft: 20,
+                          }}
+                        />
+                      )}
+                    </td>
 
-                  <td>{item.author}</td>
-                </tr> : null
-                
-              ) )}
+                    <td>{item.author}</td>
+                  </tr>
+                   
+                   </>
+                ) : null
+              ) : null}
         </table>
       </div>
 
