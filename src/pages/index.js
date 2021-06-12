@@ -10,7 +10,6 @@ const Products = lazy(() => import("./menu/pages/product/product"));
 const Blog = lazy(() => import("./menu/pages/blog/blog"));
 const Contact = lazy(() => import("./menu/pages/contact/contact"));
 const Logout = lazy(() => import("./authen/login"));
-const TabData = lazy(() => import("./dashbroad/products/tabData"));
 
 function AppRouter() {
  

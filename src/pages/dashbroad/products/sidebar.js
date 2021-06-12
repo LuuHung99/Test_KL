@@ -34,13 +34,15 @@ function Products(props) {
               <SubMenu key={text.id} title={text.title}>
                 {Array.isArray(text.subs) &&
                   text.subs.map((item) => {
-                    return (
-                      <Menu.Item key={item.id} path={item.url}>
-                        <Link to={`${match.url}/${item.url}`}>
-                          {item.title}
-                        </Link>
-                      </Menu.Item>
-                    );
+                    if (item.activated === true)
+                      return (
+                        <Menu.Item key={item.id} path={item.url}>
+                          <Link to={`${match.url}/${item.url}`}>
+                            {item.title}
+                          </Link>
+                        </Menu.Item>
+                      );
+                    return null;
                   })}
               </SubMenu>
             );

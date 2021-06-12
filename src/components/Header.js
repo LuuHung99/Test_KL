@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Col } from "antd";
+import { Layout } from "antd";
 import "./css/header.css";
 const { Header } = Layout;
 
