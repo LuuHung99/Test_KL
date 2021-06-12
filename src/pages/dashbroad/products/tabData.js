@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Table, Modal, Select } from "antd";
-import { ProductApi } from "../../../services/api";
+import { pushActive, ProductApi } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 const { TextArea } = Input;
@@ -10,66 +10,15 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-// const columns = [
-//   {
-//     title: "Name",
-//     dataIndex: "title",
-//     key: "name",
-//   },
-//   {
-//     title: "Url",
-//     dataIndex: "url",
-//     key: "url",
-//   },
-//   {
-//     title: "Description",
-//     dataIndex: "description",
-//     key: "description",
-//   },
-
-//   {
-//     title: "Activated",
-//     key: "activated",
-//     dataIndex: "activated",
-//     render: (activated) =>
-//       String(activated) && (
-//         <>
-//           {String(activated) === "true" ? (
-//             <CheckOutlined
-//               style={{ color: "green", fontSize: "20px", marginLeft: 20 }}
-//             />
-//           ) : (
-//             <CloseOutlined
-//               style={{ color: "red", fontSize: "20px", marginLeft: 20 }}
-//             />
-//           )}
-//         </>
-//       ),
-//   },
-//   {
-//     title: "Author",
-//     key: "author",
-//     dataIndex: "author",
-//   },
-// ];
-
 function TabData(props) {
-  const [dataPd, setDataPd] = useState([]);
+  const [dataPd, setDataPd] = useState(window.store.products2);
   const [visible, setVisible] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
+  const [itemSelected, setItemSelected] = useState();
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await ProductApi();
-      if (response) {
-        setDataPd(response);
-      }
-    };
-    getData();
-  }, []);
-
-  const handleShowBox = () => {
+  const handleShowBox = (item) => {
     setVisible(true);
+    setItemSelected(item);
   };
 
   const handleOk = () => {};
@@ -85,6 +34,19 @@ function TabData(props) {
   const handleFormSubmit = () => {
     alert("Cap nhat du lieu thanh cong");
     setVisible(false);
+  };
+
+  const handleClickActive = async(id, active) => {
+    const frontend = { _id: id, activated: active ? false : true };
+    setItemSelected(frontend)
+
+    const getData = async () => await pushActive(frontend).then((l) => {
+      console.log(l);
+
+    }).catch((e) => {console.log(e)})
+    await getData();
+   
+    // await pushActive(fontend);
   };
 
   return (
@@ -103,28 +65,6 @@ function TabData(props) {
           onChange={(e) => setSearchProduct(e.target.value)}
         />
       </div>
-      {/* { Array.isArray(dataPd) && dataPd.filter((val) => {
-        if (searchProduct === "") {
-          return val;
-        } else if (
-          val.title.toLowerCase().includes(searchProduct.toLowerCase())
-        ) {
-          return val;
-        }
-      }) && (
-        <Table
-          columns={columns}
-          dataSource={dataPd}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                setUserClicked(record);
-                showModal();
-              },
-            };
-          }}
-        />
-      )} */}
       <div className="table_col">
         <table style={{ width: "100%" }}>
           <tr className="table_col_header">
@@ -158,31 +98,18 @@ function TabData(props) {
                             : "table_col_content_unactivated"
                         }
                         key={index}
-                        onClick={handleShowBox}
+                        onClick={() => handleShowBox(item)}
                       >
                         <td>{item.title}</td>
                         <td>{item.url}</td>
                         <td>{item.description}</td>
                         <td>
                           {String(item.activated) === "true" ? (
-                            <CheckOutlined
-                              style={{
-                                color: "green",
-                                fontSize: "20px",
-                                marginLeft: 20,
-                              }}
-                            />
+                            <CheckOutlined className="icon_active" />
                           ) : (
-                            <CloseOutlined
-                              style={{
-                                color: "red",
-                                fontSize: "20px",
-                                marginLeft: 20,
-                              }}
-                            />
+                            <CloseOutlined className="icon_deactive" />
                           )}
                         </td>
-
                         <td>{item.author}</td>
                       </tr>
                     </>
@@ -193,47 +120,32 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`Thay đổi trạng thái  `}
+            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+              itemSelected.title
+            }`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form
-              {...layout}
-              // initialValues={userClicked}
-              name="control-hooks"
-              onFinish={handleFormSubmit}
-              // form={form}
-            >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <h2>Lý do</h2>
               <TextArea rows={4} />
-
-              <Form.Item
-                name="role"
-                label="Trạng thái"
-                style={{ marginTop: 20 }}
-              >
-                <Select style={{ width: 230 }}>
-                  <Select.Option value="Activated">Activated</Select.Option>
-                  <Select.Option value="UnActivated">UnActivated</Select.Option>
-                </Select>
-              </Form.Item>
-
-              <div
-                style={{
-                  justifyContent: "center",
-                  display: "flex",
-                  alignContent: "center",
-                }}
-              >
-                <Button key="submit" type="primary" htmlType="submit">
-                  Cập nhật
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Cancel
-                </Button>
-              </div>
             </Form>
+            <div className="box_products">
+              <Button
+                key="submit"
+                type={itemSelected.activated ? "ghost" : "primary"}
+                htmlType="submit"
+                onClick={() =>
+                  handleClickActive(itemSelected._id, itemSelected.activated)
+                }
+              >
+                {itemSelected.activated ? "Deactivated" : "Activated"}
+              </Button>
+              <Button type="danger" onClick={ChangeBox}>
+                Cancel
+              </Button>
+            </div>
           </Modal>
         )}
       </div>

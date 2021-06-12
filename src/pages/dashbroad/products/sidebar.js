@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
 import { MenuOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
-
-// import { dataFake } from "../../../services/tree";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -15,50 +12,13 @@ function Products(props) {
   const [searchSidebar, setSearchSidebar] = useState("");
 
   //Call api
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    let res = axios.get("http://localhost:5000/api/root/frontend");
-    res
-      .then((response) => {
-        let r = createCategories(response.data);
-
-        setData(r); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  function createCategories(categories, parentId = null) {
-    const categoryList = [];
-
-    let category;
-    if (parentId != null) {
-      category = categories.filter((cat) => cat.parentId === parentId);
-    } else {
-      category = categories.filter((cat) => cat.parentId === "");
-    }
-
-    for (let cate of category) {
-      categoryList.push({
-        _id: cate._id,
-        title: cate.title,
-        url: cate.url,
-        parentId: cate.parentId,
-        description: cate.description,
-        author: cate.author,
-        activated: cate.activated,
-        subs: createCategories(categories, cate._id),
-      });
-    }
-
-    return categoryList;
-  }
+  const [data, setData] = useState(window.store.products);
 
   //Side bar
   function renderProductList() {
     return (
-      Array.isArray(data) &&
       data
+        // eslint-disable-next-line array-callback-return
         .filter((val) => {
           if (searchSidebar === "") {
             return val;
@@ -84,11 +44,14 @@ function Products(props) {
                   })}
               </SubMenu>
             );
-          return (
-            <Menu.Item key={text.id} path={text.url}>
-              <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
-            </Menu.Item>
-          );
+          if (text.activated === true) {
+            return (
+              <Menu.Item key={text.id} path={text.url}>
+                <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
+              </Menu.Item>
+            );
+          }
+          return null;
         })
     );
   }
@@ -104,14 +67,13 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src="images/male-farmer.svg" className="logo__img" alt="" /> 
+            <img src="images/male-farmer.svg" className="logo__img" alt="" />
             <p style={{ marginTop: 10, fontSize: 18 }}>Hi Hung</p>
           </div>
           <Input
             type="text"
             placeholder="Tìm kiếm"
             prefix={<SearchOutlined style={{ fontSize: "20px" }} />}
-            
             className="search_sidebar"
             value={searchSidebar}
             onChange={(e) => setSearchSidebar(e.target.value)}
