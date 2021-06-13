@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
-import { dataFix } from "../../../services/fixdata";
 import { useParams, useHistory } from "react-router-dom";
 import TabData from "./tabData";
+import { dataFix } from "../../../services/fixdata";
+
 const { TabPane } = Tabs;
 
 function DetailProducts(props) {
@@ -32,51 +33,8 @@ function DetailProducts(props) {
     history.push(`/dashbroad${activeKey}`);
   };
 
-  //Call api
-  // const [dataProduct, setDataProduct] = useState([]);
-
-  // useEffect(() => {
-  //   let res = axios.get("http://localhost:5000/api/root/frontend");
-  //   res
-  //     .then((response) => {
-  //       let r = createCategories(response.data);
-  //       setDataProduct(r);
-  //       // setSelected(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // function createCategories(categories, parentId = null) {
-  //   const categoryList = [];
-
-  //   let category;
-  //   if (parentId != null) {
-  //     category = categories.filter((cat) => cat.parentId === parentId);
-  //   } else {
-  //     category = categories.filter((cat) => cat.parentId === "");
-  //   }
-
-  //   for (let cate of category) {
-  //     categoryList.push({
-  //       _id: cate._id,
-  //       title: cate.title,
-  //       url: cate.url,
-  //       parentId: cate.parentId,
-  //       description: cate.description,
-  //       author: cate.author,
-  //       activated: cate.activated,
-  //       subs: createCategories(categories, cate._id),
-  //     });
-  //   }
-
-  //   return categoryList;
-  // }
-
   function researchItem(id) {
     let result = [];
-
     let item_parent = dataFix.filter((x) => x.url === "/" + id);
     if (item_parent.length === 0) {
       let item = [];
@@ -95,7 +53,7 @@ function DetailProducts(props) {
   }
   return (
     <Layout className="site-layout">
-      {panes.length > 0 ? ( 
+      {panes.length > 0 ? (
         <Tabs
           type="editable-card"
           onChange={onChange}
@@ -113,7 +71,7 @@ function DetailProducts(props) {
               }}
             >
               <div className="content_product">
-                {pane.url === "/tab-data" ? <TabData  /> : null}
+                {pane.url === "/tab-data" ? <TabData /> : null}
                 {pane.description}
               </div>
             </TabPane>

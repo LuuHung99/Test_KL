@@ -11,7 +11,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.products2);
+  const [dataPd] = useState(window.store.products2);
   const [visible, setVisible] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
@@ -37,28 +37,21 @@ function TabData(props) {
   };
 
   const handleClickActive = async (id, active) => {
-    const f = {
-      _id: id,
-      activated: active ? false : true,
-    };
+    // const f = {
+    //   _id: id,
+    //   activated: active ? false : true,
+    // };
 
     const l = {
       funcId: id,
       funcType: "frontend",
-      reason: "AGAGSG",
+      reason: "acb",
       activated: active ? false : true,
-      username: "HUNG",
+      username: "hung",
     };
-
-    async function post() {
-      await pushActive(f);
-    }
-
-    post();
-
-    setTimeout(() => {
-      setVisible(false);
-    }, 300);
+    await putFunc(l);
+    setVisible(false);
+    alert("Thay đổi trạng thái thành công!");
   };
 
   return (
@@ -68,11 +61,7 @@ function TabData(props) {
         <Input
           type="text"
           placeholder="Search ..."
-          style={{
-            width: "20%",
-            border: "none",
-            borderRadius: 5,
-          }}
+          className="searchData"
           value={searchProduct}
           onChange={(e) => setSearchProduct(e.target.value)}
         />

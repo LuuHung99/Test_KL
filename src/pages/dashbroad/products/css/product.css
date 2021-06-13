@@ -85,6 +85,11 @@ button.ant-btn {
  
 }
 
+.logo p {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
 input.ant-input {
   background: #f9f9f9d9;
 }
@@ -144,7 +149,7 @@ label #icon2 {
   background-color: #BDBDBD;
   position: fixed;
   margin-top: 65px;
-  width: 86%;
+  width: 87%;
 }
 
 .content_product {

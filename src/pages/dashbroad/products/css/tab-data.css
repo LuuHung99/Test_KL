@@ -1,7 +1,8 @@
- .table_col {
+.table_col {
    padding-top: 30px;
    position: relative;
  }
+
 .table_col_header {
   background-color: #bbaeaed9;
 }
@@ -30,13 +31,13 @@
 .icon_active {
   color: green;
   font-size: 20px;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .icon_deactive {
   color: red;
   font-size: 20px;
-  margin-left: 20px;
+  margin-left: 10px;
 } 
 
 .box_products {
@@ -45,3 +46,11 @@
   align-content:  center;
   margin-top: 20px;
 }
+
+.searchData {
+  width: 20%;
+  border: none;
+  border-radius: 5px;
+}
+
+ 

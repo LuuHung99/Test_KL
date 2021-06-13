@@ -10,10 +10,8 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-
   //Call api
-  const [data, setData] = useState(window.store.products);
-
+  const [data] = useState(window.store.products);
   //Side bar
   function renderProductList() {
     return (
@@ -57,7 +55,6 @@ function Products(props) {
         })
     );
   }
-
   return (
     <>
       <input type="checkbox" id="check" />
@@ -70,7 +67,7 @@ function Products(props) {
         <Sider className="sidebar_container">
           <div className="logo">
             <img src="images/male-farmer.svg" className="logo__img" alt="" />
-            <p style={{ marginTop: 10, fontSize: 18 }}>Hi Hung</p>
+            <p>Hi Hung</p>
           </div>
           <Input
             type="text"
