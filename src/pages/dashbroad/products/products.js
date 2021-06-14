@@ -3,7 +3,6 @@ import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import TabData from "./tabData";
-import { dataFix } from "../../../services/fixdata";
 
 const { TabPane } = Tabs;
 
@@ -16,7 +15,7 @@ function DetailProducts(props) {
   if (researchItem(id) !== undefined) {
     let check = false;
     panes.forEach((i) => {
-      if (i.url === "/" + id) check = true;
+      if (i.url === id) check = true;
     });
     if (!check) {
       setPanes([...panes, item]);
@@ -30,18 +29,18 @@ function DetailProducts(props) {
   };
 
   const onChange = (activeKey) => {
-    history.push(`/dashbroad${activeKey}`);
+    history.push(`/dashbroad/${activeKey}`);
   };
 
   function researchItem(id) {
     let result = [];
-    let item_parent = dataFix.filter((x) => x.url === "/" + id);
+    const data = window.store.products;
+    let item_parent = data.filter((x) => x.url === id);
     if (item_parent.length === 0) {
       let item = [];
-
-      dataFix.forEach((i) => {
+      data.forEach((i) => {
         if (i.subs.length > 0) {
-          let check = i.subs.filter((x) => x.url === "/" + id);
+          let check = i.subs.filter((x) => x.url === id);
           if (check.length > 0) item = check;
         }
       });
@@ -51,6 +50,7 @@ function DetailProducts(props) {
     }
     return result[0];
   }
+
   return (
     <Layout className="site-layout">
       {panes.length > 0 ? (
@@ -71,7 +71,7 @@ function DetailProducts(props) {
               }}
             >
               <div className="content_product">
-                {pane.url === "/tab-data" ? <TabData /> : null}
+                {pane.url === "tab-data" ? <TabData /> : null}
                 {pane.description}
               </div>
             </TabPane>

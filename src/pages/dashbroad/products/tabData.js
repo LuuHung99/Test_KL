@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, Form, Button, Modal } from "antd";
-import { pushActive, putFunc } from "../../../services/api";
+import {pushActive,  putFunc } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 const { TextArea } = Input;
@@ -36,18 +36,16 @@ function TabData(props) {
     setVisible(false);
   };
 
-  const handleClickActive = async (id, active) => {
+  const handleClickActive = async (id, active ) => {
     // const f = {
     //   _id: id,
     //   activated: active ? false : true,
     // };
-
+   
     const l = {
       funcId: id,
-      funcType: "frontend",
-      reason: "acb",
+      funcType: 'frontend',
       activated: active ? false : true,
-      username: "hung",
     };
     await putFunc(l);
     setVisible(false);
@@ -94,11 +92,11 @@ function TabData(props) {
                 .map((item, index) =>
                   item.description !== "" ? (
                     <>
-                      <hr style={{ width: 0, opacity: 0.6, marginTop: 0 }} />
+                      <div style={{ marginBottom: 10 }}></div>
                       <tbody>
                         <tr
                           className={
-                            String(item.activated) === "true"
+                            item.activated === true
                               ? "table_col_content"
                               : "table_col_content_unactivated"
                           }
@@ -143,7 +141,7 @@ function TabData(props) {
                 type={itemSelected.activated ? "ghost" : "primary"}
                 htmlType="submit"
                 onClick={() =>
-                  handleClickActive(itemSelected._id, itemSelected.activated)
+                  handleClickActive(itemSelected._id, itemSelected.activated )
                 }
               >
                 {itemSelected.activated ? "Deactivated" : "Activated"}
