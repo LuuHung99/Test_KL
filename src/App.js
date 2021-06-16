@@ -3,9 +3,8 @@ import "antd/dist/antd.css";
 import AppRouter from './pages/index';
 import { ProductApi } from './services/api';
 import { createCategories } from './services/middlewares';
-import Test from "./views/test";
+ 
 function App() {
-
   const [data, setData] = useState([])
   window.store = {"products": createCategories(data), "products2": data}
 

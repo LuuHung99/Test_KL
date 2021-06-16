@@ -7,18 +7,17 @@ export const ProductApi = async () => {
   return result;
 };
 
-export const pushActive = async (frontend) => {
+export const pushActive = async () => {
   const url = "http://localhost:5000/api/root/frontend";
-  console.log(frontend);
-  const response = await axios.post(url, frontend);
+  const response = await axios.post(url);
   const result =
     (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
 };
 
-export const putFunc = async () => {
+export const putFunc = async (frontend) => {
   const url = "http://localhost:5000/api/root/funcLog";
-  const response = await axios.put(url);
+  const response = await axios.put(url, {log: frontend});
   const result =
     (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;

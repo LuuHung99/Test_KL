@@ -15,6 +15,7 @@ function TabData(props) {
   const [visible, setVisible] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
+  const  [reason, setReason] = useState("");
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -32,24 +33,25 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Cap nhat du lieu thanh cong");
+    alert("Thay đổi trạng thái thành công!");
     setVisible(false);
   };
 
-  const handleClickActive = async (id, active ) => {
-    // const f = {
-    //   _id: id,
-    //   activated: active ? false : true,
-    // };
-   
-    const l = {
-      funcId: id,
-      funcType: 'frontend',
+  const handleClickActive = async (id, active, author, value) => {
+    const f = {
+      _id: id,
       activated: active ? false : true,
     };
-    await putFunc(l);
-    setVisible(false);
-    alert("Thay đổi trạng thái thành công!");
+   
+    // const l = {
+    //   funcId: id,
+    //   funcType: 'frontend',
+    //   reason: value,
+    //   username: author,
+    //   activated: active ? false : true,
+    // };
+    await pushActive(f);
+    
   };
 
   return (
@@ -133,15 +135,17 @@ function TabData(props) {
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <h2>Lý do</h2>
-              <TextArea rows={4} />
-            </Form>
-            <div className="box_products">
+              <TextArea rows={4} 
+                value={reason}
+                onChange={(e) =>setReason(e.target.value)}
+              />
+              <div className="box_products">
               <Button
                 key="submit"
                 type={itemSelected.activated ? "ghost" : "primary"}
                 htmlType="submit"
                 onClick={() =>
-                  handleClickActive(itemSelected._id, itemSelected.activated )
+                  handleClickActive(itemSelected._id, itemSelected.activated, itemSelected.author, reason )
                 }
               >
                 {itemSelected.activated ? "Deactivated" : "Activated"}
@@ -150,6 +154,7 @@ function TabData(props) {
                 Cancel
               </Button>
             </div>
+            </Form>
           </Modal>
         )}
       </div>
