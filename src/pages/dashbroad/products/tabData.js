@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, Form, Button, Modal } from "antd";
-import {pushActive,  putFunc } from "../../../services/api";
+import { pushActive, putFunc } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 const { TextArea } = Input;
@@ -15,7 +15,7 @@ function TabData(props) {
   const [visible, setVisible] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
-  const  [reason, setReason] = useState("");
+  const [reason, setReason] = useState("");
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -38,20 +38,19 @@ function TabData(props) {
   };
 
   const handleClickActive = async (id, active, author, value) => {
-    const f = {
-      _id: id,
-      activated: active ? false : true,
-    };
-   
-    // const l = {
-    //   funcId: id,
-    //   funcType: 'frontend',
-    //   reason: value,
-    //   username: author,
+    // const f = {
+    //   _id: id,
     //   activated: active ? false : true,
     // };
-    await pushActive(f);
-    
+
+    const l = {
+      funcId: id,
+      funcType: "frontend",
+      reason: value,
+      username: author,
+      activated: active ? false : true,
+    };
+    await putFunc(l);
   };
 
   return (
@@ -135,25 +134,31 @@ function TabData(props) {
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <h2>Lý do</h2>
-              <TextArea rows={4} 
+              <TextArea
+                rows={4}
                 value={reason}
-                onChange={(e) =>setReason(e.target.value)}
+                onChange={(e) => setReason(e.target.value)}
               />
               <div className="box_products">
-              <Button
-                key="submit"
-                type={itemSelected.activated ? "ghost" : "primary"}
-                htmlType="submit"
-                onClick={() =>
-                  handleClickActive(itemSelected._id, itemSelected.activated, itemSelected.author, reason )
-                }
-              >
-                {itemSelected.activated ? "Deactivated" : "Activated"}
-              </Button>
-              <Button type="danger" onClick={ChangeBox}>
-                Cancel
-              </Button>
-            </div>
+                <Button
+                  key="submit"
+                  type={itemSelected.activated ? "ghost" : "primary"}
+                  htmlType="submit"
+                  onClick={() =>
+                    handleClickActive(
+                      itemSelected._id,
+                      itemSelected.activated,
+                      itemSelected.author,
+                      reason
+                    )
+                  }
+                >
+                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
             </Form>
           </Modal>
         )}

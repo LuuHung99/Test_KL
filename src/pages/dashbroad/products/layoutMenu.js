@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/product.css";
 import { Layout } from "antd";
-import FooterPage from "./Footer";
+import FooterPage from "../../../components/Footer";
 import HeaderPage from "./hd";
 const { Content } = Layout;
 

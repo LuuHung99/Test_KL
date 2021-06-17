@@ -12,7 +12,6 @@ const Contact = lazy(() => import("./menu/pages/contact/contact"));
 const Logout = lazy(() => import("./authen/login"));
 
 function AppRouter() {
- 
   return (
     <Router>
       <Suspense
@@ -32,9 +31,6 @@ function AppRouter() {
           <Route path="/dashbroad">
             <Dashbroad />
           </Route>
-          {/* <Route path="/tab-data">
-            <TabData />
-          </Route> */}
           <Route exact path="/home">
             <Home />
           </Route>
@@ -53,7 +49,6 @@ function AppRouter() {
           <Route path="/">
             <Logout />
           </Route>
-          
         </Switch>
       </Suspense>
     </Router>

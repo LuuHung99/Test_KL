@@ -41,11 +41,6 @@ button.ant-btn {
   display: none;
 }
 
-/* .ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap {
-  position: fixed;
-  
-} */
-
 /*Side bar*/
 #sidebar-wrapper {
   /* position: absolute; */
@@ -56,7 +51,6 @@ button.ant-btn {
   position: fixed;
   width: 200px;
 }
-
 
 .sidebar_container {
   background-color: white;
@@ -73,7 +67,6 @@ button.ant-btn {
   margin-bottom: 20px;
   margin-top: 20px;
   line-height: 1;
- 
 }
 
 .logo__img {
@@ -82,7 +75,6 @@ button.ant-btn {
   border: 0.5px solid black;
   border-radius: 999px;
   margin: 0 auto;
- 
 }
 
 .logo p {
@@ -115,7 +107,7 @@ label #icon2 {
   font-size: 22px;
   cursor: pointer;
   color: #1890ff;
-  left:  0px;
+  left: 0px;
   transition: all 0.5s ease;
   top: 42px;
   position: fixed;
@@ -146,7 +138,7 @@ label #icon2 {
   margin-left: 200px;
   transition: all 0.5s ease;
   padding-top: 20px;
-  background-color: #BDBDBD;
+  background-color: #bdbdbd;
   position: fixed;
   margin-top: 65px;
   width: 87%;
@@ -158,7 +150,6 @@ label #icon2 {
   height: 81vh;
   width: auto;
   padding: 30px;
- 
 }
 
 .tab_data {
@@ -171,9 +162,8 @@ label #icon2 {
 }
 
 .link_tab:hover {
-   color: blue
+  color: blue;
 }
-
 
 /*Search sidebar */
 .search_sidebar {
@@ -186,5 +176,3 @@ label #icon2 {
   height: auto;
   margin-top: 70px;
 }
- 
- 

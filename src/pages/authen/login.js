@@ -14,7 +14,6 @@ const tailLayout = {
 };
 
 function Login(props) {
-
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -23,80 +22,86 @@ function Login(props) {
     console.log("Failed:", errorInfo);
   };
 
-
   return (
-    <LayoutPage >
+    <LayoutPage>
       <React.Fragment>
-      <div className="authen-container">
-        <Form
-          {...layout}
-          name="basic"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          // onClick={onSubmit}
-        >
-          <img src="images/logo2.png" alt="" className="login-logo" />
-
-          <h1>Đăng nhập</h1>
-          <Form.Item
-            className="input_info"
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Email không được để trống!",
-              },
-            ]}
+        <div className="authen-container">
+          <Form
+            {...layout}
+            name="basic"
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            // onClick={onSubmit}
           >
-            <Input />
-          </Form.Item>
+            <img src="images/logo2.png" alt="" className="login-logo" />
 
-          <Form.Item
-          className="input_info"
-            label="Mật khẩu"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Mật khẩu không được để trống!",
-              },
-              // ({ getFieldValue }) => ({
-              //   validator(_, value) {
-              //     // if (!value || getFieldValue("password") === value) {
-              //     //   return Promise.resolve();
-              //     // }
-              //     if (!value || getFieldValue("password") === value) {
-              //       return Promise.resolve();
-              //     }
-              //     return Promise.reject("Mật khẩu không khớp!");
-              //   },
-              // }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+            <h1>Đăng nhập</h1>
+            <Form.Item
+              className="input_info"
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Email không được để trống!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-          <br />
-          <Form.Item {...tailLayout}>
-            <Button htmlType="submit" type="primary" className="button_authen"  >
-              <Link to="dashbroad" >Đăng nhập</Link>
-            </Button>
-          </Form.Item>
+            <Form.Item
+              className="input_info"
+              label="Mật khẩu"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Mật khẩu không được để trống!",
+                },
+                // ({ getFieldValue }) => ({
+                //   validator(_, value) {
+                //     // if (!value || getFieldValue("password") === value) {
+                //     //   return Promise.resolve();
+                //     // }
+                //     if (!value || getFieldValue("password") === value) {
+                //       return Promise.resolve();
+                //     }
+                //     return Promise.reject("Mật khẩu không khớp!");
+                //   },
+                // }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
 
-          <p style={{ textAlign: "center" }}>
-            Bạn chưa có tài khoản? <Link to="register" style={{color: "blue", fontWeight: 'bold'}}>Đăng ký</Link>
-          </p>
-          <div className="social-network-wrapper">
-            <img src="images/facebook.png" alt="" className="logo-img" />
-            <img src="images/google.png" alt="" className="logo-img" />
-            <img src="images/phone.png" alt="" className="logo-img" />
-          </div>
-        </Form>
-      </div>
+            <br />
+            <Form.Item {...tailLayout}>
+              <Button
+                htmlType="submit"
+                type="primary"
+                className="button_authen"
+              >
+                <Link to="dashbroad">Đăng nhập</Link>
+              </Button>
+            </Form.Item>
+
+            <p style={{ textAlign: "center" }}>
+              Bạn chưa có tài khoản?{" "}
+              <Link to="register" style={{ color: "blue", fontWeight: "bold" }}>
+                Đăng ký
+              </Link>
+            </p>
+            <div className="social-network-wrapper">
+              <img src="images/facebook.png" alt="" className="logo-img" />
+              <img src="images/google.png" alt="" className="logo-img" />
+              <img src="images/phone.png" alt="" className="logo-img" />
+            </div>
+          </Form>
+        </div>
       </React.Fragment>
     </LayoutPage>
   );

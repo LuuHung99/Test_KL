@@ -39,7 +39,6 @@ function Register(props) {
   };
 
   return (
- 
     <LayoutPage>
       {isSuccess ? (
         <Redirect to="/" />
@@ -142,20 +141,25 @@ function Register(props) {
               <Input />
             </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button htmlType="submit" type="primary" className="button_authen">
+              <Button
+                htmlType="submit"
+                type="primary"
+                className="button_authen"
+              >
                 Hoàn tất
               </Button>
             </Form.Item>
             <p style={{ textAlign: "center" }}>
-              Bạn đã có tài khoản? <Link to="/" style={{color: "blue", fontWeight: 'bold'}}>Đăng nhập</Link>
+              Bạn đã có tài khoản?{" "}
+              <Link to="/" style={{ color: "blue", fontWeight: "bold" }}>
+                Đăng nhập
+              </Link>
             </p>
           </Form>
         </div>
       )}
     </LayoutPage>
-    
   );
-  
 }
 
 export default Register;
