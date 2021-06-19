@@ -12,10 +12,11 @@ function Products(props) {
   const [searchSidebar, setSearchSidebar] = useState("");
   //Call api
   const [data] = useState(window.store.products);
+  console.log(data);
   //Side bar
   function renderProductList() {
     return (
-      data
+      data  
         // eslint-disable-next-line array-callback-return
         .filter((val) => {
           if (searchSidebar === "") {
@@ -30,7 +31,7 @@ function Products(props) {
           if (text.subs.length > 0)
             return (
               <SubMenu key={text.id} title={text.title}>
-                {Array.isArray(text.subs) &&
+                {
                   text.subs.map((item) => {
                     if (item.activated === true)
                       return (

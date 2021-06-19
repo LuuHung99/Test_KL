@@ -10,13 +10,13 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-function TabData(props) {
+function TabResource(props) {
   const [dataPd] = useState(window.store.products2);
   const [visible, setVisible] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
-  const [dataUpdate, setDataUpate] = useState(window.store.products)
+
   const handleShowBox = (item) => {
     setVisible(true);
     setItemSelected(item);
@@ -37,7 +37,7 @@ function TabData(props) {
     setVisible(false);
   };
 
-  const handleClickActive = async (id, active, author, value,) => {
+  const handleClickActive = async (id, active, author, value) => {
     // const f = {
     //   _id: id,
     //   activated: active ? false : true,
@@ -51,7 +51,6 @@ function TabData(props) {
       activated: active ? false : true,
     };
     await putFunc(l);
-    setDataUpate(active);
   };
 
   return (
@@ -150,8 +149,7 @@ function TabData(props) {
                       itemSelected._id,
                       itemSelected.activated,
                       itemSelected.author,
-                      reason,
-                      dataUpdate
+                      reason
                     )
                   }
                 >
@@ -169,4 +167,4 @@ function TabData(props) {
   );
 }
 
-export default TabData;
+export default TabResource;

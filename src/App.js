@@ -6,7 +6,11 @@ import { createCategories } from "./services/middlewares";
 
 function App() {
   const [data, setData] = useState([]);
-  window.store = { products: createCategories(data), products2: data };
+
+  window.store = { 
+    products: createCategories(data), 
+    products2: data, 
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -17,6 +21,7 @@ function App() {
     };
     getData();
   }, []);
+
   return (
     <div>
       <AppRouter />
