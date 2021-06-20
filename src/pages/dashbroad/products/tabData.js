@@ -57,7 +57,7 @@ function TabData(props) {
   return (
     <div className="container_tabdata">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1 style={{ color: "green" }}>Bảng chức năng</h1>
+        <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
         <Input
           type="text"
           placeholder="Search ..."
@@ -95,14 +95,13 @@ function TabData(props) {
                   item.description !== "" ? (
                     <>
                       <div style={{ marginBottom: 10 }}></div>
-                      <tbody>
+                      <tbody key={index}>
                         <tr
                           className={
                             item.activated === true
                               ? "table_col_content"
                               : "table_col_content_unactivated"
                           }
-                          key={index}
                           onClick={() => handleShowBox(item)}
                         >
                           <td>{item.title}</td>

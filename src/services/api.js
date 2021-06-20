@@ -22,3 +22,24 @@ export const putFunc = async (tab) => {
     (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
 };
+
+export const UserApi = async () => {
+  const url = "http://localhost:5000/api/root/user";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+}
+
+export const RoleApi = async () => {
+  const url = "http://localhost:5000/api/root/role";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+}
+
+export const ResourceApi = async () => {
+  const url = "http://localhost:5000/api/root/backend";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+}

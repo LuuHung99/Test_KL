@@ -12,7 +12,6 @@ function Products(props) {
   const [searchSidebar, setSearchSidebar] = useState("");
   //Call api
   const [data] = useState(window.store.products);
-  console.log(data);
   //Side bar
   function renderProductList() {
     return (
