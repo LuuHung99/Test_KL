@@ -1,16 +1,49 @@
 import React, { useState } from "react";
-import { Input } from "antd";
+import { Input, Select, Form, Modal, Button } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
 function TabData(props) {
   const [dataPd] = useState(window.store.datauser);
   const [searchProduct, setSearchProduct] = useState("");
 
+  const [visible, setVisible] = useState(false);
+
+  const handleShowBox = () => {
+    setVisible(true);
+  };
+
+  const handleOk = () => {};
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const ChangeBox = () => {
+    setVisible(false);
+  };
+
+  const handleFormSubmit = () => {
+    alert("Thay đổi trạng thái thành công!");
+    setVisible(false);
+  };
+
   return (
     <div style={{ maxWidth: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h1 style={{ color: "green" }}>Bảng chức năng User</h1>
+        <Button
+          type="primary"
+          style={{ fontSize: 12, marginLeft: -570 }}
+          onClick={handleShowBox}
+        >
+          Add
+        </Button>
         <Input
           type="text"
           placeholder="Search ..."
@@ -49,7 +82,7 @@ function TabData(props) {
                     <tbody>
                       <tr
                         style={{
-                          backgroundColor: "#F0F8FF",
+                          backgroundColor: "#e8ebef",
                           textAlign: "center",
                         }}
                         key={index}
@@ -57,7 +90,7 @@ function TabData(props) {
                         <td
                           style={{
                             display: "grid",
-                            marginLeft: 30
+                            marginLeft: 30,
                           }}
                         >
                           <table cellpadding="10">
@@ -94,6 +127,43 @@ function TabData(props) {
                 ))
             : null}
         </table>
+        {visible && (
+          <Modal
+            visible={visible}
+            title="Add new role"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="roles" label="Roles">
+                <Input placeholder="Title" style={{marginBottom: 10}} />
+                <Input placeholder="Description" />
+              </Form.Item>
+              <Form.Item name="username" label="Username">
+                <Input />
+              </Form.Item>
+              <Form.Item name="fullname" label="Fullname">
+                <Input />
+              </Form.Item>
+              <Form.Item name="activated" label="Activated">
+                <Select>
+                  <Select.Option value="true">True</Select.Option>
+                  <Select.Option value="false">False</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <div className="box_products">
+                <Button key="submit" type="primary" htmlType="submit">
+                  Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal } from "antd";
+import { Input, Form, Button, Modal, Select } from "antd";
 import { pushActive, putFunc } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
@@ -13,31 +13,39 @@ const layout = {
 function TabData(props) {
   const [dataPd] = useState(window.store.products2);
   const [visible, setVisible] = useState(false);
+  const [model, setModel] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
-  const [dataUpdate, setDataUpate] = useState(window.store.products)
+  const [dataUpdate, setDataUpate] = useState(window.store.products);
   const handleShowBox = (item) => {
     setVisible(true);
     setItemSelected(item);
+  };
+
+  const handleShowModel = () => {
+    setModel(true);
   };
 
   const handleOk = () => {};
 
   const handleCancel = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const ChangeBox = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const handleFormSubmit = () => {
     alert("Thay đổi trạng thái thành công!");
     setVisible(false);
+    setModel(false);
   };
 
-  const handleClickActive = async (id, active, author, value,) => {
+  const handleClickActive = async (id, active, author, value) => {
     // const f = {
     //   _id: id,
     //   activated: active ? false : true,
@@ -58,6 +66,13 @@ function TabData(props) {
     <div className="container_tabdata">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
+        <Button
+          type="primary"
+          style={{ fontSize: 12, marginLeft: -500 }}
+          onClick={handleShowModel}
+        >
+          Add
+        </Button>
         <Input
           type="text"
           placeholder="Search ..."
@@ -155,6 +170,46 @@ function TabData(props) {
                   }
                 >
                   {itemSelected.activated ? "Deactivated" : "Activated"}
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {model && (
+          <Modal
+            visible={model}
+            title="Add new frontend"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="title" label="Title">
+                <Input />
+              </Form.Item>
+              <Form.Item name="url" label="Url">
+                <Input />
+              </Form.Item>
+              <Form.Item name="description" label="Description">
+                <Input />
+              </Form.Item>
+              <Form.Item name="activated" label="Activated">
+                <Select>
+                  <Select.Option value="true">True</Select.Option>
+                  <Select.Option value="false">False</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="author" label="Author">
+                <Input />
+              </Form.Item>
+
+              <div className="box_products">
+                <Button key="submit" type="primary" htmlType="submit">
+                  Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

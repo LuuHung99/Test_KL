@@ -48,4 +48,15 @@
   border-radius: 5px;
 }
 
+/*Role*/ 
+.title_role {
+  padding-bottom: 20px;
+  padding-left: 30px;
+  cursor: pointer;
+}
+
+.title_role:hover {
+  color: green
+}
+
  
