@@ -62,6 +62,17 @@ function App() {
     getData();
   }, []);
 
+  //??????mày làm con mẹ gì ở đây
+  //call api
+  //hút cần à
+  //Truyền data như mấy thằng kia còn gì
+  //gọi Effect thôi mà gọi gì mà lắm thế chơi đồ vừathoio
+  //T gộp rồi nó lỗi nên viết tách ra mới được
+  //Ngáo cần
+  //đổi tên hàm là được
+  //mày đặt trùng tên nó trả vả choices
+  //T đổi rồi không được nên mới viết tách nó ra chức
+  //chịu mày rồi
   return (
     <div>
       <AppRouter />

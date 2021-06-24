@@ -73,8 +73,8 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <div className="content_product" key={index}>
-                {pane.url === "tab-data" ? <TabData /> : null}
+              <div className="content_product" >
+                {pane.url === "front-end" ? <TabData /> : null}
                 {pane.description}
                 {pane.url === "role" ? <Role /> : null}
                 {pane.url === "user" ? <User /> : null}

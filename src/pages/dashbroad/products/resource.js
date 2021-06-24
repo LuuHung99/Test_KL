@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
+import {GetResourceApi} from "../../../services/api";
+
+const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 8 },
@@ -12,24 +15,55 @@ function TabData(props) {
   const [dataPd] = useState(window.store.dataresource);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
+  const [model, setModel] = useState(false);
+  const [reason, setReason] = useState("");
+  const [itemSelected, setItemSelected] = useState();
+  const [title, setTitle] = useState("");
+  const [path, setPath] = useState("");
+  const [http, setHTTP] = useState("");
+  const [description, setDescription] = useState("");
+  const [active, setActive] = useState("");
   
-  const handleShowBox = () => {
+  const handleShowBox = (item) => {
     setVisible(true);
+    setItemSelected(item);
+  };
+
+  const handleShowModel = () => {
+    setModel(true);
   };
 
   const handleOk = () => {};
 
   const handleCancel = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const ChangeBox = () => {
+    setModel(false);
     setVisible(false);
   };
 
   const handleFormSubmit = () => {
     alert("Thay đổi trạng thái thành công!");
+    setModel(false);
     setVisible(false);
+  };
+
+  const handleClickActive = async (id, active, value) => {
+    const l = {
+      funcId: id,
+      funcType: "backend",
+      reason: value,
+      username: "Root admin",
+      activated: active ? false : true,
+    };
+    await GetResourceApi(l);
+    setReason("");
+    // const newData = await ProductApi();
+    // window.store["products"] = newData;
+    // setDataPd(newData);
   };
 
   return (
@@ -39,7 +73,7 @@ function TabData(props) {
         <Button
           type="primary"
           style={{ fontSize: 12, marginLeft: -500 }}
-          onClick={handleShowBox}
+          onClick={handleShowModel}
         >
           Add
         </Button>
@@ -87,7 +121,7 @@ function TabData(props) {
                               ? "table_col_content"
                               : "table_col_content_unactivated"
                           }
-                         
+                          onClick={() => handleShowBox(item)}
                           key={index}
                         >
                           <td>{item.title}</td>
@@ -110,7 +144,47 @@ function TabData(props) {
         </table>
         {visible && (
           <Modal
-          visible={visible}
+            visible={visible}
+            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+              itemSelected.title
+            }`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <h2>Lý do</h2>
+              <TextArea
+                rows={4}
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type={itemSelected.activated ? "ghost" : "primary"}
+                  htmlType="submit"
+                  onClick={() =>
+                    handleClickActive(
+                      itemSelected._id,
+                      itemSelected.activated,
+                      itemSelected.author,
+                      reason
+                    )
+                  }
+                >
+                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+        {model && (
+          <Modal
+          visible={model}
           title="Add new role"
           onOk={handleOk}
           onCancel={handleCancel}

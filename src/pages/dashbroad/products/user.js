@@ -29,7 +29,7 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Thay đổi trạng thái thành công!");
+    alert("Thêm mới thành công user");
     setVisible(false);
   };
 

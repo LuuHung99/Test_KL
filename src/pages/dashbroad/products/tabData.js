@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
-import { pushActive, putFunc } from "../../../services/api";
+import { putFunc, pushActive, ProductApi } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
+
 const { TextArea } = Input;
 
 const layout = {
@@ -11,13 +12,18 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd] = useState(window.store.products2);
+  const [dataPd, setDataPd] = useState(window.store.products2); //có hiểu gì k đấy. Cập nhật lại state này á,cập nhật lại cái store.ptoduct2
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
-  const [dataUpdate, setDataUpate] = useState(window.store.products);
+  const [value, setValue] = useState("");
+  const [value1, setValue1] = useState("");
+  const [value2, setValue2] = useState("");
+  const [value3, setValue3] = useState("");
+  const [value4, setValue4] = useState("");
+
   const handleShowBox = (item) => {
     setVisible(true);
     setItemSelected(item);
@@ -40,17 +46,29 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Thay đổi trạng thái thành công!");
+    alert("Thêm chức năng thành công");
     setVisible(false);
     setModel(false);
   };
 
-  const handleClickActive = async (id, active, author, value) => {
-    // const f = {
-    //   _id: id,
-    //   activated: active ? false : true,
-    // };
+  const handleAddInfor = async (value, value1, value2, value3, value4) => {
+    const f = {
+      title: value,
+      url: value1,
+      description: value2,
+      activated: true,
+      author: value4,
+      parentId: "",
+    };
+    await pushActive(f);
+    const newData = await ProductApi();
+    window.store["products2"] = newData;
+    setDataPd(newData); 
+    //giờ mày cần làm 2 việc, post or put thì sau đó phải get lại ngay rồi cậ nhật global state
+    
+  };
 
+  const handleClickActive = async (id, active, author, value) => {
     const l = {
       funcId: id,
       funcType: "frontend",
@@ -59,7 +77,10 @@ function TabData(props) {
       activated: active ? false : true,
     };
     await putFunc(l);
-    setDataUpate(active);
+    setReason("");
+    const newData = await ProductApi();
+    window.store["products"] = newData;
+    setDataPd(newData);
   };
 
   return (
@@ -164,8 +185,7 @@ function TabData(props) {
                       itemSelected._id,
                       itemSelected.activated,
                       itemSelected.author,
-                      reason,
-                      dataUpdate
+                      reason
                     )
                   }
                 >
@@ -189,13 +209,22 @@ function TabData(props) {
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <Form.Item name="title" label="Title">
-                <Input />
+                <Input
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input />
+                <Input
+                  value={value1}
+                  onChange={(e) => setValue1(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input />
+                <Input
+                  value={value2}
+                  onChange={(e) => setValue2(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="activated" label="Activated">
                 <Select>
@@ -204,11 +233,21 @@ function TabData(props) {
                 </Select>
               </Form.Item>
               <Form.Item name="author" label="Author">
-                <Input />
+                <Input
+                  value={value4}
+                  onChange={(e) => setValue4(e.target.value)}
+                />
               </Form.Item>
 
               <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() =>
+                    handleAddInfor(value, value1, value2, value3, value4)
+                  }
+                >
                   Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>

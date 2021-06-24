@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
 import { MenuOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
@@ -10,28 +10,25 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  //Call api
   const [data] = useState(window.store.products);
-  //Side bar
+
   function renderProductList() {
-    return (
-      data  
-        // eslint-disable-next-line array-callback-return
-        .filter((val) => {
-          if (searchSidebar === "") {
-            return val;
-          } else if (
-            val.title.toLowerCase().includes(searchSidebar.toLowerCase())
-          ) {
-            return val;
-          }
-        })
-        .map((text) => {
-          if (text.subs.length > 0)
-            return (
-              <SubMenu key={text.id} title={text.title}>
-                {
-                  text.subs.map((item) => {
+    return data
+      ? data
+          .filter((val) => {
+            if (searchSidebar === "") {
+              return val;
+            } else if (
+              val.title.toLowerCase().includes(searchSidebar.toLowerCase())
+            ) {
+              return val;
+            }
+          })
+          .map((text) => {
+            if (text.subs.length > 0)
+              return (
+                <SubMenu key={text.id} title={text.title}>
+                  {text.subs.map((item) => {
                     if (item.activated === true)
                       return (
                         <Menu.Item key={item.id} path={item.url}>
@@ -42,18 +39,18 @@ function Products(props) {
                       );
                     return null;
                   })}
-              </SubMenu>
-            );
-          if (text.activated === true) {
-            return (
-              <Menu.Item key={text.id} path={text.url}>
-                <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
-              </Menu.Item>
-            );
-          }
-          return null;
-        })
-    );
+                </SubMenu>
+              );
+            if (text.activated === true) {
+              return (
+                <Menu.Item key={text.id} path={text.url}>
+                  <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
+                </Menu.Item>
+              );
+            }
+            return null;
+          })
+      : null;
   }
   return (
     <>

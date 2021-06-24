@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Input,
-  Modal,
-  Form,
-  Select,
-  Tooltip,
-} from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Input, Modal, Form, Select, Tooltip } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 
@@ -17,8 +10,12 @@ const layout = {
 
 function TabData(props) {
   const [dataPd] = useState(window.store.datarole);
+  const [dataFe] = useState(window.store.products2);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
+
+  const [dataBackend, setDataBackend] = useState();
+  const [dataFrontend, setDataFrontend] = useState();
 
   const handleShowBox = () => {
     setVisible(true);
@@ -35,9 +32,33 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Thay đổi trạng thái thành công!");
+    alert("Tạo mới thành công quyền truy cập");
     setVisible(false);
   };
+
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+
+  useEffect(() => {
+    if (dataPd) {
+      const getData = dataPd.map((item) => item.backends);
+      const newList = getData[0].map((e) => {
+        return { ...e, value: e.title };
+      });
+      setDataBackend(newList);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataFe) {
+      const getDataFe = dataFe.map((item) => {
+        return { value: item.title };
+      });
+
+      setDataFrontend(getDataFe);
+    }
+  }, []);
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -69,14 +90,16 @@ function TabData(props) {
               <th style={{ paddingLeft: 70 }}>Backend</th>
             </tr>
           </thead>
-          {dataPd.length > 0
+          {dataPd
             ? dataPd.map((item, index) => (
+              item.title !== "root" ?
                 <>
                   <div style={{ marginBottom: 10 }}></div>
                   <tbody>
                     <tr
                       style={{ backgroundColor: "#e8ebef", width: "100%" }}
                       key={index}
+                      className="tab_role"
                     >
                       <td style={{ textAlign: "center" }}>{item.title}</td>
                       <td style={{ textAlign: "center" }}>
@@ -91,8 +114,8 @@ function TabData(props) {
                       </td>
                       <td>
                         <>
-                          {item.backends.length > 0
-                            ? item.backends
+                          {dataFe
+                            ? dataFe
                                 .filter((val) => {
                                   if (searchProduct === "") {
                                     return val;
@@ -104,21 +127,29 @@ function TabData(props) {
                                     return val;
                                   }
                                 })
-                                .map((item) => (
-                                  <tr>
-                                    <Tooltip placement="top" title={item.description}>
-                                      <td className="title_role"  >
-                                        {item.title}
-                                      </td>
-                                    </Tooltip>
-                                  </tr>
-                                ))
+                                .map((item) =>
+                                  item.description !== "" ? (
+                                    <tr>
+                                      <Tooltip
+                                        placement="top"
+                                        title={item.description}
+                                      >
+                                        <td
+                                          className="title_role"
+                                          style={{ paddingLeft: 70 }}
+                                        >
+                                          {item.title}
+                                        </td>
+                                      </Tooltip>
+                                    </tr>
+                                  ) : null
+                                )
                             : null}
                         </>
                       </td>
                       <td>
                         <>
-                          {item.backends.length > 0
+                          {item.backends
                             ? item.backends
                                 .filter((val) => {
                                   if (searchProduct === "") {
@@ -133,8 +164,11 @@ function TabData(props) {
                                 })
                                 .map((item) => (
                                   <tr>
-                                    <Tooltip placement="top" title={item.description}>
-                                      <td className="title_role"  >
+                                    <Tooltip
+                                      placement="top"
+                                      title={item.description}
+                                    >
+                                      <td className="title_role">
                                         {item.title}
                                       </td>
                                     </Tooltip>
@@ -146,7 +180,7 @@ function TabData(props) {
                     </tr>
                   </tbody>
                 </>
-              ))
+              : null))
             : null}
         </table>
         {visible && (
@@ -172,13 +206,23 @@ function TabData(props) {
               </Form.Item>
 
               <Form.Item name="frontend" label="Frontend">
-                <Input placeholder="Title" style={{ marginBottom: 10 }} />
-                <Input placeholder="Description" />
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  placeholder="Tag frontend"
+                  onChange={handleChange}
+                  options={dataFrontend}
+                ></Select>
               </Form.Item>
 
               <Form.Item name="backend" label="Backend">
-                <Input placeholder="Title" style={{ marginBottom: 10 }} />
-                <Input placeholder="Description" />
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  placeholder="Tag frontend"
+                  onChange={handleChange}
+                  options={dataBackend}
+                ></Select>
               </Form.Item>
 
               <div className="box_products">

@@ -50,6 +50,7 @@
     color: white;
     font-size: 22px;
     z-index: 1;
+    transition: all 0.5s ease;
   }
 
   a { 
@@ -59,6 +60,7 @@
   #menu {
     list-style-type: none;
     padding: 0;
+    transition: all 0.5s ease;
   }
 
   #menu li:hover {
