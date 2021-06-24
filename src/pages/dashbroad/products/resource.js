@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
-import {GetResourceApi} from "../../../services/api";
+import {GetResourceApi, ResourceApi, pushActiveBackend} from "../../../services/api";
 
 const { TextArea } = Input;
 
@@ -12,7 +12,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd] = useState(window.store.dataresource);
+  const [dataPd, setDataPd] = useState(window.store.dataresource);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
@@ -51,7 +51,7 @@ function TabData(props) {
     setVisible(false);
   };
 
-  const handleClickActive = async (id, active, value) => {
+  const handleClickActive = async (id, active, value ) => {
     const l = {
       funcId: id,
       funcType: "backend",
@@ -61,9 +61,24 @@ function TabData(props) {
     };
     await GetResourceApi(l);
     setReason("");
-    // const newData = await ProductApi();
-    // window.store["products"] = newData;
-    // setDataPd(newData);
+    const newData = await ResourceApi();
+    window.store["dataresource"] = newData;
+    setDataPd(newData);
+  };
+
+  const handleAddInfor = async (title, http, description, active, path) => {
+    const f = {
+      title: title,
+      description: description,
+      activated: true,
+      httpVerb: "GET",
+      locationPath: path
+    };
+    await pushActiveBackend(f);
+    const newData = await ResourceApi();
+    window.store["dataresource"] = newData;
+    setDataPd(newData); 
+    
   };
 
   return (
@@ -168,7 +183,6 @@ function TabData(props) {
                     handleClickActive(
                       itemSelected._id,
                       itemSelected.activated,
-                      itemSelected.author,
                       reason
                     )
                   }
@@ -192,13 +206,13 @@ function TabData(props) {
         >
           <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
             <Form.Item name="title" label="Title">
-              <Input />
+              <Input value= {title} onChange={(e) => setTitle(e.target.value)} />
             </Form.Item>
             <Form.Item name="path" label="LocationPath">
-              <Input  />
+              <Input value={path} onChange={(e) => setPath(e.target.value)}/>
             </Form.Item>
             <Form.Item name="http" label="HttpVerb">
-              <Select>
+              <Select value={http}  >
                 <Select.Option value="get">GET</Select.Option>
                 <Select.Option value="put">PUT</Select.Option>
                 <Select.Option value="post">POST</Select.Option>
@@ -206,18 +220,25 @@ function TabData(props) {
             </Form.Item>
 
             <Form.Item name="description" label="Description">
-              <Input />
+              <Input value={description} onChange={(e) => setDescription(e.target.value)} />
             </Form.Item>
 
             <Form.Item name="activated" label="Activated">
-                <Select>
+                <Select value={active} >
                   <Select.Option value="true">True</Select.Option>
                   <Select.Option value="false">False</Select.Option>
                 </Select>
               </Form.Item>
              
             <div className="box_products">
-              <Button key="submit" type="primary" htmlType="submit">
+              <Button 
+                key="submit" 
+                type="primary" 
+                htmlType="submit"
+                onClick={() =>
+                  handleAddInfor(title, http, description, active, path)
+                }
+              >
                 Add
               </Button>
               <Button type="danger" onClick={ChangeBox}>

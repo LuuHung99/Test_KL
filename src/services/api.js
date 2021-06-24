@@ -7,9 +7,16 @@ export const ProductApi = async () => {
   return result;
 };
 
-export const pushActive = async (tab) => {
+export const pushActiveFrontend= async (tab) => {
   const url = "http://localhost:5000/api/root/tab";
   const response = await axios.put(url, {tab});
+  const result = (await response.status) === 200 ? await response.data : {};
+  return result;
+};
+
+export const pushActiveBackend= async (backend) => {
+  const url = "http://localhost:5000/api/root/backend";
+  const response = await axios.put(url, {backend});
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -44,8 +51,8 @@ export const ResourceApi = async () => {
 };
 
 export const GetResourceApi = async (backend) => {
-  const url = "http://localhost:5000/api/root/backend";
+  const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, {log: backend });
-  const result = (await response.status) === 200 ? await response.data : [];
+  const result = (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
 }

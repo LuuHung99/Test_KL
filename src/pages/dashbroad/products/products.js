@@ -74,7 +74,7 @@ function DetailProducts(props) {
               }}
             >
               <div className="content_product" >
-                {pane.url === "front-end" ? <TabData /> : null}
+                {pane.url === "tab" ? <TabData /> : null}
                 {pane.description}
                 {pane.url === "role" ? <Role /> : null}
                 {pane.url === "user" ? <User /> : null}

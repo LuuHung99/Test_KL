@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
-import { putFunc, pushActive, ProductApi } from "../../../services/api";
+import { putFunc, pushActiveFrontend, ProductApi } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 
@@ -12,7 +12,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.products2); //có hiểu gì k đấy. Cập nhật lại state này á,cập nhật lại cái store.ptoduct2
+  const [dataPd, setDataPd] = useState(window.store.products2);  
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
@@ -60,11 +60,10 @@ function TabData(props) {
       author: value4,
       parentId: "",
     };
-    await pushActive(f);
+    await pushActiveFrontend(f);
     const newData = await ProductApi();
     window.store["products2"] = newData;
     setDataPd(newData); 
-    //giờ mày cần làm 2 việc, post or put thì sau đó phải get lại ngay rồi cậ nhật global state
     
   };
 
