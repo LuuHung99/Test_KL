@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
-import { putFunc, pushActiveFrontend, ProductApi } from "../../../services/api";
+import { FrontendToFuncLog, pushActiveFrontend, ProductApi } from "../../../services/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
 
@@ -75,7 +75,7 @@ function TabData(props) {
       username: author,
       activated: active ? false : true,
     };
-    await putFunc(l);
+    await FrontendToFuncLog(l);
     setReason("");
     const newData = await ProductApi();
     window.store["products"] = newData;
@@ -88,7 +88,7 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -500 }}
+          style={{ fontSize: 12, marginLeft: -550 }}
           onClick={handleShowModel}
         >
           Add

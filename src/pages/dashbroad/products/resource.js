@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
-import {GetResourceApi, ResourceApi, pushActiveBackend} from "../../../services/api";
+import {BackendToFuncLog, ResourceApi, pushActiveBackend} from "../../../services/api";
 
 const { TextArea } = Input;
 
@@ -59,7 +59,7 @@ function TabData(props) {
       username: "Root admin",
       activated: active ? false : true,
     };
-    await GetResourceApi(l);
+    await BackendToFuncLog(l);
     setReason("");
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
@@ -87,7 +87,7 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Bảng chức năng Backend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -500 }}
+          style={{ fontSize: 12, marginLeft: -550 }}
           onClick={handleShowModel}
         >
           Add

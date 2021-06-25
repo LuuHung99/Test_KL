@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import AppRouter from "./pages/index";
-import { ProductApi, UserApi, RoleApi, ResourceApi } from "./services/api";
 import { createCategories } from "./services/middlewares";
 
 function App() {
@@ -9,70 +8,96 @@ function App() {
   const [dataUser, setDataUser] = useState([]);
   const [dataRole, setDataRole] = useState([]);
   const [dataResource, setDataResource] = useState([]);
+  const [dataActivatedFe, setDataActivatedFe] = useState([]);
+  const [dataActivatedBe, setDataActivatedBe] = useState([]);
+  const [dataActivatedRole, setDataActivatedRole] = useState([]);
 
   window.store = {
     products: createCategories(data),
     products2: data,
     datauser: dataUser,
     datarole: dataRole,
-    dataresource: dataResource
+    dataresource: dataResource,
+    activatedFe: dataActivatedFe,
+    activatedBe: dataActivatedBe,
+    activatedRole: dataActivatedRole,
   };
 
   useEffect(() => {
-    const getData = async () => {
-      const dataFake = await ProductApi();
+    let ProductApi = "http://localhost:5000/api/root/tab";
+    let UserApi = "http://localhost:5000/api/root/user";
+    let RoleApi = "http://localhost:5000/api/root/role";
+    let ResourceApi = "http://localhost:5000/api/root/backend";
+    let ActivatedFrontend = "http://localhost:5000/api/root/tab/activated";
+    let ActivatedBackend = "http://localhost:5000/api/root/backend/activated";
+    let ActivatedRole = "http://localhost:5000/api/root/role/activated";
 
-      if (dataFake) {
-        setData(dataFake);
-      }
-    };
-    getData();
+    const dataProduct = new Promise((resolve, reject) => {
+      resolve(fetch(ProductApi));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const datauser = new Promise((resolve, reject) => {
+      resolve(fetch(UserApi));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const datarole = new Promise((resolve, reject) => {
+      resolve(fetch(RoleApi));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const dataresource = new Promise((resolve, reject) => {
+      resolve(fetch(ResourceApi));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const dataActivatedFront = new Promise((resolve, reject) => {
+      resolve(fetch(ActivatedFrontend));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const dataActivatedBack = new Promise((resolve, reject) => {
+      resolve(fetch(ActivatedBackend));
+    }).then((data) => {
+      return data.json();
+    });
+
+    const dataActivatedRol = new Promise((resolve, reject) => {
+      resolve(fetch(ActivatedRole));
+    }).then((data) => {
+      return data.json();
+    });
+
+    Promise.all([
+      dataProduct,
+      datauser,
+      datarole,
+      dataresource,
+      dataActivatedFront,
+      dataActivatedBack,
+      dataActivatedRol,
+    ])
+      .then((res) => {
+        setData(res[0]);
+        setDataUser(res[1]);
+        setDataRole(res[2]);
+        setDataResource(res[3]);
+        setDataActivatedFe(res[4]);
+        setDataActivatedBe(res[5]);
+        setDataActivatedRole(res[6]);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  useEffect(() => {
-    const getData = async () => {
-      const dataFake = await UserApi();
-
-      if (dataFake) {
-        setDataUser(dataFake);
-      }
-    };
-    getData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      const dataFake = await RoleApi();
-
-      if (dataFake) {
-        setDataRole(dataFake);
-      }
-    };
-    getData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      const dataFake = await ResourceApi();
-
-      if (dataFake) {
-        setDataResource(dataFake);
-      }
-    };
-    getData();
-  }, []);
-
-  //??????mày làm con mẹ gì ở đây
-  //call api
-  //hút cần à
-  //Truyền data như mấy thằng kia còn gì
-  //gọi Effect thôi mà gọi gì mà lắm thế chơi đồ vừathoio
-  //T gộp rồi nó lỗi nên viết tách ra mới được
-  //Ngáo cần
-  //đổi tên hàm là được
-  //mày đặt trùng tên nó trả vả choices
-  //T đổi rồi không được nên mới viết tách nó ra chức
-  //chịu mày rồi
   return (
     <div>
       <AppRouter />

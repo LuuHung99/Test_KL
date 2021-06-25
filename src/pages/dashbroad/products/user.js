@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Select, Form, Modal, Button } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
@@ -11,8 +11,8 @@ const layout = {
 function TabData(props) {
   const [dataPd] = useState(window.store.datauser);
   const [searchProduct, setSearchProduct] = useState("");
-
   const [visible, setVisible] = useState(false);
+  const [dataRole, setDataRole] = useState();
 
   const handleShowBox = () => {
     setVisible(true);
@@ -33,13 +33,27 @@ function TabData(props) {
     setVisible(false);
   };
 
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+
+  useEffect(() => {
+    if (dataPd) {
+      const getData = dataPd.map((item) => item.roles);
+      const newList = getData[0].map((e) => {
+        return { ...e, value: e.title };
+      });
+      setDataRole(newList);
+    }
+  }, []);
+
   return (
     <div style={{ maxWidth: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h1 style={{ color: "green" }}>Bảng chức năng User</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -570 }}
+          style={{ fontSize: 12, marginLeft: -600 }}
           onClick={handleShowBox}
         >
           Add
@@ -76,70 +90,68 @@ function TabData(props) {
                     return val;
                   }
                 })
-                .map((item, index) => (
-                  <>
-                    <div style={{ marginBottom: 10 }}></div>
-                    <tbody>
-                      <tr
-                        style={{
-                          backgroundColor: "#e8ebef",
-                          textAlign: "center",
-                        }}
-                        key={index}
-                      >
-                        <td
+                .map((item, index) =>
+                  item.username !== "root" ? (
+                    <>
+                      <div style={{ marginBottom: 10 }}></div>
+                      <tbody>
+                        <tr
                           style={{
-                            display: "grid",
-                            marginLeft: 30,
+                            backgroundColor: "#e8ebef",
+                            textAlign: "center",
                           }}
+                          key={index}
                         >
-                          <table cellpadding="10">
-                            <thead>
-                              <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {item.roles.length > 0
-                                ? item.roles.map((item) => (
-                                    <tr>
-                                      <td>{item.title}</td>
-                                      <td>{item.description}</td>
-                                    </tr>
-                                  ))
-                                : null}
-                            </tbody>
-                          </table>
-                        </td>
-                        <td>{item.username}</td>
-                        <td>{item.fullname}</td>
-                        <td>
-                          {String(item.activated) === "true" ? (
-                            <CheckOutlined className="icon_active" />
-                          ) : (
-                            <CloseOutlined className="icon_deactive" />
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </>
-                ))
+                          <td
+                            style={{
+                              display: "grid",
+                              marginLeft: 30,
+                            }}
+                          >
+                            <table cellPadding="10">
+                              <thead>
+                                <tr>
+                                  <th>Title</th>
+                                  <th>Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {item.roles.length > 0
+                                  ? item.roles.map((item) => (
+                                      <tr>
+                                        <td>{item.title}</td>
+                                        <td>{item.description}</td>
+                                      </tr>
+                                    ))
+                                  : null}
+                              </tbody>
+                            </table>
+                          </td>
+                          <td>{item.username}</td>
+                          <td>{item.fullname}</td>
+                          <td>
+                            {String(item.activated) === "true" ? (
+                              <CheckOutlined className="icon_active" />
+                            ) : (
+                              <CloseOutlined className="icon_deactive" />
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </>
+                  ) : null
+                )
             : null}
         </table>
         {visible && (
           <Modal
             visible={visible}
-            title="Add new role"
+            title="Add new user"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-              <Form.Item name="roles" label="Roles">
-                <Input placeholder="Title" style={{marginBottom: 10}} />
-                <Input placeholder="Description" />
-              </Form.Item>
               <Form.Item name="username" label="Username">
                 <Input />
               </Form.Item>
@@ -152,6 +164,15 @@ function TabData(props) {
                   <Select.Option value="false">False</Select.Option>
                 </Select>
               </Form.Item>
+              <Form.Item name="roles" label="Roles">
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  placeholder="Add role"
+                  onChange={handleChange}
+                  options={dataRole}
+                ></Select>
+              </Form.Item>
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
@@ -161,6 +182,7 @@ function TabData(props) {
                   Cancel
                 </Button>
               </div>
+              
             </Form>
           </Modal>
         )}
