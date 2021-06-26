@@ -1,5 +1,15 @@
 import axios from "axios";
 
+/* Get API Sidebar */
+export const getApiSideBar = async () => {
+  const url = "http://localhost:5000/api/root/sidebar";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
+/*----------------------------------------------------------------*/
+
 /* API - Front-end */
 /* Get all Api Frontend */
 export const ProductApi = async () => {
@@ -10,9 +20,9 @@ export const ProductApi = async () => {
 };
 
 /* Add Frontend */
-export const pushActiveFrontend= async (tab) => {
+export const pushActiveFrontend = async (tab) => {
   const url = "http://localhost:5000/api/root/tab";
-  const response = await axios.put(url, {tab});
+  const response = await axios.put(url, { tab });
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -33,7 +43,7 @@ export const FrontendActivated = async () => {
   const response = await axios.put(url);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
-}
+};
 
 /*End - API Front-end */
 
@@ -49,9 +59,9 @@ export const ResourceApi = async () => {
 };
 
 /* Add Backend  */
-export const pushActiveBackend= async (backend) => {
+export const pushActiveBackend = async (backend) => {
   const url = "http://localhost:5000/api/root/backend";
-  const response = await axios.put(url, {backend});
+  const response = await axios.put(url, { backend });
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -59,10 +69,11 @@ export const pushActiveBackend= async (backend) => {
 /* Chage activated Backend to FuncLog  */
 export const BackendToFuncLog = async (backend) => {
   const url = "http://localhost:5000/api/root/funcLog";
-  const response = await axios.put(url, {log: backend });
-  const result = (await response.status) === 200 ? "Update successfull" : "Failed update";
+  const response = await axios.put(url, { log: backend });
+  const result =
+    (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
-}
+};
 
 /* Get all Avtivated Backend */
 export const BackendActivated = async () => {
@@ -70,17 +81,16 @@ export const BackendActivated = async () => {
   const response = await axios.put(url);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
-}
+};
 
 /*End - API Front-end */
 
 /*----------------------------------------------------------------*/
 
-
 /* API - Role */
 /* Get all Api Role */
-export const UserApi = async () => {
-  const url = "http://localhost:5000/api/root/user";
+export const RoleApi = async () => {
+  const url = "http://localhost:5000/api/root/role";
   const response = await axios.get(url);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
@@ -89,7 +99,7 @@ export const UserApi = async () => {
 /* Add Role  */
 export const pushRole = async (role) => {
   const url = "http://localhost:5000/api/root/role";
-  const response = await axios.put(url, {role});
+  const response = await axios.put(url, { role });
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
@@ -98,11 +108,10 @@ export const pushRole = async (role) => {
 
 /*----------------------------------------------------------------*/
 
-
 /* API - User */
 /* Get all Api User */
-export const RoleApi = async () => {
-  const url = "http://localhost:5000/api/root/role";
+export const UserApi = async () => {
+  const url = "http://localhost:5000/api/root/user";
   const response = await axios.get(url);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
@@ -111,19 +120,9 @@ export const RoleApi = async () => {
 /* Add User  */
 export const pushUser = async (user) => {
   const url = "http://localhost:5000/api/root/user";
-  const response = await axios.put(url, {user});
+  const response = await axios.put(url, { user });
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
 
 /*End - API User */
-
-
-
-
-
-
-
-
-
-

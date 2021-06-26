@@ -12,7 +12,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.products2);  
+  const [dataPd, setDataPd] = useState(window.store.datasidebar);  
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
@@ -62,7 +62,7 @@ function TabData(props) {
     };
     await pushActiveFrontend(f);
     const newData = await ProductApi();
-    window.store["products2"] = newData;
+    window.store["datasidebar"] = newData;
     setDataPd(newData); 
     
   };

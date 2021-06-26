@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Button, Input, Modal, Form, Select, Tooltip } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import "./css/tab-data.css";
-import { pushRole } from "../../../services/api";
+import { pushRole, RoleApi } from "../../../services/api";
+
+const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 8 },
@@ -10,10 +12,13 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd] = useState(window.store.datarole);
-  const [dataFe] = useState(window.store.products2);
+  const [dataPd, setDataPd] = useState(window.store.datarole);
+  const [dataActiveFe] = useState(window.store.activatedFe);
+  const [dataActiveBe] = useState(window.store.activatedBe);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
+  const [model, setModel] = useState(false);
+  const [itemSelected, setItemSelected] = useState();
   const [dataBackend, setDataBackend] = useState();
   const [dataFrontend, setDataFrontend] = useState();
 
@@ -23,48 +28,61 @@ function TabData(props) {
   const [frontend, setFrontend] = useState();
   const [backend, setBackend] = useState();
 
+  const [reason, setReason] = useState("");
+  const [username, setUsername] = useState("");
+
   const handleShowBox = () => {
     setVisible(true);
+  };
+
+  const handleShowModel = (item) => {
+    setItemSelected(item);
+    console.log("item", item);
+    setModel(true);
   };
 
   const handleOk = () => {};
 
   const handleCancel = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const ChangeBox = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const handleFormSubmit = () => {
     alert("Tạo mới thành công quyền truy cập");
     setVisible(false);
+    setModel(false);
   };
 
   function handleChangeFrontend(frontend, id) {
+    console.log(id);
     const newId = id.map((item) => item._id);
     setFrontend(newId);
   }
 
   function handleChangeBackend(backend, id) {
+    console.log(id);
     const newId = id.map((item) => item._id);
     setBackend(newId);
   }
 
   useEffect(() => {
-    if (dataPd) {
-      const getData = dataPd.map((item) => item.backends);
-      const newList = getData[0].map((e) => {
-        return { ...e, value: e.title };
+    if (dataActiveBe) {
+      const getDataBe = dataActiveBe.map((item) => {
+        return { ...item, value: item.title };
       });
-      setDataBackend(newList);
+      setDataBackend(getDataBe);
     }
   }, []);
 
   useEffect(() => {
-    if (dataFe) {
-      const getDataFe = dataFe.map((item) => {
+    if (dataActiveFe) {
+      const getDataFe = dataActiveFe.map((item) => {
         return { ...item, value: item.title };
       });
 
@@ -83,12 +101,16 @@ function TabData(props) {
       title: title,
       description: description,
       activated: true,
-      backends: backend,
       tabs: frontend,
+      backends: backend,
     };
     await pushRole(f);
-    console.log(f);
+    const newDataRole = await RoleApi();
+    window.store["datarole"] = newDataRole;
+    setDataPd(newDataRole);
   };
+
+  const handleClickActive = (e) => {};
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -121,15 +143,19 @@ function TabData(props) {
             </tr>
           </thead>
           {dataPd
-            ? dataPd.map((item, index) =>
-                item.title !== "root" ? (
+            ? dataPd.map(
+                (item, index) => (
                   <>
                     <div style={{ marginBottom: 10 }}></div>
                     <tbody>
                       <tr
-                        style={{ backgroundColor: "#e8ebef", width: "100%" }}
+                        className={
+                          item.activated === true
+                            ? "table_col_content_role"
+                            : "table_col_content_unactivated_role"
+                        }
                         key={index}
-                        className="tab_role"
+                        onClick={() => handleShowModel(item)}
                       >
                         <td style={{ textAlign: "center" }}>{item.title}</td>
                         <td style={{ textAlign: "center" }}>
@@ -144,8 +170,8 @@ function TabData(props) {
                         </td>
                         <td>
                           <>
-                            {dataFe
-                              ? dataFe
+                            {item.tabs
+                              ? item.tabs
                                   .filter((val) => {
                                     if (searchProduct === "") {
                                       return val;
@@ -157,23 +183,21 @@ function TabData(props) {
                                       return val;
                                     }
                                   })
-                                  .map((item) =>
-                                    item.description !== "" ? (
-                                      <tr>
-                                        <Tooltip
-                                          placement="top"
-                                          title={item.description}
+                                  .map((item) => (
+                                    <tr>
+                                      <Tooltip
+                                        placement="top"
+                                        title={item.description}
+                                      >
+                                        <td
+                                          className="title_role"
+                                          style={{ paddingLeft: 70 }}
                                         >
-                                          <td
-                                            className="title_role"
-                                            style={{ paddingLeft: 70 }}
-                                          >
-                                            {item.title}
-                                          </td>
-                                        </Tooltip>
-                                      </tr>
-                                    ) : null
-                                  )
+                                          {item.title}
+                                        </td>
+                                      </Tooltip>
+                                    </tr>
+                                  ))
                               : null}
                           </>
                         </td>
@@ -210,7 +234,7 @@ function TabData(props) {
                       </tr>
                     </tbody>
                   </>
-                ) : null
+                )
               )
             : null}
         </table>
@@ -242,7 +266,7 @@ function TabData(props) {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="frontend" label="Frontend">
+              <Form.Item name="tab" label="Frontend">
                 <Select
                   mode="tags"
                   style={{ width: "100%" }}
@@ -280,6 +304,47 @@ function TabData(props) {
                   }
                 >
                   Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {model && (
+          <Modal
+            visible={model}
+            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+              itemSelected.title
+            }`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <h2>Lý do</h2>
+              <TextArea
+                rows={4}
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type={itemSelected.activated ? "ghost" : "primary"}
+                  htmlType="submit"
+                  onClick={() =>
+                    handleClickActive(
+                      itemSelected._id,
+                      itemSelected.activated,
+                      itemSelected.author,
+                      reason
+                    )
+                  }
+                >
+                  {itemSelected.activated ? "Deactivated" : "Activated"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

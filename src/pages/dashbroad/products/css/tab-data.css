@@ -23,6 +23,16 @@
   background-color: rgb(229, 228, 226);
 } 
 
+.table_col_content_role td {
+  cursor: pointer;
+  background-color: rgb(176, 194, 194);
+}
+
+.table_col_content_unactivated_role td {
+  cursor: pointer;
+  background-color: rgb(229, 228, 226);
+} 
+
 .icon_active {
   color: green;
   font-size: 20px;

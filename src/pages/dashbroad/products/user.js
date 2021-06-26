@@ -10,9 +10,11 @@ const layout = {
 
 function TabData(props) {
   const [dataPd] = useState(window.store.datauser);
+  const [activeRole] = useState(window.store.activatedRole);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [dataRole, setDataRole] = useState();
+  const [role, setRole] = useState();
 
   const handleShowBox = () => {
     setVisible(true);
@@ -33,17 +35,17 @@ function TabData(props) {
     setVisible(false);
   };
 
-  function handleChange(value) {
+  function handleChangeRole( value) {
     console.log(`selected ${value}`);
+    setRole(value);
   }
 
   useEffect(() => {
-    if (dataPd) {
-      const getData = dataPd.map((item) => item.roles);
-      const newList = getData[0].map((e) => {
-        return { ...e, value: e.title };
+    if (activeRole) {
+      const getData = activeRole.map((item) => {
+        return { ...item, value: item.title };
       });
-      setDataRole(newList);
+      setDataRole(getData);
     }
   }, []);
 
@@ -169,20 +171,20 @@ function TabData(props) {
                   mode="tags"
                   style={{ width: "100%" }}
                   placeholder="Add role"
-                  onChange={handleChange}
+                  onChange={handleChangeRole}
                   options={dataRole}
+                  value={role}
                 ></Select>
               </Form.Item>
 
               <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit">
+                <Button key="submit" type="primary" htmlType="submit" >
                   Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel
                 </Button>
               </div>
-              
             </Form>
           </Modal>
         )}
