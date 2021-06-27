@@ -66,7 +66,7 @@ export const pushActiveBackend = async (backend) => {
   return result;
 };
 
-/* Chage activated Backend to FuncLog  */
+/* Change activated Backend to FuncLog  */
 export const BackendToFuncLog = async (backend) => {
   const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, { log: backend });
@@ -104,6 +104,13 @@ export const pushRole = async (role) => {
   return result;
 };
 
+/* Active to roleHistory */
+export const pushActiveHistory = async (role) => {
+  const url = "http://localhost:5000/api/root/funcLog/roleHistory";
+  const response = await axios.put(url, { role });
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
 /*End - API Role */
 
 /*----------------------------------------------------------------*/

@@ -143,99 +143,97 @@ function TabData(props) {
             </tr>
           </thead>
           {dataPd
-            ? dataPd.map(
-                (item, index) => (
-                  <>
-                    <div style={{ marginBottom: 10 }}></div>
-                    <tbody>
-                      <tr
-                        className={
-                          item.activated === true
-                            ? "table_col_content_role"
-                            : "table_col_content_unactivated_role"
-                        }
-                        key={index}
-                        onClick={() => handleShowModel(item)}
-                      >
-                        <td style={{ textAlign: "center" }}>{item.title}</td>
-                        <td style={{ textAlign: "center" }}>
-                          {item.description}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          {String(item.activated) === "true" ? (
-                            <CheckOutlined className="icon_active" />
-                          ) : (
-                            <CloseOutlined className="icon_deactive" />
-                          )}
-                        </td>
-                        <td>
-                          <>
-                            {item.tabs
-                              ? item.tabs
-                                  .filter((val) => {
-                                    if (searchProduct === "") {
-                                      return val;
-                                    } else if (
-                                      val.title
-                                        .toLowerCase()
-                                        .includes(searchProduct.toLowerCase())
-                                    ) {
-                                      return val;
-                                    }
-                                  })
-                                  .map((item) => (
-                                    <tr>
-                                      <Tooltip
-                                        placement="top"
-                                        title={item.description}
+            ? dataPd.map((item, index) => (
+                <>
+                  <div style={{ marginBottom: 10 }}></div>
+                  <tbody>
+                    <tr
+                      className={
+                        item.activated === true
+                          ? "table_col_content_role"
+                          : "table_col_content_unactivated_role"
+                      }
+                      key={index}
+                      onClick={() => handleShowModel(item)}
+                    >
+                      <td style={{ textAlign: "center" }}>{item.title}</td>
+                      <td style={{ textAlign: "center" }}>
+                        {item.description}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {String(item.activated) === "true" ? (
+                          <CheckOutlined className="icon_active" />
+                        ) : (
+                          <CloseOutlined className="icon_deactive" />
+                        )}
+                      </td>
+                      <td>
+                        <>
+                          {item.tabs
+                            ? item.tabs
+                                .filter((val) => {
+                                  if (searchProduct === "") {
+                                    return val;
+                                  } else if (
+                                    val.title
+                                      .toLowerCase()
+                                      .includes(searchProduct.toLowerCase())
+                                  ) {
+                                    return val;
+                                  }
+                                })
+                                .map((item) => (
+                                  <tr>
+                                    <Tooltip
+                                      placement="top"
+                                      title={item.description}
+                                    >
+                                      <td
+                                        className="title_role"
+                                        style={{ paddingLeft: 70 }}
                                       >
-                                        <td
-                                          className="title_role"
-                                          style={{ paddingLeft: 70 }}
-                                        >
-                                          {item.title}
-                                        </td>
-                                      </Tooltip>
-                                    </tr>
-                                  ))
-                              : null}
-                          </>
-                        </td>
-                        <td>
-                          <>
-                            {item.backends
-                              ? item.backends
-                                  .filter((val) => {
-                                    if (searchProduct === "") {
-                                      return val;
-                                    } else if (
-                                      val.title
-                                        .toLowerCase()
-                                        .includes(searchProduct.toLowerCase())
-                                    ) {
-                                      return val;
-                                    }
-                                  })
-                                  .map((item) => (
-                                    <tr>
-                                      <Tooltip
-                                        placement="top"
-                                        title={item.description}
-                                      >
-                                        <td className="title_role">
-                                          {item.title}
-                                        </td>
-                                      </Tooltip>
-                                    </tr>
-                                  ))
-                              : null}
-                          </>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </>
-                )
-              )
+                                        {item.title}
+                                      </td>
+                                    </Tooltip>
+                                  </tr>
+                                ))
+                            : null}
+                        </>
+                      </td>
+                      <td>
+                        <>
+                          {item.backends
+                            ? item.backends
+                                .filter((val) => {
+                                  if (searchProduct === "") {
+                                    return val;
+                                  } else if (
+                                    val.title
+                                      .toLowerCase()
+                                      .includes(searchProduct.toLowerCase())
+                                  ) {
+                                    return val;
+                                  }
+                                })
+                                .map((item) => (
+                                  <tr>
+                                    <Tooltip
+                                      placement="top"
+                                      title={item.description}
+                                    >
+                                      <td className="title_role">
+                                        {item.title}
+                                      </td>
+                                    </Tooltip>
+                                  </tr>
+                                ))
+                            : null}
+                        </>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              ))
             : null}
         </table>
         {visible && (
@@ -268,7 +266,7 @@ function TabData(props) {
 
               <Form.Item name="tab" label="Frontend">
                 <Select
-                  mode="tags"
+                  mode="multiple"
                   style={{ width: "100%" }}
                   placeholder="Tag frontend"
                   onChange={handleChangeFrontend}
@@ -279,7 +277,7 @@ function TabData(props) {
 
               <Form.Item name="backend" label="Backend">
                 <Select
-                  mode="tags"
+                  mode="multiple"
                   style={{ width: "100%" }}
                   placeholder="Tag backend"
                   onChange={handleChangeBackend}

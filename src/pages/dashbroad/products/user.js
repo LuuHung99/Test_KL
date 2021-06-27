@@ -168,7 +168,7 @@ function TabData(props) {
               </Form.Item>
               <Form.Item name="roles" label="Roles">
                 <Select
-                  mode="tags"
+                  mode="multiple"
                   style={{ width: "100%" }}
                   placeholder="Add role"
                   onChange={handleChangeRole}
