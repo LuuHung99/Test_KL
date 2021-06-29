@@ -56,7 +56,7 @@ function DetailProducts(props) {
 
   return (
     <Layout className="site-layout">
-      {panes.length > 0 ? (
+      {panes ? (
         <Tabs
           type="editable-card"
           onChange={onChange}
@@ -73,7 +73,7 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <div className="content_product" >
+              <div className="content_product">
                 {pane.url === "tab" ? <TabData /> : null}
                 {pane.description}
                 {pane.url === "role" ? <Role /> : null}
@@ -84,7 +84,7 @@ function DetailProducts(props) {
           ))}
         </Tabs>
       ) : (
-        <div>Link active false</div>
+        <h1>Hello</h1>
       )}
     </Layout>
   );

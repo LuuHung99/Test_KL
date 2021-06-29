@@ -36,7 +36,7 @@ export const FrontendToFuncLog = async (tab) => {
   return result;
 };
 
-/* Get all Avtivated Backend */
+/* Get all Avtivated Frontend */
 
 export const FrontendActivated = async () => {
   const url = "http://localhost:5000/api/root/tab/activated";
@@ -44,6 +44,7 @@ export const FrontendActivated = async () => {
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
+
 
 /*End - API Front-end */
 

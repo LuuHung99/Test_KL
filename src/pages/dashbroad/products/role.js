@@ -6,7 +6,6 @@ import {
   PlusOutlined,
   SearchOutlined,
   FormOutlined,
-  DeleteOutlined,
 } from "@ant-design/icons";
 import "./css/tab-data.css";
 import { pushRole, RoleApi } from "../../../services/api";
@@ -242,11 +241,6 @@ function TabData(props) {
                             </Button>
                           </tr>
                           <div style={{ marginBottom: 10 }}></div>
-                          <tr>
-                            <Button type="danger" icon={<DeleteOutlined />}>
-                              Delete
-                            </Button>
-                          </tr>
                         </td>
                       </tr>
                     </tbody>

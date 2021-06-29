@@ -91,7 +91,9 @@ function Products(props) {
             {renderProductList()}
           </Menu>
         </Sider>
+        <div  style={{  width: '100px', height: '100px'}}><img src="images/male-farmer.svg"  alt="" /></div>
       </Layout>
+     
       {props.children}
     </>
   );

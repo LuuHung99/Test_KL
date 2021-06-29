@@ -11,7 +11,6 @@ import {
   PlusOutlined,
   SearchOutlined,
   FormOutlined,
-  DeleteOutlined,
 } from "@ant-design/icons";
 import "./css/tab-data.css";
 
@@ -26,8 +25,10 @@ function TabData(props) {
   const [dataPd, setDataPd] = useState(window.store.datasidebar);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
+  const [editBox, setEditBox] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
+  const [editSelected, setEditSelected] = useState();
   const [reason, setReason] = useState("");
   const [value, setValue] = useState("");
   const [value1, setValue1] = useState("");
@@ -40,6 +41,11 @@ function TabData(props) {
     setItemSelected(item);
   };
 
+  const handleEditBox = (item) => {
+    setEditSelected(item);
+    setEditBox(true);
+  }
+
   const handleShowModel = () => {
     setModel(true);
   };
@@ -49,17 +55,20 @@ function TabData(props) {
   const handleCancel = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const ChangeBox = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const handleFormSubmit = () => {
     alert("Thêm chức năng thành công");
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const handleAddInfor = async (value, value1, value2, value3, value4) => {
@@ -91,6 +100,8 @@ function TabData(props) {
     window.store["products"] = newData;
     setDataPd(newData);
   };
+
+  
 
   return (
     <div className="container_tabdata">
@@ -154,12 +165,13 @@ function TabData(props) {
                           <td>{item.title}</td>
                           <td>{item.url}</td>
                           <td>{item.description}</td>
-                          <td>
+                          <td  onClick={() => handleShowBox(item)}>
                             {String(item.activated) === "true" ? (
                               <CheckOutlined className="icon_active" />
                             ) : (
                               <CloseOutlined className="icon_deactive" />
                             )}
+
                           </td>
                           <td>{item.author}</td>
                           <td style={{ padding: "15px 0px" }}>
@@ -171,17 +183,13 @@ function TabData(props) {
                                   color: "white",
                                 }}
                                 icon={<FormOutlined />}
-                                onClick={() => handleShowBox(item)}
+                               onClick={() =>handleEditBox(item)}
                               >
                                 Edit
                               </Button>
                             </tr>
                             <div style={{ marginBottom: 10 }}></div>
-                            <tr>
-                              <Button type="danger" icon={<DeleteOutlined />}>
-                                Delete
-                              </Button>
-                            </tr>
+                             
                           </td>
                         </tr>
                       </tbody>
@@ -245,6 +253,67 @@ function TabData(props) {
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                 />
+              </Form.Item>
+              <Form.Item name="url" label="Url">
+                <Input
+                  value={value1}
+                  onChange={(e) => setValue1(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item name="description" label="Description">
+                <Input
+                  value={value2}
+                  onChange={(e) => setValue2(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item name="activated" label="Activated">
+                <Select>
+                  <Select.Option value="active">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="author" label="Author">
+                <Input
+                  value={value4}
+                  onChange={(e) => setValue4(e.target.value)}
+                />
+              </Form.Item>
+
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() =>
+                    handleAddInfor(value, value1, value2, value3, value4)
+                  }
+                >
+                  Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {editBox &&(
+          <Modal
+            visible={editBox}
+            title={`Update ${editSelected.title}`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="title" label="Title">
+                <Input
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                >
+                  {editSelected.title}
+                  </Input>
               </Form.Item>
               <Form.Item name="url" label="Url">
                 <Input
