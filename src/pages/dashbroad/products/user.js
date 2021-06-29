@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Input, Select, Form, Modal, Button } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { Input, Select, Form, Modal, Button, Tooltip,  } from "antd";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  FormOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./css/tab-data.css";
+
+const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 8 },
@@ -15,19 +24,31 @@ function TabData(props) {
   const [visible, setVisible] = useState(false);
   const [dataRole, setDataRole] = useState();
   const [role, setRole] = useState();
+  const [model, setModel] = useState(false);
+  const [itemSelected, setItemSelected] = useState();
+  const [reason, setReason] = useState("");
 
   const handleShowBox = () => {
     setVisible(true);
   };
 
+  const handleShowModel = (item) => {
+    setItemSelected(item);
+    console.log("item", item);
+    setModel(true);
+  }
+
   const handleOk = () => {};
 
   const handleCancel = () => {
     setVisible(false);
+    setModel(false);
+    
   };
 
   const ChangeBox = () => {
     setVisible(false);
+    setModel(false);
   };
 
   const handleFormSubmit = () => {
@@ -35,8 +56,7 @@ function TabData(props) {
     setVisible(false);
   };
 
-  function handleChangeRole( value) {
-    console.log(`selected ${value}`);
+  function handleChangeRole(value) {
     setRole(value);
   }
 
@@ -49,21 +69,27 @@ function TabData(props) {
     }
   }, []);
 
+  const handleClickActive = (e) => {};
+
   return (
     <div style={{ maxWidth: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h1 style={{ color: "green" }}>Bảng chức năng User</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -600 }}
+          style={{ fontSize: 14, marginLeft: -500 }}
           onClick={handleShowBox}
+          icon={<PlusOutlined />}
         >
-          Add
+          Add new user
         </Button>
         <Input
           type="text"
           placeholder="Search ..."
           className="searchData"
+          prefix={
+            <SearchOutlined style={{ fontSize: "20px", color: "#8699ad" }} />
+          }
           value={searchProduct}
           onChange={(e) => setSearchProduct(e.target.value)}
         />
@@ -71,16 +97,16 @@ function TabData(props) {
       <div className="table_col">
         <table style={{ width: "100%" }}>
           <thead>
-            <tr className="table_col_header" style={{ textAlign: "center" }}>
+            <tr className="table_col_header">
               <th>Roles</th>
               <th>Username</th>
               <th>Fullname</th>
               <th>Activated</th>
+              <th>Options</th>
             </tr>
           </thead>
-          {dataPd.length > 0
+          {dataPd
             ? dataPd
-                // eslint-disable-next-line array-callback-return
                 .filter((val) => {
                   if (searchProduct === "") {
                     return val;
@@ -93,53 +119,64 @@ function TabData(props) {
                   }
                 })
                 .map((item, index) =>
-                  item.username !== "root" ? (
+                  item.username !== "" ? (
                     <>
-                      <div style={{ marginBottom: 10 }}></div>
-                      <tbody>
-                        <tr
-                          style={{
-                            backgroundColor: "#e8ebef",
-                            textAlign: "center",
-                          }}
-                          key={index}
-                        >
-                          <td
-                            style={{
-                              display: "grid",
-                              marginLeft: 30,
-                            }}
+                      <tr
+                        className={
+                          item.activated === true
+                            ? "table_col_content_role"
+                            : "table_col_content_unactivated_role"
+                        }
+                        
+                        key={index}
+                      >
+                        <td>
+                          {/* {item.roles.length > 0
+                                ? item.roles.map((item) => (
+                              <> */}
+                          <Tooltip
+                            placement="top"
+                            title="ROle backend new add frontend"
                           >
-                            <table cellPadding="10">
-                              <thead>
-                                <tr>
-                                  <th>Title</th>
-                                  <th>Description</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {item.roles.length > 0
-                                  ? item.roles.map((item) => (
-                                      <tr>
-                                        <td>{item.title}</td>
-                                        <td>{item.description}</td>
-                                      </tr>
-                                    ))
-                                  : null}
-                              </tbody>
-                            </table>
-                          </td>
-                          <td>{item.username}</td>
-                          <td>{item.fullname}</td>
-                          <td>
-                            {String(item.activated) === "true" ? (
-                              <CheckOutlined className="icon_active" />
-                            ) : (
-                              <CloseOutlined className="icon_deactive" />
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
+                            <div className="title_user">
+                              Hung new giao foods{" "}
+                            </div>
+                          </Tooltip>
+                          {/* </>
+                               ))
+                               : null} */}
+                        </td>
+                        <td>{item.username}</td>
+                        <td>{item.fullname}</td>
+                        <td>
+                          {String(item.activated) === "true" ? (
+                            <CheckOutlined className="icon_active" />
+                          ) : (
+                            <CloseOutlined className="icon_deactive" />
+                          )}
+                        </td>
+                        <td style={{ padding: "15px 0px" }}>
+                          <tr>
+                            <Button
+                              style={{
+                                backgroundColor: "#00acc1",
+                                border: "none",
+                                color: "white",
+                              }}
+                              icon={<FormOutlined />}
+                              onClick={() => handleShowModel(item)}
+                            >
+                              Edit
+                            </Button>
+                          </tr>
+                          <div style={{ marginBottom: 10 }}></div>
+                          <tr>
+                            <Button type="danger" icon={<DeleteOutlined />}>
+                              Delete
+                            </Button>
+                          </tr>
+                        </td>
+                      </tr>
                     </>
                   ) : null
                 )
@@ -178,8 +215,45 @@ function TabData(props) {
               </Form.Item>
 
               <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit" >
+                <Button key="submit" type="primary" htmlType="submit">
                   Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+        {model && (
+          <Modal
+            visible={model}
+            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+              itemSelected.title
+            }`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <h2>Lý do</h2>
+              <TextArea
+                rows={4}
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type={itemSelected.activated ? "ghost" : "primary"}
+                  htmlType="submit"
+                  onClick={() =>
+                    handleClickActive(
+                       
+                    )
+                  }
+                >
+                  {itemSelected.activated ? "Deactivated" : "Activated"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

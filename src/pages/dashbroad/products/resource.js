@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  FormOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./css/tab-data.css";
-import {BackendToFuncLog, ResourceApi, pushActiveBackend} from "../../../services/api";
+import {
+  BackendToFuncLog,
+  ResourceApi,
+  pushActiveBackend,
+} from "../../../services/api";
 
 const { TextArea } = Input;
 
@@ -23,7 +34,7 @@ function TabData(props) {
   const [http, setHTTP] = useState("");
   const [description, setDescription] = useState("");
   const [active, setActive] = useState("");
-  
+
   const handleShowBox = (item) => {
     setVisible(true);
     setItemSelected(item);
@@ -51,7 +62,7 @@ function TabData(props) {
     setVisible(false);
   };
 
-  const handleClickActive = async (id, active, value ) => {
+  const handleClickActive = async (id, active, value) => {
     const l = {
       funcId: id,
       funcType: "backend",
@@ -72,13 +83,12 @@ function TabData(props) {
       description: description,
       activated: true,
       httpVerb: "GET",
-      locationPath: path
+      locationPath: path,
     };
     await pushActiveBackend(f);
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
-    setDataPd(newData); 
-    
+    setDataPd(newData);
   };
 
   return (
@@ -87,15 +97,19 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Bảng chức năng Backend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -550 }}
+          style={{ fontSize: 14, marginLeft: -450 }}
           onClick={handleShowModel}
+          icon={<PlusOutlined />}
         >
-          Add
+          Add new resource
         </Button>
         <Input
           type="text"
           placeholder="Search ..."
           className="searchData"
+          prefix={
+            <SearchOutlined style={{ fontSize: "20px", color: "#8699ad" }} />
+          }
           value={searchProduct}
           onChange={(e) => setSearchProduct(e.target.value)}
         />
@@ -107,20 +121,18 @@ function TabData(props) {
               <th>Title</th>
               <th>LocationPath</th>
               <th>HttpVerb</th>
-              <th>Description</th>
               <th>Activated</th>
+              <th>Description</th>
+              <th>Options</th>
             </tr>
           </thead>
-          {dataPd.length > 0
+          {dataPd
             ? dataPd
-                // eslint-disable-next-line array-callback-return
                 .filter((val) => {
                   if (searchProduct === "") {
                     return val;
                   } else if (
-                    val.title
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
+                    val.title.toLowerCase().includes(searchProduct.toLowerCase())
                   ) {
                     return val;
                   }
@@ -128,7 +140,6 @@ function TabData(props) {
                 .map((item, index) =>
                   item.description !== "" ? (
                     <>
-                      <div style={{ marginBottom: 10 }}></div>
                       <tbody>
                         <tr
                           className={
@@ -136,19 +147,41 @@ function TabData(props) {
                               ? "table_col_content"
                               : "table_col_content_unactivated"
                           }
-                          onClick={() => handleShowBox(item)}
+                         
                           key={index}
                         >
                           <td>{item.title}</td>
                           <td>{item.locationPath}</td>
                           <td>{item.httpVerb}</td>
-                          <td>{item.description}</td>
                           <td>
                             {String(item.activated) === "true" ? (
                               <CheckOutlined className="icon_active" />
                             ) : (
                               <CloseOutlined className="icon_deactive" />
                             )}
+                          </td>
+                          <td>{item.description}</td>
+
+                          <td style={{ padding: "15px 0px" }}>
+                            <tr>
+                              <Button
+                                style={{
+                                  backgroundColor: "#00acc1",
+                                  border: "none",
+                                  color: "white",
+                                }}
+                                icon={<FormOutlined />}
+                                onClick={() => handleShowBox(item)}
+                              >
+                                Edit
+                              </Button>
+                            </tr>
+                            <div style={{ marginBottom: 10 }}></div>
+                            <tr>
+                              <Button type="danger" icon={<DeleteOutlined />}>
+                                Delete
+                              </Button>
+                            </tr>
                           </td>
                         </tr>
                       </tbody>
@@ -177,7 +210,8 @@ function TabData(props) {
               <div className="box_products">
                 <Button
                   key="submit"
-                  type={itemSelected.activated ? "ghost" : "primary"}
+                  type={itemSelected.activated ? "" : "primary"}
+                  className={itemSelected.activated  ? "deactivated_color" : "activated_color"}
                   htmlType="submit"
                   onClick={() =>
                     handleClickActive(
@@ -198,55 +232,61 @@ function TabData(props) {
         )}
         {model && (
           <Modal
-          visible={model}
-          title="Add new backend"
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[]}
-        >
-          <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-            <Form.Item name="title" label="Title">
-              <Input value= {title} onChange={(e) => setTitle(e.target.value)} />
-            </Form.Item>
-            <Form.Item name="path" label="LocationPath">
-              <Input value={path} onChange={(e) => setPath(e.target.value)}/>
-            </Form.Item>
-            <Form.Item name="http" label="HttpVerb">
-              <Select value={http}  >
-                <Select.Option value="get">GET</Select.Option>
-                <Select.Option value="put">PUT</Select.Option>
-                <Select.Option value="post">POST</Select.Option>
-              </Select>
-            </Form.Item>
+            visible={model}
+            title="Add new backend"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="title" label="Title">
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item name="path" label="LocationPath">
+                <Input value={path} onChange={(e) => setPath(e.target.value)} />
+              </Form.Item>
+              <Form.Item name="http" label="HttpVerb">
+                <Select value={http}>
+                  <Select.Option value="get">GET</Select.Option>
+                  <Select.Option value="put">PUT</Select.Option>
+                  <Select.Option value="post">POST</Select.Option>
+                </Select>
+              </Form.Item>
 
-            <Form.Item name="description" label="Description">
-              <Input value={description} onChange={(e) => setDescription(e.target.value)} />
-            </Form.Item>
+              <Form.Item name="description" label="Description">
+                <Input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Item>
 
-            <Form.Item name="activated" label="Activated">
-                <Select value={active} >
+              <Form.Item name="activated" label="Activated">
+                <Select value={active}>
                   <Select.Option value="true">True</Select.Option>
                   <Select.Option value="false">False</Select.Option>
                 </Select>
               </Form.Item>
-             
-            <div className="box_products">
-              <Button 
-                key="submit" 
-                type="primary" 
-                htmlType="submit"
-                onClick={() =>
-                  handleAddInfor(title, http, description, active, path)
-                }
-              >
-                Add
-              </Button>
-              <Button type="danger" onClick={ChangeBox}>
-                Cancel
-              </Button>
-            </div>
-          </Form>
-        </Modal>
+
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() =>
+                    handleAddInfor(title, http, description, active, path)
+                  }
+                >
+                  Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
         )}
       </div>
     </div>

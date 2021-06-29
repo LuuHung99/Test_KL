@@ -1,10 +1,18 @@
+.table,
+th,
+td {
+  border: 1px solid #e6f7ff;
+  border-collapse: collapse;
+}
+
 .table_col {
-   padding-top: 30px;
-   position: relative;
- }
+  padding-top: 30px;
+  position: relative;
+}
 
 .table_col_header {
   background-color: #bbaeaed9;
+  text-transform: uppercase;
 }
 
 .table_col_header th {
@@ -21,34 +29,48 @@
   cursor: pointer;
   padding: 20px;
   background-color: rgb(229, 228, 226);
-} 
+}
 
 .table_col_content_role td {
   cursor: pointer;
+  padding-left: 20px;
   background-color: rgb(176, 194, 194);
 }
 
 .table_col_content_unactivated_role td {
+  padding-left: 20px;
   cursor: pointer;
   background-color: rgb(229, 228, 226);
-} 
+}
 
 .icon_active {
   color: green;
   font-size: 20px;
-  margin-left: 20px;
+  padding-left: 25px;
 }
 
 .icon_deactive {
   color: red;
   font-size: 20px;
-  margin-left: 20px;
-} 
+  padding-left: 25px;
+}
+
+.deactivated_color {
+  background-color: #5cdbd3;
+  border: none;
+  color: #fff;
+}
+
+.activated_color {
+  background-color: #096dd9;
+  border: none;
+  color: #fff;
+}
 
 .box_products {
   display: flex;
   justify-content: center;
-  align-content:  center;
+  align-content: center;
   margin-top: 20px;
 }
 
@@ -56,21 +78,23 @@
   width: 20%;
   border: none;
   border-radius: 5px;
+  background: #e6f7ff;
 }
 
-/*Role*/ 
+/*Role*/
 .title_role {
-  padding-bottom: 20px;
-  padding-left: 30px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.title_user {
   cursor: pointer;
 }
 
 .title_role:hover {
-  color: green
+  color: green;
 }
 
 .tab_role td:nth-child(4) {
   position: absolute;
 }
-
- 

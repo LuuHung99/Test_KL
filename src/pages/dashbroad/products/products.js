@@ -65,7 +65,7 @@ function DetailProducts(props) {
           activeKey={item.url}
           style={{ margin: "0px 15px" }}
         >
-          {panes.map((pane, index) => (
+          {panes.map((pane) => (
             <TabPane
               tab={pane.title}
               key={pane.url}

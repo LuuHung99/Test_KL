@@ -12,7 +12,6 @@
   height: auto;
   width: auto;
   padding: 20px 0px;
-  overflow-x: scroll;
   margin-right: 216px;
   font-weight: bold;
 }
@@ -53,10 +52,28 @@ button.ant-btn {
 }
 
 .sidebar_container {
-  background-color: white;
-  margin-bottom: 15px;
-  overflow-y: scroll;
+  background-color: #333547;
+  margin-bottom: 10px;
+  overflow-y: scroll ;
 }
+.sidebar_menus {
+  background-color: #333547; 
+  color: #8699ad;
+  font-size: 16px;
+}
+
+li.ant-menu-item.ant-menu-item-only-child:hover {
+  background-color: #404252;
+}
+
+ul#item_4\$Menu {
+  background: #333547;
+}
+ 
+ul#item_4\$Menu:hover {
+  background-color: #404252;
+}
+ 
 
 .logo {
   height: 26px;
@@ -98,7 +115,7 @@ label #icon1 {
   font-size: 20px;
   cursor: pointer;
   margin-left: -40px;
-  color: #1890ff;
+  color: #2600ff;
   transition: all 0.5s ease;
 }
 
@@ -106,7 +123,7 @@ label #icon2 {
   position: absolute;
   font-size: 22px;
   cursor: pointer;
-  color: #1890ff;
+  color: #2600ff;
   left: 0px;
   transition: all 0.5s ease;
   top: 42px;
@@ -165,14 +182,22 @@ label #icon2 {
   color: blue;
 }
 
+input.ant-input {
+  background: none;
+}
+
 /*Search sidebar */
 .search_sidebar {
   padding: 10px;
   width: 100%;
   border: none;
-  background: #f9f9f9d9;
+  background: #e6f7ff;
   border-radius: 999px;
-  color: #000;
+  color: #8699ad;
   height: auto;
   margin-top: 70px;
+}
+
+i.ant-menu-submenu-arrow {
+  color: #8699ad;
 }

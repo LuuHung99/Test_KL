@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
-import { MenuOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
+import { AlignRightOutlined,AlignLeftOutlined, SearchOutlined } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const { Sider } = Layout;
@@ -32,7 +32,10 @@ function Products(props) {
                     if (item.activated === true)
                       return (
                         <Menu.Item key={item.id} path={item.url}>
-                          <Link to={`${match.url}/${item.url}`}>
+                          <Link
+                            to={`${match.url}/${item.url}`}
+                            style={{ fontSize: "16px", color: "#8699ad" }}
+                          >
                             {item.title}
                           </Link>
                         </Menu.Item>
@@ -44,7 +47,12 @@ function Products(props) {
             if (text.activated === true) {
               return (
                 <Menu.Item key={text.id} path={text.url}>
-                  <Link to={`${match.url}/${text.url}`}>{text.title}</Link>
+                  <Link
+                    to={`${match.url}/${text.url}`}
+                    style={{ color: "#8699ad" }}
+                  >
+                    {text.title}
+                  </Link>
                 </Menu.Item>
               );
             }
@@ -56,15 +64,15 @@ function Products(props) {
     <>
       <input type="checkbox" id="check" />
       <label htmlFor="check">
-        <MenuOutlined id="icon1" />
-        <CloseOutlined id="icon2" />
+        <AlignLeftOutlined id="icon1" /> 
+        <AlignRightOutlined id="icon2" /> 
       </label>
 
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
             <img src="images/male-farmer.svg" className="logo__img" alt="" />
-            <p>Hi Hung</p>
+            <p style={{ color: "white" }}>Hi Hung</p>
           </div>
           <Input
             type="text"
@@ -74,7 +82,12 @@ function Products(props) {
             value={searchSidebar}
             onChange={(e) => setSearchSidebar(e.target.value)}
           />
-          <Menu mode="inline" style={{ marginTop: "10px" }}>
+          <Menu
+            mode="inline"
+            style={{ marginTop: "10px" }}
+            className="sidebar_menus"
+            triggerSubMenuAction="hover"
+          >
             {renderProductList()}
           </Menu>
         </Sider>

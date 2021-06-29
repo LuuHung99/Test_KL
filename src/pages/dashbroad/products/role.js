@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Modal, Form, Select, Tooltip } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  FormOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./css/tab-data.css";
 import { pushRole, RoleApi } from "../../../services/api";
 
@@ -118,16 +125,20 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Quản lý các quyền truy cập</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -550 }}
+          style={{ fontSize: 14, marginLeft: -450 }}
           onClick={handleShowBox}
+          icon={<PlusOutlined />}
         >
-          Add
+          Add new role
         </Button>
         <Input
           type="text"
           placeholder="Search ..."
           className="searchData"
           value={searchProduct}
+          prefix={
+            <SearchOutlined style={{ fontSize: "20px", color: "#8699ad" }} />
+          }
           onChange={(e) => setSearchProduct(e.target.value)}
         />
       </div>
@@ -138,102 +149,109 @@ function TabData(props) {
               <th>Title</th>
               <th>Description</th>
               <th>Activated</th>
-              <th style={{ paddingLeft: 70 }}>Frontend</th>
-              <th style={{ paddingLeft: 70 }}>Backend</th>
+              <th>Frontend</th>
+              <th>Backend</th>
+              <th>Options</th>
             </tr>
           </thead>
           {dataPd
-            ? dataPd.map((item, index) => (
-                <>
-                  <div style={{ marginBottom: 10 }}></div>
-                  <tbody>
-                    <tr
-                      className={
-                        item.activated === true
-                          ? "table_col_content_role"
-                          : "table_col_content_unactivated_role"
-                      }
-                      key={index}
-                      onClick={() => handleShowModel(item)}
-                    >
-                      <td style={{ textAlign: "center" }}>{item.title}</td>
-                      <td style={{ textAlign: "center" }}>
-                        {item.description}
-                      </td>
-                      <td style={{ textAlign: "center" }}>
-                        {String(item.activated) === "true" ? (
-                          <CheckOutlined className="icon_active" />
-                        ) : (
-                          <CloseOutlined className="icon_deactive" />
-                        )}
-                      </td>
-                      <td>
-                        <>
-                          {item.tabs
-                            ? item.tabs
-                                .filter((val) => {
-                                  if (searchProduct === "") {
-                                    return val;
-                                  } else if (
-                                    val.title
-                                      .toLowerCase()
-                                      .includes(searchProduct.toLowerCase())
-                                  ) {
-                                    return val;
-                                  }
-                                })
-                                .map((item) => (
-                                  <tr>
+            ? dataPd
+                .filter((val) => {
+                  if (searchProduct === "") {
+                    return val;
+                  } else if (
+                    val.title
+                      .toLowerCase()
+                      .includes(searchProduct.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                })
+                .map((item, index) => (
+                  <>
+                    <tbody>
+                      <tr
+                        className={
+                          item.activated === true
+                            ? "table_col_content_role"
+                            : "table_col_content_unactivated_role"
+                        }
+                        key={index}
+                        
+                      >
+                        <td>{item.title}</td>
+                        <td>{item.description}</td>
+                        <td>
+                          {String(item.activated) === "true" ? (
+                            <CheckOutlined className="icon_active" />
+                          ) : (
+                            <CloseOutlined className="icon_deactive" />
+                          )}
+                        </td>
+                        <td>
+                          <>
+                            {item.tabs
+                              ? item.tabs.map((item) => (
+                                  <>
                                     <Tooltip
                                       placement="top"
                                       title={item.description}
                                     >
-                                      <td
+                                      <div
                                         className="title_role"
                                         style={{ paddingLeft: 70 }}
                                       >
                                         {item.title}
-                                      </td>
+                                      </div>
                                     </Tooltip>
-                                  </tr>
+                                  </>
                                 ))
-                            : null}
-                        </>
-                      </td>
-                      <td>
-                        <>
-                          {item.backends
-                            ? item.backends
-                                .filter((val) => {
-                                  if (searchProduct === "") {
-                                    return val;
-                                  } else if (
-                                    val.title
-                                      .toLowerCase()
-                                      .includes(searchProduct.toLowerCase())
-                                  ) {
-                                    return val;
-                                  }
-                                })
-                                .map((item) => (
-                                  <tr>
+                              : null}
+                          </>
+                        </td>
+                        <td>
+                          <>
+                            {item.backends
+                              ? item.backends.map((item) => (
+                                  <>
                                     <Tooltip
                                       placement="top"
                                       title={item.description}
                                     >
-                                      <td className="title_role">
+                                      <div className="title_role">
                                         {item.title}
-                                      </td>
+                                      </div>
                                     </Tooltip>
-                                  </tr>
+                                  </>
                                 ))
-                            : null}
-                        </>
-                      </td>
-                    </tr>
-                  </tbody>
-                </>
-              ))
+                              : null}
+                          </>
+                        </td>
+                        <td style={{ padding: "15px 0px" }}>
+                          <tr>
+                            <Button
+                              style={{
+                                backgroundColor: "#00acc1",
+                                border: "none",
+                                color: "white",
+                              }}
+                              icon={<FormOutlined />}
+                              onClick={() => handleShowModel(item)}
+                            >
+                              Edit
+                            </Button>
+                          </tr>
+                          <div style={{ marginBottom: 10 }}></div>
+                          <tr>
+                            <Button type="danger" icon={<DeleteOutlined />}>
+                              Delete
+                            </Button>
+                          </tr>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                ))
             : null}
         </table>
         {visible && (

@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
-import { FrontendToFuncLog, pushActiveFrontend, ProductApi } from "../../../services/api";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  FrontendToFuncLog,
+  pushActiveFrontend,
+  ProductApi,
+} from "../../../services/api";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  FormOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./css/tab-data.css";
 
 const { TextArea } = Input;
@@ -12,7 +23,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.datasidebar);  
+  const [dataPd, setDataPd] = useState(window.store.datasidebar);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
@@ -63,8 +74,7 @@ function TabData(props) {
     await pushActiveFrontend(f);
     const newData = await ProductApi();
     window.store["datasidebar"] = newData;
-    setDataPd(newData); 
-    
+    setDataPd(newData);
   };
 
   const handleClickActive = async (id, active, author, value) => {
@@ -88,16 +98,20 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 12, marginLeft: -550 }}
+          style={{ fontSize: 14, marginLeft: -450 }}
           onClick={handleShowModel}
+          icon={<PlusOutlined />}
         >
-          Add
+          Add new frontend
         </Button>
         <Input
           type="text"
           placeholder="Search ..."
           className="searchData"
           value={searchProduct}
+          prefix={
+            <SearchOutlined style={{ fontSize: "20px", color: "#8699ad" }} />
+          }
           onChange={(e) => setSearchProduct(e.target.value)}
         />
       </div>
@@ -110,11 +124,11 @@ function TabData(props) {
               <th>Description</th>
               <th>Activated</th>
               <th>Author</th>
+              <th>Options</th>
             </tr>
           </thead>
           {dataPd.length > 0
             ? dataPd
-                // eslint-disable-next-line array-callback-return
                 .filter((val) => {
                   if (searchProduct === "") {
                     return val;
@@ -129,7 +143,6 @@ function TabData(props) {
                 .map((item, index) =>
                   item.description !== "" ? (
                     <>
-                      <div style={{ marginBottom: 10 }}></div>
                       <tbody key={index}>
                         <tr
                           className={
@@ -137,7 +150,6 @@ function TabData(props) {
                               ? "table_col_content"
                               : "table_col_content_unactivated"
                           }
-                          onClick={() => handleShowBox(item)}
                         >
                           <td>{item.title}</td>
                           <td>{item.url}</td>
@@ -150,6 +162,27 @@ function TabData(props) {
                             )}
                           </td>
                           <td>{item.author}</td>
+                          <td style={{ padding: "15px 0px" }}>
+                            <tr>
+                              <Button
+                                style={{
+                                  backgroundColor: "#00acc1",
+                                  border: "none",
+                                  color: "white",
+                                }}
+                                icon={<FormOutlined />}
+                                onClick={() => handleShowBox(item)}
+                              >
+                                Edit
+                              </Button>
+                            </tr>
+                            <div style={{ marginBottom: 10 }}></div>
+                            <tr>
+                              <Button type="danger" icon={<DeleteOutlined />}>
+                                Delete
+                              </Button>
+                            </tr>
+                          </td>
                         </tr>
                       </tbody>
                     </>
