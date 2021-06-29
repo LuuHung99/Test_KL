@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Input, Select, Form, Modal, Button, Tooltip,  } from "antd";
+import { Input, Select, Form, Modal, Button, Tooltip, Upload } from "antd";
+import ImgCrop from 'antd-img-crop';
 import {
   CheckOutlined,
   CloseOutlined,
@@ -28,6 +29,29 @@ function TabData(props) {
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
 
+  const [fileList, setFileList] = useState([
+  
+  ]);
+
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
+
   const handleShowBox = () => {
     setVisible(true);
   };
@@ -36,14 +60,13 @@ function TabData(props) {
     setItemSelected(item);
     console.log("item", item);
     setModel(true);
-  }
+  };
 
   const handleOk = () => {};
 
   const handleCancel = () => {
     setVisible(false);
     setModel(false);
-    
   };
 
   const ChangeBox = () => {
@@ -98,6 +121,7 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
+              <th>Image</th>
               <th>Roles</th>
               <th>Username</th>
               <th>Fullname</th>
@@ -127,9 +151,21 @@ function TabData(props) {
                             ? "table_col_content_role"
                             : "table_col_content_unactivated_role"
                         }
-                        
                         key={index}
                       >
+                        <td>
+                          <div>
+                            <img
+                              src="/images/male-farmer.svg"
+                              alt=""
+                              style={{
+                                width: 50,
+                                height: 50,
+                                borderRadius: "50%",
+                              }}
+                            />
+                          </div>
+                        </td>
                         <td>
                           {/* {item.roles.length > 0
                                 ? item.roles.map((item) => (
@@ -139,7 +175,7 @@ function TabData(props) {
                             title="ROle backend new add frontend"
                           >
                             <div className="title_user">
-                              Hung new giao foods{" "}
+                              Hung new giao foods
                             </div>
                           </Tooltip>
                           {/* </>
@@ -191,6 +227,18 @@ function TabData(props) {
             footer={[]}
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="iamge" label="Image">
+                <ImgCrop rotate>
+                  <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onChange={onChange}
+                    onPreview={onPreview}
+                  >
+                    {fileList.length < 1 && "+ Upload"}
+                  </Upload>
+                </ImgCrop>
+              </Form.Item>
               <Form.Item name="username" label="Username">
                 <Input />
               </Form.Item>
@@ -199,11 +247,11 @@ function TabData(props) {
               </Form.Item>
               <Form.Item name="activated" label="Activated">
                 <Select>
-                  <Select.Option value="true">True</Select.Option>
-                  <Select.Option value="false">False</Select.Option>
+                  <Select.Option value="activate">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="roles" label="Roles">
+              <Form.Item name="roles" label="Role">
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
@@ -219,7 +267,7 @@ function TabData(props) {
                   Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                Cancel
                 </Button>
               </div>
             </Form>
@@ -228,7 +276,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -247,13 +295,9 @@ function TabData(props) {
                   key="submit"
                   type={itemSelected.activated ? "ghost" : "primary"}
                   htmlType="submit"
-                  onClick={() =>
-                    handleClickActive(
-                       
-                    )
-                  }
+                  onClick={() => handleClickActive()}
                 >
-                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                  {itemSelected.activated ? "Disable" : "Active"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

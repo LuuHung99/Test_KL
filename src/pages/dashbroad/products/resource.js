@@ -132,62 +132,61 @@ function TabData(props) {
                   if (searchProduct === "") {
                     return val;
                   } else if (
-                    val.title.toLowerCase().includes(searchProduct.toLowerCase())
+                    val.title
+                      .toLowerCase()
+                      .includes(searchProduct.toLowerCase())
                   ) {
                     return val;
                   }
                 })
-                .map((item, index) =>
-                  item.description !== "" ? (
-                    <>
-                      <tbody>
-                        <tr
-                          className={
-                            item.activated === true
-                              ? "table_col_content"
-                              : "table_col_content_unactivated"
-                          }
-                         
-                          key={index}
-                        >
-                          <td>{item.title}</td>
-                          <td>{item.locationPath}</td>
-                          <td>{item.httpVerb}</td>
-                          <td>
-                            {String(item.activated) === "true" ? (
-                              <CheckOutlined className="icon_active" />
-                            ) : (
-                              <CloseOutlined className="icon_deactive" />
-                            )}
-                          </td>
-                          <td>{item.description}</td>
+                .map((item, index) => (
+                  <>
+                    <tbody>
+                      <tr
+                        className={
+                          item.activated === true
+                            ? "table_col_content"
+                            : "table_col_content_unactivated"
+                        }
+                        key={index}
+                      >
+                        <td>{item.title}</td>
+                        <td>{item.locationPath}</td>
+                        <td>{item.httpVerb}</td>
+                        <td>
+                          {String(item.activated) === "true" ? (
+                            <CheckOutlined className="icon_active" />
+                          ) : (
+                            <CloseOutlined className="icon_deactive" />
+                          )}
+                        </td>
+                        <td>{item.description}</td>
 
-                          <td style={{ padding: "15px 0px" }}>
-                            <tr>
-                              <Button
-                                style={{
-                                  backgroundColor: "#00acc1",
-                                  border: "none",
-                                  color: "white",
-                                }}
-                                icon={<FormOutlined />}
-                                onClick={() => handleShowBox(item)}
-                              >
-                                Edit
-                              </Button>
-                            </tr>
-                            <div style={{ marginBottom: 10 }}></div>
-                            <tr>
-                              <Button type="danger" icon={<DeleteOutlined />}>
-                                Delete
-                              </Button>
-                            </tr>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </>
-                  ) : null
-                )
+                        <td style={{ padding: "15px 0px" }}>
+                          <tr>
+                            <Button
+                              style={{
+                                backgroundColor: "#00acc1",
+                                border: "none",
+                                color: "white",
+                              }}
+                              icon={<FormOutlined />}
+                              onClick={() => handleShowBox(item)}
+                            >
+                              Edit
+                            </Button>
+                          </tr>
+                          <div style={{ marginBottom: 10 }}></div>
+                          <tr>
+                            <Button type="danger" icon={<DeleteOutlined />}>
+                              Delete
+                            </Button>
+                          </tr>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                ))
             : null}
         </table>
         {visible && (
@@ -211,7 +210,6 @@ function TabData(props) {
                 <Button
                   key="submit"
                   type={itemSelected.activated ? "" : "primary"}
-                  className={itemSelected.activated  ? "deactivated_color" : "activated_color"}
                   htmlType="submit"
                   onClick={() =>
                     handleClickActive(
@@ -265,8 +263,8 @@ function TabData(props) {
 
               <Form.Item name="activated" label="Activated">
                 <Select value={active}>
-                  <Select.Option value="true">True</Select.Option>
-                  <Select.Option value="false">False</Select.Option>
+                  <Select.Option value="active">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
                 </Select>
               </Form.Item>
 

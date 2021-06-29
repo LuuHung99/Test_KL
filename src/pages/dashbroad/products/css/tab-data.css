@@ -55,18 +55,6 @@ td {
   padding-left: 25px;
 }
 
-.deactivated_color {
-  background-color: #5cdbd3;
-  border: none;
-  color: #fff;
-}
-
-.activated_color {
-  background-color: #096dd9;
-  border: none;
-  color: #fff;
-}
-
 .box_products {
   display: flex;
   justify-content: center;

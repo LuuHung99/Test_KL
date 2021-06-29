@@ -277,8 +277,8 @@ function TabData(props) {
               </Form.Item>
               <Form.Item name="activated" label="Activated">
                 <Select value={active}>
-                  <Select.Option value="true">True</Select.Option>
-                  <Select.Option value="false">False</Select.Option>
+                  <Select.Option value="active">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
                 </Select>
               </Form.Item>
 

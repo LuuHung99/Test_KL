@@ -40,7 +40,8 @@ function App() {
       resolve(fetch(ProductApi));
     }).then((data) => {
       return data.json();
-    });
+    }).catch((err) => {console.log("err", err);})
+    ;
 
     const datauser = new Promise((resolve, reject) => {
       resolve(fetch(UserApi));
@@ -58,7 +59,7 @@ function App() {
       resolve(fetch(ResourceApi));
     }).then((data) => {
       return data.json();
-    });
+    }).catch((err) => {console.log("err backend", err);});
 
     const dataActivatedFront = new Promise((resolve, reject) => {
       resolve(fetch(ActivatedFrontend));

@@ -62,6 +62,7 @@ export const ResourceApi = async () => {
 export const pushActiveBackend = async (backend) => {
   const url = "http://localhost:5000/api/root/backend";
   const response = await axios.put(url, { backend });
+  console.log("res backend",response)
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -100,7 +101,6 @@ export const RoleApi = async () => {
 export const pushRole = async (role) => {
   const url = "http://localhost:5000/api/root/role";
   const response = await axios.put(url, { role });
-  console.log(response)
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };

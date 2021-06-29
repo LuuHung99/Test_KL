@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Form, Button, Modal, Select } from "antd";
 import {
   FrontendToFuncLog,
@@ -193,7 +193,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+            title={`${itemSelected.activated ? "Activated" : "Disable"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -221,7 +221,7 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                  {itemSelected.activated ? "Disable" : "Active"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel
@@ -260,8 +260,8 @@ function TabData(props) {
               </Form.Item>
               <Form.Item name="activated" label="Activated">
                 <Select>
-                  <Select.Option value="true">True</Select.Option>
-                  <Select.Option value="false">False</Select.Option>
+                  <Select.Option value="active">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
                 </Select>
               </Form.Item>
               <Form.Item name="author" label="Author">
