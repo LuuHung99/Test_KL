@@ -16,43 +16,45 @@ td {
 }
 
 .table_col_header th {
-  padding: 20px;
+  padding: 20px 10px;
+  text-align: center;
 }
 
 .table_col_content td {
-  padding: 20px;
+  padding: 20px 20px;
+  text-align: center;
   cursor: pointer;
   background-color: rgb(176, 194, 194);
 }
 
 .table_col_content_unactivated td {
+  padding: 20px 20px;
   cursor: pointer;
-  padding: 20px;
+  text-align: center;
   background-color: rgb(229, 228, 226);
 }
 
 .table_col_content_role td {
   cursor: pointer;
-  padding-left: 20px;
+  text-align: center;
   background-color: rgb(176, 194, 194);
+  padding: 20px 20px;
 }
 
 .table_col_content_unactivated_role td {
-  padding-left: 20px;
+  text-align: center;
   cursor: pointer;
   background-color: rgb(229, 228, 226);
 }
 
 .icon_active {
   color: green;
-  font-size: 20px;
-  padding-left: 25px;
+  font-size: 25px;
 }
 
 .icon_deactive {
   color: red;
-  font-size: 20px;
-  padding-left: 25px;
+  font-size: 25px;
 }
 
 .box_products {

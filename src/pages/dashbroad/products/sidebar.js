@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Menu, Input } from "antd";
-import { AlignRightOutlined,AlignLeftOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  AlignRightOutlined,
+  AlignLeftOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const { Sider } = Layout;
@@ -64,8 +68,8 @@ function Products(props) {
     <>
       <input type="checkbox" id="check" />
       <label htmlFor="check">
-        <AlignLeftOutlined id="icon1" /> 
-        <AlignRightOutlined id="icon2" /> 
+        <AlignLeftOutlined id="icon1" />
+        <AlignRightOutlined id="icon2" />
       </label>
 
       <Layout id="sidebar-wrapper">
@@ -91,9 +95,18 @@ function Products(props) {
             {renderProductList()}
           </Menu>
         </Sider>
-        <div  style={{  width: '100px', height: '100px'}}><img src="images/male-farmer.svg"  alt="" /></div>
+        <div className="sidebar_image">
+          <img
+            src="/images/male-farmer.svg"
+            alt=""
+            style={{
+              width: "100px",
+              height: "100px",
+            }}
+          />
+        </div>
       </Layout>
-     
+
       {props.children}
     </>
   );

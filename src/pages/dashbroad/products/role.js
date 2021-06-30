@@ -23,8 +23,10 @@ function TabData(props) {
   const [dataActiveBe] = useState(window.store.activatedBe);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
+  const [editBox, setEditBox] = useState(false);
   const [model, setModel] = useState(false);
   const [itemSelected, setItemSelected] = useState();
+  const [editSelected, setEditSelected] = useState();
   const [dataBackend, setDataBackend] = useState();
   const [dataFrontend, setDataFrontend] = useState();
 
@@ -37,13 +39,17 @@ function TabData(props) {
   const [reason, setReason] = useState("");
   const [username, setUsername] = useState("");
 
+  const handleEditBox = (item) => {
+    setEditSelected(item);
+    setEditBox(true);
+  };
+
   const handleShowBox = () => {
     setVisible(true);
   };
 
   const handleShowModel = (item) => {
     setItemSelected(item);
-    console.log("item", item);
     setModel(true);
   };
 
@@ -52,17 +58,20 @@ function TabData(props) {
   const handleCancel = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const ChangeBox = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const handleFormSubmit = () => {
     alert("Tạo mới thành công quyền truy cập");
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   function handleChangeFrontend(frontend, id) {
@@ -176,11 +185,10 @@ function TabData(props) {
                             : "table_col_content_unactivated_role"
                         }
                         key={index}
-                        
                       >
                         <td>{item.title}</td>
                         <td>{item.description}</td>
-                        <td>
+                        <td onClick={() => handleShowModel(item)}>
                           {String(item.activated) === "true" ? (
                             <CheckOutlined className="icon_active" />
                           ) : (
@@ -226,8 +234,13 @@ function TabData(props) {
                               : null}
                           </>
                         </td>
-                        <td style={{ padding: "15px 0px" }}>
-                          <tr>
+                        <td>
+                          <tr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
                             <Button
                               style={{
                                 backgroundColor: "#00acc1",
@@ -235,12 +248,11 @@ function TabData(props) {
                                 color: "white",
                               }}
                               icon={<FormOutlined />}
-                              onClick={() => handleShowModel(item)}
+                              onClick={() => handleEditBox(item)}
                             >
                               Edit
                             </Button>
                           </tr>
-                          <div style={{ marginBottom: 10 }}></div>
                         </td>
                       </tr>
                     </tbody>
@@ -355,6 +367,67 @@ function TabData(props) {
                   }
                 >
                   {itemSelected.activated ? "Deactivated" : "Activated"}
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {editBox && (
+          <Modal
+            visible={editBox}
+            title={`Update role ${editSelected.title}`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+           <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="title" label="Title">
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item name="description" label="Description">
+                <Input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Item>
+
+              <Form.Item name="tab" label="Frontend">
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder="Tag frontend"
+                  onChange={handleChangeFrontend}
+                  options={dataFrontend}
+                  value={frontend}
+                ></Select>
+              </Form.Item>
+
+              <Form.Item name="backend" label="Backend">
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder="Tag backend"
+                  onChange={handleChangeBackend}
+                  options={dataBackend}
+                  value={backend}
+                ></Select>
+              </Form.Item>
+
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                   
+                >
+                  Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

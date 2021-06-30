@@ -26,13 +26,20 @@ function TabData(props) {
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
+  const [editBox, setEditBox] = useState(false);
   const [reason, setReason] = useState("");
   const [itemSelected, setItemSelected] = useState();
+  const [editSelected, setEditSelected] = useState();
   const [title, setTitle] = useState("");
   const [path, setPath] = useState("");
   const [http, setHTTP] = useState("");
   const [description, setDescription] = useState("");
   const [active, setActive] = useState("");
+
+  const handleEditBox = (item) => {
+    setEditSelected(item);
+    setEditBox(true);
+  };
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -48,17 +55,20 @@ function TabData(props) {
   const handleCancel = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const ChangeBox = () => {
     setModel(false);
     setVisible(false);
+    setEditBox(false);
   };
 
   const handleFormSubmit = () => {
     alert("Thay đổi trạng thái thành công!");
     setModel(false);
     setVisible(false);
+    setEditBox(false);
   };
 
   const handleClickActive = async (id, active, value) => {
@@ -152,7 +162,7 @@ function TabData(props) {
                         <td>{item.title}</td>
                         <td>{item.locationPath}</td>
                         <td>{item.httpVerb}</td>
-                        <td>
+                        <td onClick={() => handleShowBox(item)}>
                           {String(item.activated) === "true" ? (
                             <CheckOutlined className="icon_active" />
                           ) : (
@@ -161,8 +171,13 @@ function TabData(props) {
                         </td>
                         <td>{item.description}</td>
 
-                        <td style={{ padding: "15px 0px" }}>
-                          <tr>
+                        <td>
+                          <tr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
                             <Button
                               style={{
                                 backgroundColor: "#00acc1",
@@ -170,13 +185,11 @@ function TabData(props) {
                                 color: "white",
                               }}
                               icon={<FormOutlined />}
-                              onClick={() => handleShowBox(item)}
+                              onClick={() => handleEditBox(item)}
                             >
                               Edit
                             </Button>
                           </tr>
-                          <div style={{ marginBottom: 10 }}></div>
-                          
                         </td>
                       </tr>
                     </tbody>
@@ -273,6 +286,65 @@ function TabData(props) {
                   }
                 >
                   Add
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {editBox && (
+          <Modal
+            visible={editBox}
+            title={`Update resource ${editSelected.title}`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="title" label="Title">
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item name="path" label="LocationPath">
+                <Input value={path} onChange={(e) => setPath(e.target.value)} />
+              </Form.Item>
+              <Form.Item name="http" label="HttpVerb">
+                <Select value={http}>
+                  <Select.Option value="get">GET</Select.Option>
+                  <Select.Option value="put">PUT</Select.Option>
+                  <Select.Option value="post">POST</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item name="description" label="Description">
+                <Input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Item>
+
+              <Form.Item name="activated" label="Activated">
+                <Select value={active}>
+                  <Select.Option value="active">Activate</Select.Option>
+                  <Select.Option value="disable">Disabled</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <div className="box_products">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() =>
+                    handleAddInfor(title, http, description, active, path)
+                  }
+                >
+                  Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

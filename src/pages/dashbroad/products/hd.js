@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Layout, Col } from "antd";
 import "./css/hd.css";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  CloseOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const { Header } = Layout;
@@ -18,7 +23,7 @@ function HeaderTest(props) {
           <img src="images/logo.svg" className="header__img" alt="" />
         </div>
 
-        <div className="header_menu" >
+        <div className="header_menu">
           {!showMenu ? (
             <MenuOutlined onClick={() => setShowMenu(true)} />
           ) : (
@@ -28,13 +33,30 @@ function HeaderTest(props) {
       </Col>
       {showMenu ? (
         <div id="menuToggle">
-          <ul id="menu">
-            <li><Link to="/home">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/dashbroad">Dashbroad</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/">Logout</Link></li>
+          <ul className="menu">
+            <div className="menu-logo">
+              <img
+                src="/images/male-farmer.svg"
+                alt=""
+                style={{ width: 40, height: 40 }}
+              />
+              <p>Hung Luu</p>
+            </div>
+            <div style={{backgroundColor: "white"}}>
+            <li className="profile_menu">
+              <div>
+                <UserOutlined />
+              </div>
+              <div>Profile</div>
+            </li>
+            <li className="profile_menu">
+              <div>
+                <LogoutOutlined />
+              </div>
+              <Link to="/">Logout</Link>
+            </li>
+            </div>
+            
           </ul>
         </div>
       ) : null}

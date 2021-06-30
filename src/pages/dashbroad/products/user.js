@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input, Select, Form, Modal, Button, Tooltip, Upload } from "antd";
-import ImgCrop from 'antd-img-crop';
+import ImgCrop from "antd-img-crop";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -22,15 +22,15 @@ function TabData(props) {
   const [activeRole] = useState(window.store.activatedRole);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
-  const [dataRole, setDataRole] = useState();
-  const [role, setRole] = useState();
+  const [editBox, setEditBox] = useState(false);
   const [model, setModel] = useState(false);
+  const [dataRole, setDataRole] = useState();
+  const [editSelected, setEditSelected] = useState();
+  const [role, setRole] = useState();
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
 
-  const [fileList, setFileList] = useState([
-  
-  ]);
+  const [fileList, setFileList] = useState([]);
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -51,13 +51,17 @@ function TabData(props) {
     imgWindow.document.write(image.outerHTML);
   };
 
+  const handleEditBox = (item) => {
+    setEditSelected(item);
+    setEditBox(true);
+  };
+
   const handleShowBox = () => {
     setVisible(true);
   };
 
   const handleShowModel = (item) => {
     setItemSelected(item);
-    console.log("item", item);
     setModel(true);
   };
 
@@ -66,16 +70,20 @@ function TabData(props) {
   const handleCancel = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const ChangeBox = () => {
     setVisible(false);
     setModel(false);
+    setEditBox(false);
   };
 
   const handleFormSubmit = () => {
     alert("Thêm mới thành công user");
     setVisible(false);
+    setEditBox(false);
+    setModel(false);
   };
 
   function handleChangeRole(value) {
@@ -183,15 +191,20 @@ function TabData(props) {
                         </td>
                         <td>{item.username}</td>
                         <td>{item.fullname}</td>
-                        <td>
+                        <td onClick={() => handleShowModel(item)}>
                           {String(item.activated) === "true" ? (
                             <CheckOutlined className="icon_active" />
                           ) : (
                             <CloseOutlined className="icon_deactive" />
                           )}
                         </td>
-                        <td style={{ padding: "15px 0px" }}>
-                          <tr>
+                        <td>
+                          <tr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
                             <Button
                               style={{
                                 backgroundColor: "#00acc1",
@@ -199,12 +212,11 @@ function TabData(props) {
                                 color: "white",
                               }}
                               icon={<FormOutlined />}
-                              onClick={() => handleShowModel(item)}
+                              onClick={() => handleEditBox(item)}
                             >
                               Edit
                             </Button>
                           </tr>
-                          <div style={{ marginBottom: 10 }}></div>
                         </td>
                       </tr>
                     </>
@@ -261,7 +273,7 @@ function TabData(props) {
                   Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                Cancel
+                  Cancel
                 </Button>
               </div>
             </Form>
@@ -292,6 +304,56 @@ function TabData(props) {
                   onClick={() => handleClickActive()}
                 >
                   {itemSelected.activated ? "Disable" : "Active"}
+                </Button>
+                <Button type="danger" onClick={ChangeBox}>
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Modal>
+        )}
+
+        {editBox && (
+          <Modal
+            visible={editBox}
+            title={`Update user ${editSelected.username}`}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[]}
+          >
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+              <Form.Item name="iamge" label="Image">
+                <ImgCrop rotate>
+                  <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onChange={onChange}
+                    onPreview={onPreview}
+                  >
+                    {fileList.length < 1 && "+ Upload"}
+                  </Upload>
+                </ImgCrop>
+              </Form.Item>
+              <Form.Item name="username" label="Username">
+                <Input />
+              </Form.Item>
+              <Form.Item name="fullname" label="Fullname">
+                <Input />
+              </Form.Item>
+              <Form.Item name="roles" label="Role">
+                <Select
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder="Add role"
+                  onChange={handleChangeRole}
+                  options={dataRole}
+                  value={role}
+                ></Select>
+              </Form.Item>
+
+              <div className="box_products">
+                <Button key="submit" type="primary" htmlType="submit">
+                  Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

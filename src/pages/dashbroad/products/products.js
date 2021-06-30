@@ -26,7 +26,6 @@ function DetailProducts(props) {
   }
 
   const remove = (activeKey) => {
-    console.log("key: ", activeKey);
     const newPanes = panes.filter((pane) => pane.url !== activeKey);
     setPanes(newPanes);
   };
@@ -84,7 +83,7 @@ function DetailProducts(props) {
           ))}
         </Tabs>
       ) : (
-        <h1>Hello</h1>
+        <h1>Data Failed Error</h1>
       )}
     </Layout>
   );

@@ -44,7 +44,7 @@ function TabData(props) {
   const handleEditBox = (item) => {
     setEditSelected(item);
     setEditBox(true);
-  }
+  };
 
   const handleShowModel = () => {
     setModel(true);
@@ -100,8 +100,6 @@ function TabData(props) {
     window.store["products"] = newData;
     setDataPd(newData);
   };
-
-  
 
   return (
     <div className="container_tabdata">
@@ -165,17 +163,21 @@ function TabData(props) {
                           <td>{item.title}</td>
                           <td>{item.url}</td>
                           <td>{item.description}</td>
-                          <td  onClick={() => handleShowBox(item)}>
+                          <td onClick={() => handleShowBox(item)}>
                             {String(item.activated) === "true" ? (
                               <CheckOutlined className="icon_active" />
                             ) : (
                               <CloseOutlined className="icon_deactive" />
                             )}
-
                           </td>
                           <td>{item.author}</td>
-                          <td style={{ padding: "15px 0px" }}>
-                            <tr>
+                          <td>
+                            <tr
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Button
                                 style={{
                                   backgroundColor: "#00acc1",
@@ -183,13 +185,11 @@ function TabData(props) {
                                   color: "white",
                                 }}
                                 icon={<FormOutlined />}
-                               onClick={() =>handleEditBox(item)}
+                                onClick={() => handleEditBox(item)}
                               >
                                 Edit
                               </Button>
                             </tr>
-                            <div style={{ marginBottom: 10 }}></div>
-                             
                           </td>
                         </tr>
                       </tbody>
@@ -298,7 +298,7 @@ function TabData(props) {
           </Modal>
         )}
 
-        {editBox &&(
+        {editBox && (
           <Modal
             visible={editBox}
             title={`Update ${editSelected.title}`}
@@ -308,36 +308,16 @@ function TabData(props) {
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <Form.Item name="title" label="Title">
-                <Input
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                >
-                  {editSelected.title}
-                  </Input>
+                <Input value={editSelected.title} />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input
-                  value={value1}
-                  onChange={(e) => setValue1(e.target.value)}
-                />
+                <Input />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input
-                  value={value2}
-                  onChange={(e) => setValue2(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="activated" label="Activated">
-                <Select>
-                  <Select.Option value="active">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
+                <Input />
               </Form.Item>
               <Form.Item name="author" label="Author">
-                <Input
-                  value={value4}
-                  onChange={(e) => setValue4(e.target.value)}
-                />
+                <Input />
               </Form.Item>
 
               <div className="box_products">
@@ -345,11 +325,8 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(value, value1, value2, value3, value4)
-                  }
                 >
-                  Add
+                  Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel
