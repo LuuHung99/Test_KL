@@ -31,7 +31,7 @@ export const pushActiveFrontend = async (tab) => {
 
 export const UpdateFrontend = async (tab) => {
   const url = "http://localhost:5000/api/root/tab";
-  const response = await axios.post(url, { tab});
+  const response = await axios.post(url, {tab});
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };

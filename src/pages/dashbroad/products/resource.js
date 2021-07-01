@@ -199,7 +199,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -226,7 +226,7 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                  {itemSelected.activated ? "Disable" : "Activate"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel

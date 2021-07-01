@@ -4,7 +4,7 @@ import {
   FrontendToFuncLog,
   pushActiveFrontend,
   ProductApi,
-  UpdateFrontend
+  UpdateFrontend,
 } from "../../../services/api";
 import {
   CheckOutlined,
@@ -68,8 +68,30 @@ function TabData(props) {
     alert("Thêm chức năng thành công");
     setVisible(false);
     setModel(false);
-    setEditBox(false);
+    
   };
+
+  const handleFormSubmitUpdateFrontend = async (value) => {
+    setEditBox(false);
+    // console.log(value);
+
+    const request = {_id: editSelected._id};
+
+    if(value['url'] !== undefined) {
+      request.url = value['url'];
+    }
+    if(value['title'] !== undefined) {
+      request.title = value['title'];
+    }
+    if(value['description'] !== undefined) {
+      request.description = value['description'];
+    }
+    if(value['author'] !== undefined) {
+      request.author = value['author'];
+    }
+
+    await UpdateFrontend(request)
+  }
 
   const handleAddInfor = async (value, value1, value2, value4) => {
     const f = {
@@ -101,16 +123,16 @@ function TabData(props) {
     setDataPd(newData);
   };
 
-  const handleUpdateFrontend = async(value, value1, value2, value4) => {
-    const f = {
-      title: value,
-      url: value1,
-      description: value2,
-      author: value4
-    };
-    await UpdateFrontend(f);
-    
-  }
+  // const handleUpdateFrontend = async (value, value1, value2, value4) => {
+  //   const f = {
+  //     title: value,
+  //     url: value1,
+  //     description: value2,
+  //     author: value4,
+  //   };
+  //   await UpdateFrontend(f);
+  // };
+
 
   return (
     <div className="container_tabdata">
@@ -289,9 +311,7 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(value, value1, value2, value4)
-                  }
+                  onClick={() => handleAddInfor(value, value1, value2, value4)}
                 >
                   Add
                 </Button>
@@ -311,28 +331,28 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-            <Form.Item name="title" label="Title">
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUpdateFrontend}>
+              <Form.Item name="title" label="Title">
                 <Input
-                  value={value}
+                  defaultValue={editSelected.title}
                   onChange={(e) => setValue(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="url" label="Url">
                 <Input
-                  value={value1}
+                  defaultValue={editSelected.url}
                   onChange={(e) => setValue1(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="description" label="Description">
                 <Input
-                  value={value2}
+                 defaultValue={editSelected.description}
                   onChange={(e) => setValue2(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="author" label="Author">
                 <Input
-                  value={value4}
+                  defaultValue={editSelected.author}
                   onChange={(e) => setValue4(e.target.value)}
                 />
               </Form.Item>
@@ -342,7 +362,9 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() => handleUpdateFrontend(value, value1, value2, value4)}
+                  // onClick={() =>
+                  //   handleUpdateFrontend(value, value1, value2, value4)
+                  // }
                 >
                   Update
                 </Button>
