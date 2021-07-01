@@ -4,6 +4,7 @@ import {
   FrontendToFuncLog,
   pushActiveFrontend,
   ProductApi,
+  UpdateFrontend
 } from "../../../services/api";
 import {
   CheckOutlined,
@@ -33,7 +34,6 @@ function TabData(props) {
   const [value, setValue] = useState("");
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
-  const [value3, setValue3] = useState("");
   const [value4, setValue4] = useState("");
 
   const handleShowBox = (item) => {
@@ -71,7 +71,7 @@ function TabData(props) {
     setEditBox(false);
   };
 
-  const handleAddInfor = async (value, value1, value2, value3, value4) => {
+  const handleAddInfor = async (value, value1, value2, value4) => {
     const f = {
       title: value,
       url: value1,
@@ -100,6 +100,17 @@ function TabData(props) {
     window.store["products"] = newData;
     setDataPd(newData);
   };
+
+  const handleUpdateFrontend = async(value, value1, value2, value4) => {
+    const f = {
+      title: value,
+      url: value1,
+      description: value2,
+      author: value4
+    };
+    await UpdateFrontend(f);
+    
+  }
 
   return (
     <div className="container_tabdata">
@@ -266,12 +277,6 @@ function TabData(props) {
                   onChange={(e) => setValue2(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="activated" label="Activated">
-                <Select>
-                  <Select.Option value="active">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
-              </Form.Item>
               <Form.Item name="author" label="Author">
                 <Input
                   value={value4}
@@ -285,7 +290,7 @@ function TabData(props) {
                   type="primary"
                   htmlType="submit"
                   onClick={() =>
-                    handleAddInfor(value, value1, value2, value3, value4)
+                    handleAddInfor(value, value1, value2, value4)
                   }
                 >
                   Add
@@ -307,17 +312,29 @@ function TabData(props) {
             footer={[]}
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-              <Form.Item name="title" label="Title">
-                <Input value={editSelected.title} />
+            <Form.Item name="title" label="Title">
+                <Input
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input />
+                <Input
+                  value={value1}
+                  onChange={(e) => setValue1(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input />
+                <Input
+                  value={value2}
+                  onChange={(e) => setValue2(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="author" label="Author">
-                <Input />
+                <Input
+                  value={value4}
+                  onChange={(e) => setValue4(e.target.value)}
+                />
               </Form.Item>
 
               <div className="box_products">
@@ -325,6 +342,7 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
+                  onClick={() => handleUpdateFrontend(value, value1, value2, value4)}
                 >
                   Update
                 </Button>

@@ -8,7 +8,12 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import "./css/tab-data.css";
-import { pushRole, RoleApi } from "../../../services/api";
+import {
+  pushRole,
+  RoleApi,
+  RoleActiveToHistory,
+  
+} from "../../../services/api";
 
 const { TextArea } = Input;
 
@@ -40,6 +45,7 @@ function TabData(props) {
   const [username, setUsername] = useState("");
 
   const handleEditBox = (item) => {
+    // console.log("Update Frontend Select", item);
     setEditSelected(item);
     setEditBox(true);
   };
@@ -74,17 +80,17 @@ function TabData(props) {
     setEditBox(false);
   };
 
-  function handleChangeFrontend(frontend, id) {
+  const handleChangeFrontend = (frontend, id) => {
     console.log(id);
     const newId = id.map((item) => item._id);
     setFrontend(newId);
-  }
+  };
 
-  function handleChangeBackend(backend, id) {
+  const handleChangeBackend = (backend, id) => {
     console.log(id);
     const newId = id.map((item) => item._id);
     setBackend(newId);
-  }
+  };
 
   useEffect(() => {
     if (dataActiveBe) {
@@ -105,13 +111,7 @@ function TabData(props) {
     }
   }, []);
 
-  const handleAddInfor = async (
-    title,
-    description,
-    active,
-    frontend,
-    backend
-  ) => {
+  const handleAddInfor = async (title, description, frontend, backend) => {
     const f = {
       title: title,
       description: description,
@@ -119,13 +119,31 @@ function TabData(props) {
       tabs: frontend,
       backends: backend,
     };
+    console.log(f);
     await pushRole(f);
     const newDataRole = await RoleApi();
     window.store["datarole"] = newDataRole;
     setDataPd(newDataRole);
   };
 
-  const handleClickActive = (e) => {};
+  const handleClickActive = async (id, active, title, value) => {
+    const l = {
+      roleId: id,
+      reason: value,
+      username: title,
+      type: active ? false : true,
+      activated: active ? false : true,
+    };
+    await RoleActiveToHistory(l);
+    setReason("");
+    const newData = await RoleApi();
+    window.store["datarole"] = newData;
+    setDataPd(newData);
+  };
+
+  const handleUpdateRole =  async( ) => {
+    
+  };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -133,7 +151,7 @@ function TabData(props) {
         <h1 style={{ color: "green" }}>Quản lý các quyền truy cập</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -450 }}
+          style={{ fontSize: 14, marginLeft: -500 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >
@@ -206,7 +224,7 @@ function TabData(props) {
                                     >
                                       <div
                                         className="title_role"
-                                        style={{ paddingLeft: 70 }}
+                                        
                                       >
                                         {item.title}
                                       </div>
@@ -281,12 +299,6 @@ function TabData(props) {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="activated" label="Activated">
-                <Select value={active}>
-                  <Select.Option value="active">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
-              </Form.Item>
 
               <Form.Item name="tab" label="Frontend">
                 <Select
@@ -316,13 +328,7 @@ function TabData(props) {
                   type="primary"
                   htmlType="submit"
                   onClick={() =>
-                    handleAddInfor(
-                      title,
-                      description,
-                      active,
-                      frontend,
-                      backend
-                    )
+                    handleAddInfor(title, description, frontend, backend)
                   }
                 >
                   Add
@@ -361,7 +367,7 @@ function TabData(props) {
                     handleClickActive(
                       itemSelected._id,
                       itemSelected.activated,
-                      itemSelected.author,
+                      itemSelected.title,
                       reason
                     )
                   }
@@ -384,7 +390,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-           <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <Form.Item name="title" label="Title">
                 <Input
                   value={title}
@@ -425,7 +431,10 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                   
+                  onClick={() =>
+                    handleUpdateRole(
+                       
+                    )}
                 >
                   Update
                 </Button>

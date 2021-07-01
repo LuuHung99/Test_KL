@@ -251,12 +251,6 @@ function TabData(props) {
               <Form.Item name="fullname" label="Fullname">
                 <Input />
               </Form.Item>
-              <Form.Item name="activated" label="Activated">
-                <Select>
-                  <Select.Option value="activate">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
-              </Form.Item>
               <Form.Item name="roles" label="Role">
                 <Select
                   mode="multiple"

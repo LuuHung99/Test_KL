@@ -27,6 +27,15 @@ export const pushActiveFrontend = async (tab) => {
   return result;
 };
 
+/* Update Frontend */
+
+export const UpdateFrontend = async (tab) => {
+  const url = "http://localhost:5000/api/root/tab";
+  const response = await axios.post(url, { tab});
+  const result = (await response.status) === 200 ? await response.data : {};
+  return result;
+};
+
 /* Chage activated Front-end to FuncLog  */
 export const FrontendToFuncLog = async (tab) => {
   const url = "http://localhost:5000/api/root/funcLog";
@@ -45,7 +54,6 @@ export const FrontendActivated = async () => {
   return result;
 };
 
-
 /*End - API Front-end */
 
 /*----------------------------------------------------------------*/
@@ -63,7 +71,7 @@ export const ResourceApi = async () => {
 export const pushActiveBackend = async (backend) => {
   const url = "http://localhost:5000/api/root/backend";
   const response = await axios.put(url, { backend });
-  console.log("res backend",response)
+  console.log("res backend", response);
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -107,9 +115,9 @@ export const pushRole = async (role) => {
 };
 
 /* Active to roleHistory */
-export const pushActiveHistory = async (role) => {
-  const url = "http://localhost:5000/api/root/funcLog/roleHistory";
-  const response = await axios.put(url, { role });
+export const RoleActiveToHistory = async (body) => {
+  const url = "http://localhost:5000/api/root/role/activate";
+  const response = await axios.post(url, body);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };

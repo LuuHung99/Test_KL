@@ -75,7 +75,7 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src="images/male-farmer.svg" className="logo__img" alt="" />
+            <img src="/images/male-farmer.svg" className="logo__img" alt="" />
             <p style={{ color: "white" }}>Hi Hung</p>
           </div>
           <Input

@@ -34,7 +34,6 @@ function TabData(props) {
   const [path, setPath] = useState("");
   const [http, setHTTP] = useState("");
   const [description, setDescription] = useState("");
-  const [active, setActive] = useState("");
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -86,7 +85,7 @@ function TabData(props) {
     setDataPd(newData);
   };
 
-  const handleAddInfor = async (title, http, description, active, path) => {
+  const handleAddInfor = async (title, http, description, path) => {
     const f = {
       title: title,
       description: description,
@@ -269,20 +268,13 @@ function TabData(props) {
                 />
               </Form.Item>
 
-              <Form.Item name="activated" label="Activated">
-                <Select value={active}>
-                  <Select.Option value="active">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
-              </Form.Item>
-
               <div className="box_products">
                 <Button
                   key="submit"
                   type="primary"
                   htmlType="submit"
                   onClick={() =>
-                    handleAddInfor(title, http, description, active, path)
+                    handleAddInfor(title, http, description, path)
                   }
                 >
                   Add
@@ -328,12 +320,7 @@ function TabData(props) {
                 />
               </Form.Item>
 
-              <Form.Item name="activated" label="Activated">
-                <Select value={active}>
-                  <Select.Option value="active">Activate</Select.Option>
-                  <Select.Option value="disable">Disabled</Select.Option>
-                </Select>
-              </Form.Item>
+               
 
               <div className="box_products">
                 <Button
@@ -341,7 +328,7 @@ function TabData(props) {
                   type="primary"
                   htmlType="submit"
                   onClick={() =>
-                    handleAddInfor(title, http, description, active, path)
+                    handleAddInfor(title, http, description, path)
                   }
                 >
                   Update
