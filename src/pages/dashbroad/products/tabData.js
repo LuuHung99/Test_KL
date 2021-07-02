@@ -68,30 +68,29 @@ function TabData(props) {
     alert("Thêm chức năng thành công");
     setVisible(false);
     setModel(false);
-    
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
+    const request = { _id: editSelected._id };
+
+    if (value["url"] !== undefined) {
+      request.url = value["url"];
+    }
+    if (value["title"] !== undefined) {
+      request.title = value["title"];
+    }
+    if (value["description"] !== undefined) {
+      request.description = value["description"];
+    }
+    if (value["author"] !== undefined) {
+      request.author = value["author"];
+    }
+    await UpdateFrontend(request);
+    const newData = await ProductApi();
+    window.store["datasidebar"] = newData;
+    setDataPd(newData);
     setEditBox(false);
-    // console.log(value);
-
-    const request = {_id: editSelected._id};
-
-    if(value['url'] !== undefined) {
-      request.url = value['url'];
-    }
-    if(value['title'] !== undefined) {
-      request.title = value['title'];
-    }
-    if(value['description'] !== undefined) {
-      request.description = value['description'];
-    }
-    if(value['author'] !== undefined) {
-      request.author = value['author'];
-    }
-
-    await UpdateFrontend(request)
-  }
+  };
 
   const handleAddInfor = async (value, value1, value2, value4) => {
     const f = {
@@ -122,17 +121,6 @@ function TabData(props) {
     window.store["products"] = newData;
     setDataPd(newData);
   };
-
-  // const handleUpdateFrontend = async (value, value1, value2, value4) => {
-  //   const f = {
-  //     title: value,
-  //     url: value1,
-  //     description: value2,
-  //     author: value4,
-  //   };
-  //   await UpdateFrontend(f);
-  // };
-
 
   return (
     <div className="container_tabdata">
@@ -326,46 +314,32 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update ${editSelected.title}`}
+            title={`Update Tab ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUpdateFrontend}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitUpdateFrontend}
+            >
               <Form.Item name="title" label="Title">
-                <Input
-                  defaultValue={editSelected.title}
-                  onChange={(e) => setValue(e.target.value)}
-                />
+                <Input defaultValue={editSelected.title} />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input
-                  defaultValue={editSelected.url}
-                  onChange={(e) => setValue1(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="description" label="Description">
-                <Input
-                 defaultValue={editSelected.description}
-                  onChange={(e) => setValue2(e.target.value)}
-                />
+                <Input defaultValue={editSelected.url} />
               </Form.Item>
               <Form.Item name="author" label="Author">
-                <Input
-                  defaultValue={editSelected.author}
-                  onChange={(e) => setValue4(e.target.value)}
-                />
+                <Input defaultValue={editSelected.author} />
+              </Form.Item>
+
+              <Form.Item name="description" label="Description">
+                <TextArea rows={4} defaultValue={editSelected.description} />
               </Form.Item>
 
               <div className="box_products">
-                <Button
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                  // onClick={() =>
-                  //   handleUpdateFrontend(value, value1, value2, value4)
-                  // }
-                >
+                <Button key="submit" type="primary" htmlType="submit">
                   Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>

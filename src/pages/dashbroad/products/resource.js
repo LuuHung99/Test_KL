@@ -12,6 +12,7 @@ import {
   BackendToFuncLog,
   ResourceApi,
   pushActiveBackend,
+  UpdateBackend
 } from "../../../services/api";
 
 const { TextArea } = Input;
@@ -67,8 +68,30 @@ function TabData(props) {
     alert("Thay đổi trạng thái thành công!");
     setModel(false);
     setVisible(false);
+  };
+
+  const handleFormSubmitUpdateFrontend = async (value) => {
+    const request = { _id: editSelected._id };
+
+    if (value["title"] !== undefined) {
+      request.title = value["title"];
+    }
+    if (value["description"] !== undefined) {
+      request.description = value["description"];
+    }
+    if (value["http"] !== undefined) {
+      request.httpVerb = value["http"];
+    }
+    if (value["path"] !== undefined) {
+      request.httpVerb = value["path"];
+    }
+    await UpdateBackend(request);
+    const newData = await ResourceApi();
+    window.store["dataresource"] = newData;
+    setDataPd(newData);
     setEditBox(false);
   };
+
 
   const handleClickActive = async (id, active, value) => {
     const l = {
@@ -273,9 +296,7 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(title, http, description, path)
-                  }
+                  onClick={() => handleAddInfor(title, http, description, path)}
                 >
                   Add
                 </Button>
@@ -290,23 +311,26 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update resource ${editSelected.title}`}
+            title={`Update Resource ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUpdateFrontend}>
               <Form.Item name="title" label="Title">
                 <Input
-                  value={title}
+                  defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="path" label="LocationPath">
-                <Input value={path} onChange={(e) => setPath(e.target.value)} />
+                <Input
+                  defaultValue={editSelected.locationPath}
+                  onChange={(e) => setPath(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="http" label="HttpVerb">
-                <Select value={http}>
+                <Select defaultValue={editSelected.httpVerb}>
                   <Select.Option value="get">GET</Select.Option>
                   <Select.Option value="put">PUT</Select.Option>
                   <Select.Option value="post">POST</Select.Option>
@@ -314,22 +338,19 @@ function TabData(props) {
               </Form.Item>
 
               <Form.Item name="description" label="Description">
-                <Input
-                  value={description}
+                <TextArea
+                  rows={4}
+                  defaultValue={editSelected.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
-
-               
 
               <div className="box_products">
                 <Button
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(title, http, description, path)
-                  }
+                  // onClick={() => handleUpdateBackend(title, http, description, path)}
                 >
                   Update
                 </Button>

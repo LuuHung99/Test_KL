@@ -29,9 +29,10 @@ export const pushActiveFrontend = async (tab) => {
 
 /* Update Frontend */
 
-export const UpdateFrontend = async (tab) => {
+export const UpdateFrontend = async (update) => {
   const url = "http://localhost:5000/api/root/tab";
-  const response = await axios.post(url, {tab});
+  const response = await axios.post(url, {tab: update});
+  console.log("UpdateFrontend",response);
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
@@ -80,6 +81,7 @@ export const pushActiveBackend = async (backend) => {
 export const BackendToFuncLog = async (backend) => {
   const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, { log: backend });
+  console.log("BackendToFuncLog",response);
   const result =
     (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
@@ -92,6 +94,17 @@ export const BackendActivated = async () => {
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
+
+/* Update Backend */
+
+export const UpdateBackend = async (update) => {
+  const url = "http://localhost:5000/api/root/backend";
+  const response = await axios.post(url, {backend: update});
+  console.log("UpdateBackend",response);
+  const result = (await response.status) === 200 ? await response.data : {};
+  return result;
+};
+
 
 /*End - API Front-end */
 

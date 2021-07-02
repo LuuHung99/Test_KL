@@ -22,11 +22,10 @@ function App() {
     activatedFe: dataActivatedFe,
     activatedBe: dataActivatedBe,
     activatedRole: dataActivatedRole,
-    datasidebar : dataSideBar.concat(dataFrontend)
+    datasidebar: dataSideBar.concat(dataFrontend),
   };
 
   useEffect(() => {
-    
     let ProductApi = "http://localhost:5000/api/root/tab";
     let UserApi = "http://localhost:5000/api/root/user";
     let RoleApi = "http://localhost:5000/api/root/role";
@@ -38,11 +37,13 @@ function App() {
 
     const dataProduct = new Promise((resolve, reject) => {
       resolve(fetch(ProductApi));
-    }).then((data) => {
-      return data.json();
-    }).catch((err) => {console.log("err", err);})
-    ;
-
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
     const datauser = new Promise((resolve, reject) => {
       resolve(fetch(UserApi));
     }).then((data) => {
@@ -57,9 +58,13 @@ function App() {
 
     const dataresource = new Promise((resolve, reject) => {
       resolve(fetch(ResourceApi));
-    }).then((data) => {
-      return data.json();
-    }).catch((err) => {console.log("err backend", err);});
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {
+        console.log("err backend", err);
+      });
 
     const dataActivatedFront = new Promise((resolve, reject) => {
       resolve(fetch(ActivatedFrontend));
@@ -93,7 +98,7 @@ function App() {
       dataActivatedFront,
       dataActivatedBack,
       dataActivatedRol,
-      getApiSideBar
+      getApiSideBar,
     ])
       .then((res) => {
         setDataFrontend(res[0]);
@@ -108,7 +113,16 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [
+    setDataFrontend,
+    setDataUser,
+    setDataRole,
+    setDataResource,
+    setDataActivatedFe,
+    setDataActivatedBe,
+    setDataActivatedRole,
+    setDataSideBar,
+  ]);
 
   return (
     <div>

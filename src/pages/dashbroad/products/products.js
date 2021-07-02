@@ -13,7 +13,6 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-  console.log("data",panes);
   let item = researchItem(id);
 
   if (researchItem(id) !== undefined) {

@@ -61,6 +61,7 @@ function TabData(props) {
   };
 
   const handleShowModel = (item) => {
+    console.log(item);
     setItemSelected(item);
     setModel(true);
   };
@@ -161,7 +162,6 @@ function TabData(props) {
                         key={index}
                       >
                         <td>
-                          <div>
                             <img
                               src="/images/male-farmer.svg"
                               alt=""
@@ -171,7 +171,6 @@ function TabData(props) {
                                 borderRadius: "50%",
                               }}
                             />
-                          </div>
                         </td>
                         <td>
                           {/* {item.roles.length > 0
@@ -277,7 +276,7 @@ function TabData(props) {
           <Modal
             visible={model}
             title={`${itemSelected.activated ? "Activate" : "Disable"} ${
-              itemSelected.title
+              itemSelected.username
             }`}
             onOk={handleOk}
             onCancel={handleCancel}

@@ -393,13 +393,13 @@ function TabData(props) {
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <Form.Item name="title" label="Title">
                 <Input
-                  value={title}
+                  defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="description" label="Description">
                 <Input
-                  value={description}
+                  defaultValue={editSelected.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
@@ -408,10 +408,9 @@ function TabData(props) {
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
-                  placeholder="Tag frontend"
                   onChange={handleChangeFrontend}
                   options={dataFrontend}
-                  value={frontend}
+                  defaultValue={editSelected.tabs.map((item) => item.title)}
                 ></Select>
               </Form.Item>
 
@@ -419,10 +418,9 @@ function TabData(props) {
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
-                  placeholder="Tag backend"
                   onChange={handleChangeBackend}
                   options={dataBackend}
-                  value={backend}
+                  defaultValue={editSelected.backends.map((item) =>item.title)}
                 ></Select>
               </Form.Item>
 
