@@ -83,13 +83,15 @@ function TabData(props) {
       request.httpVerb = value["http"];
     }
     if (value["path"] !== undefined) {
-      request.httpVerb = value["path"];
+      request.locationPath = value["path"];
     }
-    await UpdateBackend(request);
+    setEditBox(false);
+    await UpdateBackend(value);
+    
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);
-    setEditBox(false);
+    
   };
 
 
@@ -121,6 +123,8 @@ function TabData(props) {
     window.store["dataresource"] = newData;
     setDataPd(newData);
   };
+
+  const handleUpdateBackend = (f) => {}
 
   return (
     <div className="container_tabdata">

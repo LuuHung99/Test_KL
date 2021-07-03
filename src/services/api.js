@@ -81,7 +81,6 @@ export const pushActiveBackend = async (backend) => {
 export const BackendToFuncLog = async (backend) => {
   const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, { log: backend });
-  console.log("BackendToFuncLog",response);
   const result =
     (await response.status) === 200 ? "Update successfull" : "Failed update";
   return result;
@@ -126,6 +125,17 @@ export const pushRole = async (role) => {
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
+
+
+/* Update Role */
+export const UpdateRole = async (update) => {
+  const url = "http://localhost:5000/api/root/role";
+  const response = await axios.post(url, {role: update});
+  console.log("UpdateRole",response);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
 
 /* Active to roleHistory */
 export const RoleActiveToHistory = async (body) => {

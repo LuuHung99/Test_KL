@@ -12,7 +12,7 @@ import {
   pushRole,
   RoleApi,
   RoleActiveToHistory,
-  
+  UpdateRole
 } from "../../../services/api";
 
 const { TextArea } = Input;
@@ -77,8 +77,35 @@ function TabData(props) {
     alert("Tạo mới thành công quyền truy cập");
     setVisible(false);
     setModel(false);
-    setEditBox(false);
+    
   };
+
+  const handleFormSubmitUPdateRole = async (value) => {
+    const request = { _id: editSelected._id };
+
+    if (value["title"] !== undefined) {
+      request.title = value["title"];
+    }
+    if (value["description"] !== undefined) {
+      request.description = value["description"];
+    }
+    if (value["tab"] !== undefined) {
+      request.tabs = value["tab"];
+    }
+    if (value["backend"] !== undefined) {
+      request.backends = value["backend"];
+    }
+    console.log("request", request);
+    await UpdateRole(request);
+    const newData = await RoleApi();
+    window.store["datarole"] = newData;
+    setDataPd(newData);
+    setEditBox(false);
+
+    // // alert("Cập nhật thành công quyền truy cập");
+    
+    
+  }
 
   const handleChangeFrontend = (frontend, id) => {
     console.log(id);
@@ -141,9 +168,15 @@ function TabData(props) {
     setDataPd(newData);
   };
 
-  const handleUpdateRole =  async( ) => {
-    
-  };
+  // const handleUpdateRole =  async( title, description, tab, backend ) => {
+  //   const l = {
+  //     title: title,
+  //     description: description,
+  //     tabs: tab,
+  //     backend: backend  
+  //   };
+  //   await UpdateRole(l);
+  // };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -390,7 +423,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUPdateRole}>
               <Form.Item name="title" label="Title">
                 <Input
                   defaultValue={editSelected.title}
@@ -429,10 +462,14 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() =>
-                    handleUpdateRole(
-                       
-                    )}
+                  // onClick={() =>
+                  //   handleUpdateRole(
+                  //     editSelected.title,
+                  //     editSelected.description,
+                  //     editSelected.tabs ,
+                  //     editSelected.backends
+
+                  //   )}
                 >
                   Update
                 </Button>
