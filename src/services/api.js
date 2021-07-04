@@ -46,15 +46,6 @@ export const FrontendToFuncLog = async (tab) => {
   return result;
 };
 
-/* Get all Avtivated Frontend */
-
-export const FrontendActivated = async () => {
-  const url = "http://localhost:5000/api/root/tab/activated";
-  const response = await axios.put(url);
-  const result = (await response.status) === 200 ? await response.data : [];
-  return result;
-};
-
 /* Get Activate Frontend */
 
 export const GetActiveFrontend = async () => {
@@ -95,13 +86,6 @@ export const BackendToFuncLog = async (backend) => {
   return result;
 };
 
-/* Get all Avtivated Backend */
-export const BackendActivated = async () => {
-  const url = "http://localhost:5000/api/root/backend/activated";
-  const response = await axios.put(url);
-  const result = (await response.status) === 200 ? await response.data : [];
-  return result;
-};
 
 /* Update Backend */
 
@@ -189,9 +173,20 @@ export const UserApi = async () => {
 };
 
 /* Add User  */
-export const pushUser = async (user) => {
+export const PushUser = async (user) => {
   const url = "http://localhost:5000/api/root/user";
   const response = await axios.put(url, { user });
+  console.log("push user", response);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
+/* CHange Activate User */
+
+export const ActivateUser = async (user) => {
+  const url = "http://localhost:5000/api/root/user/activate";
+  const response = await axios.post(url, user);
+  console.log("activate user", response);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };

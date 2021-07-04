@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/product.css";
-import { Layout, Tabs } from "antd";
+import { Layout, Tabs, Button } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import TabData from "./tabData";
 import Role from "./role";
@@ -13,6 +13,7 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
+
   let item = researchItem(id);
 
   if (researchItem(id) !== undefined) {
@@ -25,8 +26,9 @@ function DetailProducts(props) {
     }
   }
 
-  const remove = (activeKey) => {
-    const newPanes = panes.filter((pane) => pane.url !== activeKey);
+  const remove = (targetKey) => {
+    const newPanes = panes.filter((pane) => pane.url !== targetKey);
+
     setPanes(newPanes);
   };
 

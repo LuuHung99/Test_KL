@@ -42,6 +42,7 @@ td {
 }
 
 .table_col_content_unactivated_role td {
+  padding: 20px 20px;
   text-align: center;
   cursor: pointer;
   background-color: rgb(229, 228, 226);

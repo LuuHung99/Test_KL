@@ -10,6 +10,8 @@ import {
 } from "@ant-design/icons";
 import "./css/tab-data.css";
 
+import { ActivateUser, UserApi, PushUser } from "../../../services/api";
+
 const { TextArea } = Input;
 
 const layout = {
@@ -18,7 +20,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd] = useState(window.store.datauser);
+  const [dataPd, setDataPd] = useState(window.store.datauser);
   const [activeRole] = useState(window.store.activatedRole);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
@@ -29,6 +31,10 @@ function TabData(props) {
   const [role, setRole] = useState();
   const [itemSelected, setItemSelected] = useState();
   const [reason, setReason] = useState("");
+
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [image, setImage] = useState();
 
   const [fileList, setFileList] = useState([]);
 
@@ -61,7 +67,6 @@ function TabData(props) {
   };
 
   const handleShowModel = (item) => {
-    console.log(item);
     setItemSelected(item);
     setModel(true);
   };
@@ -87,9 +92,16 @@ function TabData(props) {
     setModel(false);
   };
 
-  function handleChangeRole(value) {
-    setRole(value);
-  }
+  // const handleFormSubmitAddUser = async(value) => {
+  //   console.log("Data user", value);
+  //   await PushUser(value);
+  //   setVisible(false);
+  // }
+
+  const handleChangeRole = (user, id) => {
+    const newId = id.map((item) => item._id);
+    setRole(newId);
+  };
 
   useEffect(() => {
     if (activeRole) {
@@ -100,7 +112,33 @@ function TabData(props) {
     }
   }, []);
 
-  const handleClickActive = (e) => {};
+  const handleClickActive = async (id, activated, reason, username) => {
+    const l = {
+      userId: id,
+      reason: reason,
+      username: username,
+      activated: activated ? false : true,
+    };
+    await ActivateUser(l);
+    const newData = await UserApi();
+    window.store["datauser"] = newData;
+    setDataPd(newData);
+    setReason("");
+  };
+
+  const handleAddInfor = async (username, fullname, role) => {
+    const l = {
+      username: username,
+      fullname: fullname,
+      activated: true,
+      roles: role,
+    };
+    console.log("data user", l);
+    await PushUser(l);
+    // const newData = await UserApi();
+    // window.store["datauser"] = newData;
+    // setDataPd(newData);
+  };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -162,31 +200,32 @@ function TabData(props) {
                         key={index}
                       >
                         <td>
-                            <img
-                              src="/images/male-farmer.svg"
-                              alt=""
-                              style={{
-                                width: 50,
-                                height: 50,
-                                borderRadius: "50%",
-                              }}
-                            />
+                          <img
+                            src="/images/male-farmer.svg"
+                            alt=""
+                            style={{
+                              width: 50,
+                              height: 50,
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                            }}
+                          />
                         </td>
                         <td>
-                          {/* {item.roles.length > 0
-                                ? item.roles.map((item) => (
-                              <> */}
-                          <Tooltip
-                            placement="top"
-                            title="ROle backend new add frontend"
-                          >
-                            <div className="title_user">
-                              Hung new giao foods
-                            </div>
-                          </Tooltip>
-                          {/* </>
-                               ))
-                               : null} */}
+                          {item.roles.length > 0
+                            ? item.roles.map((item) => (
+                                <>
+                                  <Tooltip
+                                    placement="top"
+                                    title={item.title}
+                                  >
+                                    <div className="title_user">
+                                      {item.description}
+                                    </div>
+                                  </Tooltip>
+                                </>
+                              ))
+                            : null}
                         </td>
                         <td>{item.username}</td>
                         <td>{item.fullname}</td>
@@ -232,7 +271,7 @@ function TabData(props) {
             footer={[]}
           >
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-              <Form.Item name="iamge" label="Image">
+              <Form.Item name="image" label="Image">
                 <ImgCrop rotate>
                   <Upload
                     listType="picture-card"
@@ -245,10 +284,16 @@ function TabData(props) {
                 </ImgCrop>
               </Form.Item>
               <Form.Item name="username" label="Username">
-                <Input />
+                <Input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="fullname" label="Fullname">
-                <Input />
+                <Input
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="roles" label="Role">
                 <Select
@@ -262,7 +307,12 @@ function TabData(props) {
               </Form.Item>
 
               <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => handleAddInfor(username, fullname, role)}
+                >
                   Add
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
@@ -294,7 +344,14 @@ function TabData(props) {
                   key="submit"
                   type={itemSelected.activated ? "ghost" : "primary"}
                   htmlType="submit"
-                  onClick={() => handleClickActive()}
+                  onClick={() =>
+                    handleClickActive(
+                      itemSelected._id,
+                      itemSelected.activated,
+                      reason,
+                      itemSelected.username
+                    )
+                  }
                 >
                   {itemSelected.activated ? "Disable" : "Active"}
                 </Button>

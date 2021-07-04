@@ -30,11 +30,12 @@ function TabData(props) {
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
+
   const [reason, setReason] = useState("");
-  const [value, setValue] = useState("");
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
-  const [value4, setValue4] = useState("");
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [author, setAuthor] = useState("");
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -92,13 +93,13 @@ function TabData(props) {
     setEditBox(false);
   };
 
-  const handleAddInfor = async (value, value1, value2, value4) => {
+  const handleAddInfor = async (title, url, description, author) => {
     const f = {
-      title: value,
-      url: value1,
-      description: value2,
+      title: title,
+      url: url,
+      description: description,
       activated: true,
-      author: value4,
+      author: author,
       parentId: "",
     };
     await pushActiveFrontend(f);
@@ -118,7 +119,7 @@ function TabData(props) {
     await FrontendToFuncLog(l);
     setReason("");
     const newData = await ProductApi();
-    window.store["products"] = newData;
+    window.store["datasidebar"] = newData;
     setDataPd(newData);
   };
 
@@ -271,26 +272,26 @@ function TabData(props) {
             <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
               <Form.Item name="title" label="Title">
                 <Input
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="url" label="Url">
                 <Input
-                  value={value1}
-                  onChange={(e) => setValue1(e.target.value)}
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="description" label="Description">
                 <Input
-                  value={value2}
-                  onChange={(e) => setValue2(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="author" label="Author">
                 <Input
-                  value={value4}
-                  onChange={(e) => setValue4(e.target.value)}
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
                 />
               </Form.Item>
 
@@ -299,7 +300,7 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() => handleAddInfor(value, value1, value2, value4)}
+                  onClick={() => handleAddInfor(title, url, description, author)}
                 >
                   Add
                 </Button>
@@ -327,19 +328,19 @@ function TabData(props) {
               <Form.Item name="title" label="Title">
                 <Input
                   defaultValue={editSelected.title}
-                  onChange={(e) => setValue(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="url" label="Url">
                 <Input
                   defaultValue={editSelected.url}
-                  onChange={(e) => setValue1(e.target.value)}
+                  onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Item>
               <Form.Item name="author" label="Author">
                 <Input
                   defaultValue={editSelected.author}
-                  onChange={(e) => setValue4(e.target.value)}
+                  onChange={(e) => setAuthor(e.target.value)}
                 />
               </Form.Item>
 
@@ -347,7 +348,7 @@ function TabData(props) {
                 <TextArea
                   rows={4}
                   defaultValue={editSelected.description}
-                  onChange={(e) => setValue2(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
 

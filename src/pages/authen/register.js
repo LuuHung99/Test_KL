@@ -58,7 +58,7 @@ function Register(props) {
             <h1>Đăng ký</h1>
             <Form.Item
               label="Họ tên"
-              name="username"
+              name="fullname"
               rules={[
                 {
                   required: true,
@@ -69,17 +69,13 @@ function Register(props) {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Địa chỉ Email"
-              name="email"
+              label="Tên tài khoản"
+              name="username"
               rules={[
                 {
                   required: true,
-                  message: "Email không được để trống!",
-                },
-                {
-                  type: "email",
-                  message: "Định dạng email không đúng!",
-                },
+                  message: "Tên tài khoản không được để trống!",
+                }
               ]}
             >
               <Input />
@@ -126,19 +122,6 @@ function Register(props) {
               ]}
             >
               <Input.Password />
-            </Form.Item>
-            <Form.Item
-              label="Số điện thoại"
-              name="phonenumber"
-              rules={[
-                {
-                  required: true,
-                  message: "Số điện thoại không được để trống!!",
-                },
-                validatePhoneNumber,
-              ]}
-            >
-              <Input />
             </Form.Item>
             <Form.Item {...tailLayout}>
               <Button

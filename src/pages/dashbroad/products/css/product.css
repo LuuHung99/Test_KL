@@ -32,8 +32,8 @@ button.ant-btn {
 
 .sidebar_container {
   background-color: #333547;
-  margin-bottom: 10px;
-  overflow-y: scroll ;
+  margin-bottom: 15px;
+  overflow-y: scroll;
 }
 .sidebar_menus {
   background-color: #333547; 
