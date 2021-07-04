@@ -85,12 +85,12 @@ function TabData(props) {
     if (value["path"] !== undefined) {
       request.locationPath = value["path"];
     }
-    setEditBox(false);
-    await UpdateBackend(value);
-    
+   
+    await UpdateBackend(request);
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);
+    setEditBox(false);
     
   };
 
@@ -343,7 +343,7 @@ function TabData(props) {
 
               <Form.Item name="description" label="Description">
                 <TextArea
-                  rows={4}
+                  rows={4}  
                   defaultValue={editSelected.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />

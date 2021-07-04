@@ -325,17 +325,30 @@ function TabData(props) {
               onFinish={handleFormSubmitUpdateFrontend}
             >
               <Form.Item name="title" label="Title">
-                <Input defaultValue={editSelected.title} />
+                <Input
+                  defaultValue={editSelected.title}
+                  onChange={(e) => setValue(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input defaultValue={editSelected.url} />
+                <Input
+                  defaultValue={editSelected.url}
+                  onChange={(e) => setValue1(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="author" label="Author">
-                <Input defaultValue={editSelected.author} />
+                <Input
+                  defaultValue={editSelected.author}
+                  onChange={(e) => setValue4(e.target.value)}
+                />
               </Form.Item>
 
               <Form.Item name="description" label="Description">
-                <TextArea rows={4} defaultValue={editSelected.description} />
+                <TextArea
+                  rows={4}
+                  defaultValue={editSelected.description}
+                  onChange={(e) => setValue2(e.target.value)}
+                />
               </Form.Item>
 
               <div className="box_products">

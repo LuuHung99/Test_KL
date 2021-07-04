@@ -45,7 +45,6 @@ function TabData(props) {
   const [username, setUsername] = useState("");
 
   const handleEditBox = (item) => {
-    // console.log("Update Frontend Select", item);
     setEditSelected(item);
     setEditBox(true);
   };
@@ -82,20 +81,19 @@ function TabData(props) {
 
   const handleFormSubmitUPdateRole = async (value) => {
     const request = { _id: editSelected._id };
-
+   
     if (value["title"] !== undefined) {
       request.title = value["title"];
     }
     if (value["description"] !== undefined) {
       request.description = value["description"];
     }
-    // if (value["tab"] !== undefined) {
-    //   request.tabs = value["tab"];
-    // }
-    // if (value["backend"] !== undefined) {
-    //   request.backends = value["backend"];
-    // }
-    console.log("request", request);
+    if (frontend !== undefined) {
+      request.tabs = frontend;
+    }
+    if (backend !== undefined) {
+      request.backends = backend;
+    }
     await UpdateRole(request);
     const newData = await RoleApi();
     window.store["datarole"] = newData;
@@ -108,13 +106,11 @@ function TabData(props) {
   }
 
   const handleChangeFrontend = (frontend, id) => {
-    console.log(id);
     const newId = id.map((item) => item._id);
     setFrontend(newId);
   };
 
   const handleChangeBackend = (backend, id) => {
-    console.log(id);
     const newId = id.map((item) => item._id);
     setBackend(newId);
   };
@@ -377,7 +373,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title={`${itemSelected.activated ? "Activated" : "Deactivated"} ${
+            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -405,7 +401,7 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Deactivated" : "Activated"}
+                  {itemSelected.activated ? "Disable" : "Activae"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Cancel
@@ -437,7 +433,7 @@ function TabData(props) {
                 />
               </Form.Item>
 
-              <Form.Item name="tab" label="Frontend">
+              <Form.Item name="tabs" label="Frontend">
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
@@ -447,7 +443,7 @@ function TabData(props) {
                 ></Select>
               </Form.Item>
 
-              <Form.Item name="backend" label="Backend">
+              <Form.Item name="backends" label="Backend">
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
@@ -462,14 +458,7 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  // onClick={() =>
-                  //   handleUpdateRole(
-                  //     editSelected.title,
-                  //     editSelected.description,
-                  //     editSelected.tabs ,
-                  //     editSelected.backends
-
-                  //   )}
+                   
                 >
                   Update
                 </Button>
