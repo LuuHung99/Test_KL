@@ -1,7 +1,7 @@
 import axios from "axios";
 
 /* Get API Sidebar */
-export const getApiSideBar = async () => {
+export const GetApiSideBar = async () => {
   const url = "http://localhost:5000/api/root/sidebar";
   const response = await axios.get(url);
   const result = (await response.status) === 200 ? await response.data : [];
@@ -51,6 +51,15 @@ export const FrontendToFuncLog = async (tab) => {
 export const FrontendActivated = async () => {
   const url = "http://localhost:5000/api/root/tab/activated";
   const response = await axios.put(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
+/* Get Activate Frontend */
+
+export const GetActiveFrontend = async () => {
+  const url = "http://localhost:5000/api/root/tab/activated";
+  const response = await axios.get(url);
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
@@ -105,6 +114,16 @@ export const UpdateBackend = async (update) => {
 };
 
 
+/* Get Activate Backend */
+
+export const GetActiveBackend = async () => {
+  const url = "http://localhost:5000/api/root/backend/activated";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
+
 /*End - API Front-end */
 
 /*----------------------------------------------------------------*/
@@ -144,6 +163,18 @@ export const RoleActiveToHistory = async (body) => {
   const result = (await response.status) === 200 ? await response.data : [];
   return result;
 };
+
+
+/* Get Activate Role */
+
+export const GetActiveRole = async () => {
+  const url = "http://localhost:5000/api/root/role/activated";
+  const response = await axios.get(url);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
+
 /*End - API Role */
 
 /*----------------------------------------------------------------*/

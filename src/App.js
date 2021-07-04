@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import AppRouter from "./pages/index";
 import { createCategories } from "./services/middlewares";
+import {
+  GetApiSideBar,
+  GetActiveBackend,
+  GetActiveFrontend,
+  GetActiveRole,
+  ProductApi,
+  ResourceApi,
+  RoleApi,
+  UserApi,
+} from "./services/api";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -26,103 +36,84 @@ function App() {
   };
 
   useEffect(() => {
-    let ProductApi = "http://localhost:5000/api/root/tab";
-    let UserApi = "http://localhost:5000/api/root/user";
-    let RoleApi = "http://localhost:5000/api/root/role";
-    let ResourceApi = "http://localhost:5000/api/root/backend";
-    let ActivatedFrontend = "http://localhost:5000/api/root/tab/activated";
-    let ActivatedBackend = "http://localhost:5000/api/root/backend/activated";
-    let ActivatedRole = "http://localhost:5000/api/root/role/activated";
-    let GetApiSidebar = "http://localhost:5000/api/root/sidebar";
+    const getDataSideBar = async () => {
+      const dataSideBar = await GetApiSideBar();
+      if (dataSideBar) {
+        setDataSideBar(dataSideBar);
+      }
+    };
+    getDataSideBar();
+  }, []);
 
-    const dataProduct = new Promise((resolve, reject) => {
-      resolve(fetch(ProductApi));
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-    const datauser = new Promise((resolve, reject) => {
-      resolve(fetch(UserApi));
-    }).then((data) => {
-      return data.json();
-    });
+  useEffect(() => {
+    const getDataFrontend = async () => {
+      const dataFrontend = await ProductApi();
+      if (dataFrontend) {
+        setDataFrontend(dataFrontend);
+      }
+    };
+    getDataFrontend();
+  }, []);
 
-    const datarole = new Promise((resolve, reject) => {
-      resolve(fetch(RoleApi));
-    }).then((data) => {
-      return data.json();
-    });
+  useEffect(() => {
+    const getDataBackend = async () => {
+      const dataBackend = await ResourceApi();
+      if (dataBackend) {
+        setDataResource(dataBackend);
+      }
+    };
+    getDataBackend();
+  }, []);
 
-    const dataresource = new Promise((resolve, reject) => {
-      resolve(fetch(ResourceApi));
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .catch((err) => {
-        console.log("err backend", err);
-      });
+  useEffect(() => {
+    const getDataRoles = async () => {
+      const dataRole = await RoleApi();
+      if (dataRole) {
+        setDataRole(dataRole);
+      }
+    };
+    getDataRoles();
+  }, []);
 
-    const dataActivatedFront = new Promise((resolve, reject) => {
-      resolve(fetch(ActivatedFrontend));
-    }).then((data) => {
-      return data.json();
-    });
+  useEffect(() => {
+    const getDataUsers = async () => {
+      const dataUser = await UserApi();
+      if (dataUser) {
+        setDataUser(dataUser);
+      }
+    };
+    getDataUsers();
+  }, []);
 
-    const dataActivatedBack = new Promise((resolve, reject) => {
-      resolve(fetch(ActivatedBackend));
-    }).then((data) => {
-      return data.json();
-    });
+  useEffect(() => {
+    const getDataActivateFe = async () => {
+      const dataActivateFe = await GetActiveFrontend();
+      if (dataActivateFe) {
+        setDataActivatedFe(dataActivateFe);
+      }
+    };
+    getDataActivateFe();
+  }, []);
 
-    const dataActivatedRol = new Promise((resolve, reject) => {
-      resolve(fetch(ActivatedRole));
-    }).then((data) => {
-      return data.json();
-    });
+  useEffect(() => {
+    const getDataActivateBe = async () => {
+      const dataActivateBe = await GetActiveBackend();
+      if (dataActivateBe) {
+        setDataActivatedBe(dataActivateBe);
+      }
+    };
+    getDataActivateBe();
+  }, []);
 
-    const getApiSideBar = new Promise((resolve, reject) => {
-      resolve(fetch(GetApiSidebar));
-    }).then((data) => {
-      return data.json();
-    });
-
-    Promise.all([
-      dataProduct,
-      datauser,
-      datarole,
-      dataresource,
-      dataActivatedFront,
-      dataActivatedBack,
-      dataActivatedRol,
-      getApiSideBar,
-    ])
-      .then((res) => {
-        setDataFrontend(res[0]);
-        setDataUser(res[1]);
-        setDataRole(res[2]);
-        setDataResource(res[3]);
-        setDataActivatedFe(res[4]);
-        setDataActivatedBe(res[5]);
-        setDataActivatedRole(res[6]);
-        setDataSideBar(res[7]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [
-    setDataFrontend,
-    setDataUser,
-    setDataRole,
-    setDataResource,
-    setDataActivatedFe,
-    setDataActivatedBe,
-    setDataActivatedRole,
-    setDataSideBar,
-  ]);
+  useEffect(() => {
+    const getDataActivateRole = async () => {
+      const dataActivateRole = await GetActiveRole();
+      if (dataActivateRole) {
+        setDataActivatedRole(dataActivateRole);
+      }
+    };
+    getDataActivateRole();
+  }, []);
 
   return (
     <div>

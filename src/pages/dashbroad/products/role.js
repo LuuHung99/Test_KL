@@ -89,12 +89,12 @@ function TabData(props) {
     if (value["description"] !== undefined) {
       request.description = value["description"];
     }
-    if (value["tab"] !== undefined) {
-      request.tabs = value["tab"];
-    }
-    if (value["backend"] !== undefined) {
-      request.backends = value["backend"];
-    }
+    // if (value["tab"] !== undefined) {
+    //   request.tabs = value["tab"];
+    // }
+    // if (value["backend"] !== undefined) {
+    //   request.backends = value["backend"];
+    // }
     console.log("request", request);
     await UpdateRole(request);
     const newData = await RoleApi();
