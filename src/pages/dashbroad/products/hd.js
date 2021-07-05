@@ -36,9 +36,9 @@ function HeaderTest(props) {
           <ul className="menu">
             <div className="menu-logo">
               <img
-                src="/images/male-farmer.svg"
+                src="/images/avatar-1.jpg"
                 alt=""
-                style={{ width: 40, height: 40 }}
+                style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
               <p>Hung Luu</p>
             </div>

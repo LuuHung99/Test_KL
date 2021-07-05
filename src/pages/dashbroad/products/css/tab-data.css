@@ -80,6 +80,7 @@ td {
 
 .title_user {
   cursor: pointer;
+  padding: 5px;
 }
 
 .title_role:hover {

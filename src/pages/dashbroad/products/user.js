@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Input, Select, Form, Modal, Button, Tooltip, Upload } from "antd";
+import {
+  Input,
+  Select,
+  Form,
+  Modal,
+  Button,
+  Tooltip,
+  Upload,
+  message,
+} from "antd";
 import ImgCrop from "antd-img-crop";
 import {
   CheckOutlined,
@@ -10,7 +19,12 @@ import {
 } from "@ant-design/icons";
 import "./css/tab-data.css";
 
-import { ActivateUser, UserApi, PushUser } from "../../../services/api";
+import {
+  ActivateUser,
+  UserApi,
+  PushUser,
+  UpdateUser,
+} from "../../../services/api";
 
 const { TextArea } = Input;
 
@@ -34,7 +48,6 @@ function TabData(props) {
 
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
-  const [image, setImage] = useState();
 
   const [fileList, setFileList] = useState([]);
 
@@ -43,7 +56,7 @@ function TabData(props) {
   };
 
   const onPreview = async (file) => {
-    let src = file.url;
+    let src = file.name;
     if (!src) {
       src = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -58,6 +71,7 @@ function TabData(props) {
   };
 
   const handleEditBox = (item) => {
+    console.log("eidt image", item);
     setEditSelected(item);
     setEditBox(true);
   };
@@ -86,17 +100,38 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Thêm mới thành công user");
-    setVisible(false);
-    setEditBox(false);
     setModel(false);
+    message.success("Thay đổi thành công trạng thái chức năng user", 2);
   };
 
-  // const handleFormSubmitAddUser = async(value) => {
-  //   console.log("Data user", value);
-  //   await PushUser(value);
-  //   setVisible(false);
-  // }
+  const handleFormSubmitAddUser = () => {
+    setVisible(false);
+    message.success("Thêm thành công chức năng user", 2);
+  };
+
+  const handleFormSubmitUpdateUser = async (value) => {
+    const url = "http://localhost:3000/images/";
+    const request = { _id: editSelected._id };
+    if (value["username"] !== undefined) {
+      request.username = value["username"];
+    }
+    if (value["fullname"] !== undefined) {
+      request.fullname = value["fullname"];
+    }
+    if (role !== undefined) {
+      request.roles = role;
+    }
+    if (`${url}` + `${fileList[0].name}` !== undefined) {
+      request.avatarUrl = `${url}` + `${fileList[0].name}`;
+    }
+
+    UpdateUser(request);
+    const newData = await UserApi();
+    window.store["datauser"] = newData;
+    setDataPd(newData);
+    message.success("Thay đổi thành công chức năng user", 2);
+    setEditBox(false);
+  };
 
   const handleChangeRole = (user, id) => {
     const newId = id.map((item) => item._id);
@@ -120,24 +155,28 @@ function TabData(props) {
       activated: activated ? false : true,
     };
     await ActivateUser(l);
+    setReason("");
     const newData = await UserApi();
     window.store["datauser"] = newData;
     setDataPd(newData);
-    setReason("");
+    
   };
 
-  const handleAddInfor = async (username, fullname, role) => {
+  const handleAddInfor = async (username, fullname, role, fileList) => {
+    const url = "http://localhost:3000/images/";
     const l = {
       username: username,
       fullname: fullname,
       activated: true,
       roles: role,
+      hashedPass: "abc123",
+      salt: "hung12",
+      avatarUrl: `${url}` + `${fileList[0].name}`,
     };
-    console.log("data user", l);
     await PushUser(l);
-    // const newData = await UserApi();
-    // window.store["datauser"] = newData;
-    // setDataPd(newData);
+    const newData = await UserApi();
+    window.store["datauser"] = newData;
+    setDataPd(newData);
   };
 
   return (
@@ -189,7 +228,7 @@ function TabData(props) {
                   }
                 })
                 .map((item, index) =>
-                  item.username !== "" ? (
+                  item.username !== "root" ? (
                     <>
                       <tr
                         className={
@@ -201,7 +240,7 @@ function TabData(props) {
                       >
                         <td>
                           <img
-                            src="/images/male-farmer.svg"
+                            src={item.avatarUrl}
                             alt=""
                             style={{
                               width: 50,
@@ -215,10 +254,7 @@ function TabData(props) {
                           {item.roles.length > 0
                             ? item.roles.map((item) => (
                                 <>
-                                  <Tooltip
-                                    placement="top"
-                                    title={item.title}
-                                  >
+                                  <Tooltip placement="top" title={item.title}>
                                     <div className="title_user">
                                       {item.description}
                                     </div>
@@ -270,7 +306,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitAddUser}
+            >
               <Form.Item name="image" label="Image">
                 <ImgCrop rotate>
                   <Upload
@@ -278,6 +318,7 @@ function TabData(props) {
                     fileList={fileList}
                     onChange={onChange}
                     onPreview={onPreview}
+                    status="uploading"
                   >
                     {fileList.length < 1 && "+ Upload"}
                   </Upload>
@@ -311,7 +352,9 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() => handleAddInfor(username, fullname, role)}
+                  onClick={() =>
+                    handleAddInfor(username, fullname, role, fileList)
+                  }
                 >
                   Add
                 </Button>
@@ -371,7 +414,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitUpdateUser}
+            >
               <Form.Item name="iamge" label="Image">
                 <ImgCrop rotate>
                   <Upload
@@ -379,16 +426,23 @@ function TabData(props) {
                     fileList={fileList}
                     onChange={onChange}
                     onPreview={onPreview}
+                    defaultFileList={editSelected.avatarUrl}
                   >
-                    {fileList.length < 1 && "+ Upload"}
+                    {fileList.length < 1}
                   </Upload>
                 </ImgCrop>
               </Form.Item>
               <Form.Item name="username" label="Username">
-                <Input />
+                <Input
+                  defaultValue={editSelected.username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="fullname" label="Fullname">
-                <Input />
+                <Input
+                  defaultValue={editSelected.fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
               </Form.Item>
               <Form.Item name="roles" label="Role">
                 <Select
@@ -398,6 +452,7 @@ function TabData(props) {
                   onChange={handleChangeRole}
                   options={dataRole}
                   value={role}
+                  defaultValue={editSelected.roles.map((item) => item.title)}
                 ></Select>
               </Form.Item>
 

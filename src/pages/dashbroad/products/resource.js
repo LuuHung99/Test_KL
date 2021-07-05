@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal, Select } from "antd";
+import { Input, Form, Button, Modal, Select, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -12,7 +12,7 @@ import {
   BackendToFuncLog,
   ResourceApi,
   pushActiveBackend,
-  UpdateBackend
+  UpdateBackend,
 } from "../../../services/api";
 
 const { TextArea } = Input;
@@ -65,9 +65,13 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Thay đổi trạng thái thành công!");
-    setModel(false);
+    message.success("Thay đổi thành công trạng thái chức năng backend", 2);
     setVisible(false);
+  };
+
+  const handleFormSubmitAddRole = () => {
+    message.success("Thêm thành công chức năng backend", 2);
+    setModel(false);
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
@@ -85,15 +89,14 @@ function TabData(props) {
     if (value["path"] !== undefined) {
       request.locationPath = value["path"];
     }
-   
+
     await UpdateBackend(request);
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);
+    message.success("Cập nhật thành công chức năng backend", 2);
     setEditBox(false);
-    
   };
-
 
   const handleClickActive = async (id, active, value) => {
     const l = {
@@ -123,8 +126,6 @@ function TabData(props) {
     window.store["dataresource"] = newData;
     setDataPd(newData);
   };
-
-  const handleUpdateBackend = (f) => {}
 
   return (
     <div className="container_tabdata">
@@ -270,7 +271,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitAddRole}
+            >
               <Form.Item name="title" label="Title">
                 <Input
                   value={title}
@@ -289,7 +294,8 @@ function TabData(props) {
               </Form.Item>
 
               <Form.Item name="description" label="Description">
-                <Input
+                <TextArea
+                  rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -320,7 +326,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUpdateFrontend}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitUpdateFrontend}
+            >
               <Form.Item name="title" label="Title">
                 <Input
                   defaultValue={editSelected.title}
@@ -343,19 +353,14 @@ function TabData(props) {
 
               <Form.Item name="description" label="Description">
                 <TextArea
-                  rows={4}  
+                  rows={4}
                   defaultValue={editSelected.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
 
               <div className="box_products">
-                <Button
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                  // onClick={() => handleUpdateBackend(title, http, description, path)}
-                >
+                <Button key="submit" type="primary" htmlType="submit">
                   Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>

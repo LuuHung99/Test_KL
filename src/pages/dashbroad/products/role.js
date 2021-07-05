@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Modal, Form, Select, Tooltip } from "antd";
+import { Button, Input, Modal, Form, Select, Tooltip, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -12,7 +12,7 @@ import {
   pushRole,
   RoleApi,
   RoleActiveToHistory,
-  UpdateRole
+  UpdateRole,
 } from "../../../services/api";
 
 const { TextArea } = Input;
@@ -73,15 +73,18 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    alert("Tạo mới thành công quyền truy cập");
-    setVisible(false);
+    message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
     setModel(false);
-    
+  };
+
+  const handleFormSubmitAddRole = () => {
+    message.success("Thêm mới thành công quyền truy cập", 2);
+    setVisible(false);
   };
 
   const handleFormSubmitUPdateRole = async (value) => {
     const request = { _id: editSelected._id };
-   
+
     if (value["title"] !== undefined) {
       request.title = value["title"];
     }
@@ -99,11 +102,8 @@ function TabData(props) {
     window.store["datarole"] = newData;
     setDataPd(newData);
     setEditBox(false);
-
-    // // alert("Cập nhật thành công quyền truy cập");
-    
-    
-  }
+    message.success("Cập nhật thành công quyền truy cập", 2);
+  };
 
   const handleChangeFrontend = (frontend, id) => {
     const newId = id.map((item) => item._id);
@@ -142,7 +142,6 @@ function TabData(props) {
       tabs: frontend,
       backends: backend,
     };
-    console.log(f);
     await pushRole(f);
     const newDataRole = await RoleApi();
     window.store["datarole"] = newDataRole;
@@ -163,16 +162,6 @@ function TabData(props) {
     window.store["datarole"] = newData;
     setDataPd(newData);
   };
-
-  // const handleUpdateRole =  async( title, description, tab, backend ) => {
-  //   const l = {
-  //     title: title,
-  //     description: description,
-  //     tabs: tab,
-  //     backend: backend  
-  //   };
-  //   await UpdateRole(l);
-  // };
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -251,10 +240,7 @@ function TabData(props) {
                                       placement="top"
                                       title={item.description}
                                     >
-                                      <div
-                                        className="title_role"
-                                        
-                                      >
+                                      <div className="title_role">
                                         {item.title}
                                       </div>
                                     </Tooltip>
@@ -315,7 +301,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitAddRole}
+            >
               <Form.Item name="title" label="Title">
                 <Input
                   value={title}
@@ -323,7 +313,8 @@ function TabData(props) {
                 />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input
+                <TextArea
+                  rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -419,7 +410,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmitUPdateRole}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              onFinish={handleFormSubmitUPdateRole}
+            >
               <Form.Item name="title" label="Title">
                 <Input
                   defaultValue={editSelected.title}
@@ -427,7 +422,8 @@ function TabData(props) {
                 />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input
+                <TextArea
+                  rows={4}
                   defaultValue={editSelected.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -449,17 +445,12 @@ function TabData(props) {
                   style={{ width: "100%" }}
                   onChange={handleChangeBackend}
                   options={dataBackend}
-                  defaultValue={editSelected.backends.map((item) =>item.title)}
+                  defaultValue={editSelected.backends.map((item) => item.title)}
                 ></Select>
               </Form.Item>
 
               <div className="box_products">
-                <Button
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                   
-                >
+                <Button key="submit" type="primary" htmlType="submit">
                   Update
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>

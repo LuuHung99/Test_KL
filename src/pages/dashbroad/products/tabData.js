@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal, Select } from "antd";
+import { Input, Form, Button, Modal, message } from "antd";
 import {
   FrontendToFuncLog,
   pushActiveFrontend,
@@ -23,7 +23,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.datasidebar);
+  const [dataPd, setDataPd] = useState(window.store.datatab);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -65,11 +65,15 @@ function TabData(props) {
     setEditBox(false);
   };
 
-  const handleFormSubmit = () => {
-    alert("Thêm chức năng thành công");
-    setVisible(false);
-    setModel(false);
-  };
+  // const handleFormSubmit = () => {
+  //   message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
+  //   setVisible(false);
+  // };
+
+  // const handleFromAddFrontend = () => {
+  //   message.success("Thêm thành công chức năng frontend", 2);
+  //   setModel(false);
+  // };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
     const request = { _id: editSelected._id };
@@ -88,8 +92,9 @@ function TabData(props) {
     }
     await UpdateFrontend(request);
     const newData = await ProductApi();
-    window.store["datasidebar"] = newData;
+    window.store["datatab"] = newData;
     setDataPd(newData);
+    message.success("Cập nhật thành công chức năng frontend", 2);
     setEditBox(false);
   };
 
@@ -104,8 +109,10 @@ function TabData(props) {
     };
     await pushActiveFrontend(f);
     const newData = await ProductApi();
-    window.store["datasidebar"] = newData;
+    window.store["datatab"] = newData;
     setDataPd(newData);
+    message.success("Thêm thành công chức năng frontend", 2);
+    setModel(false);
   };
 
   const handleClickActive = async (id, active, author, value) => {
@@ -119,8 +126,10 @@ function TabData(props) {
     await FrontendToFuncLog(l);
     setReason("");
     const newData = await ProductApi();
-    window.store["datasidebar"] = newData;
+    window.store["datatab"] = newData;
     setDataPd(newData);
+    message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
+    setVisible(false);
   };
 
   return (
@@ -230,7 +239,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form {...layout} name="control-hooks" >
               <h2>Lý do</h2>
               <TextArea
                 rows={4}
@@ -269,7 +278,11 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
+            <Form
+              {...layout}
+              name="control-hooks"
+              
+            >
               <Form.Item name="title" label="Title">
                 <Input
                   value={title}
@@ -277,13 +290,11 @@ function TabData(props) {
                 />
               </Form.Item>
               <Form.Item name="url" label="Url">
-                <Input
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                />
+                <Input value={url} onChange={(e) => setUrl(e.target.value)} />
               </Form.Item>
               <Form.Item name="description" label="Description">
-                <Input
+                <TextArea
+                  rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -300,7 +311,9 @@ function TabData(props) {
                   key="submit"
                   type="primary"
                   htmlType="submit"
-                  onClick={() => handleAddInfor(title, url, description, author)}
+                  onClick={() =>
+                    handleAddInfor(title, url, description, author)
+                  }
                 >
                   Add
                 </Button>

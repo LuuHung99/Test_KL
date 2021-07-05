@@ -25,7 +25,7 @@ function App() {
 
   window.store = {
     products: createCategories(dataSideBar.concat(dataFrontend)),
-    // datatab: dataFrontend,
+    datatab: dataFrontend,
     datauser: dataUser,
     datarole: dataRole,
     dataresource: dataResource,

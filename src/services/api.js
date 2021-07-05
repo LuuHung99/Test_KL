@@ -191,4 +191,15 @@ export const ActivateUser = async (user) => {
   return result;
 };
 
+
+/* Update User */
+
+export const UpdateUser = async (update) => {
+  const url = "http://localhost:5000/api/root/user/assignRole";
+  const response = await axios.post(url, {user: update});
+  console.log("update user", response);
+  const result = (await response.status) === 200 ? await response.data : [];
+  return result;
+};
+
 /*End - API User */
