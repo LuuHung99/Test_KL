@@ -97,11 +97,12 @@ function Products(props) {
         </Sider>
         <div className="sidebar_image">
           <img
-            src="/images/male-farmer.svg"
+            src="/images/avatar-1.jpg"
             alt=""
             style={{
               width: "100px",
               height: "100px",
+              borderRadius: "100px"
             }}
           />
         </div>

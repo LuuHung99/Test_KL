@@ -42,7 +42,7 @@ export const FrontendToFuncLog = async (tab) => {
   const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, { log: tab });
   const result =
-    (await response.status) === 200 ? "Update successfull" : "Failed update";
+    (await response.status) === 200 ? await response.data : {};
   return result;
 };
 
@@ -82,7 +82,7 @@ export const BackendToFuncLog = async (backend) => {
   const url = "http://localhost:5000/api/root/funcLog";
   const response = await axios.put(url, { log: backend });
   const result =
-    (await response.status) === 200 ? "Update successfull" : "Failed update";
+    (await response.status) === 200 ? await response.data : {};
   return result;
 };
 

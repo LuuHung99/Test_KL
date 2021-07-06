@@ -41,7 +41,6 @@
 
 #menuToggle {
   position: absolute;
-  border: 0.4px solid #ccc;
   right: 0;
   width: 250px;
   z-index: 1;
@@ -56,10 +55,9 @@
 .menu li:hover {
   background-color: #4680ff;
   padding-left: 10px;
-  margin: 5px 10px;
+  margin: 5px  ;
   color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 6px 6px -6px rgb(94, 91, 91);
+   
 }
 
 .menu a:hover {

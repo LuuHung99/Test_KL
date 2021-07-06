@@ -98,11 +98,12 @@ function TabData(props) {
       request.backends = backend;
     }
     await UpdateRole(request);
+    message.success("Cập nhật thành công quyền truy cập", 2);
+    setEditBox(false);
     const newData = await RoleApi();
     window.store["datarole"] = newData;
     setDataPd(newData);
-    setEditBox(false);
-    message.success("Cập nhật thành công quyền truy cập", 2);
+    
   };
 
   const handleChangeFrontend = (frontend, id) => {

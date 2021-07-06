@@ -53,6 +53,7 @@ function TabData(props) {
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    
   };
 
   const onPreview = async (file) => {
@@ -68,6 +69,7 @@ function TabData(props) {
     image.src = src;
     const imgWindow = window.open(src);
     imgWindow.document.write(image.outerHTML);
+    
   };
 
   const handleEditBox = (item) => {
@@ -100,13 +102,13 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
-    setModel(false);
     message.success("Thay đổi thành công trạng thái chức năng user", 2);
+    setModel(false);
   };
 
   const handleFormSubmitAddUser = () => {
-    setVisible(false);
     message.success("Thêm thành công chức năng user", 2);
+    setVisible(false);
   };
 
   const handleFormSubmitUpdateUser = async (value) => {
@@ -121,16 +123,17 @@ function TabData(props) {
     if (role !== undefined) {
       request.roles = role;
     }
-    if (`${url}` + `${fileList[0].name}` !== undefined) {
+    if (fileList !== undefined) {
       request.avatarUrl = `${url}` + `${fileList[0].name}`;
     }
 
-    UpdateUser(request);
+    await UpdateUser(request);
+    message.success("Thay đổi thành công chức năng user", 2);
+    setEditBox(false);
+    setFileList([]);
     const newData = await UserApi();
     window.store["datauser"] = newData;
     setDataPd(newData);
-    message.success("Thay đổi thành công chức năng user", 2);
-    setEditBox(false);
   };
 
   const handleChangeRole = (user, id) => {
@@ -159,7 +162,6 @@ function TabData(props) {
     const newData = await UserApi();
     window.store["datauser"] = newData;
     setDataPd(newData);
-    
   };
 
   const handleAddInfor = async (username, fullname, role, fileList) => {
@@ -174,6 +176,7 @@ function TabData(props) {
       avatarUrl: `${url}` + `${fileList[0].name}`,
     };
     await PushUser(l);
+    setFileList([]);
     const newData = await UserApi();
     window.store["datauser"] = newData;
     setDataPd(newData);
@@ -419,14 +422,14 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUpdateUser}
             >
-              <Form.Item name="iamge" label="Image">
-                <ImgCrop rotate>
+              <Form.Item name="image" label="Image">
+                <ImgCrop rotate >
                   <Upload
                     listType="picture-card"
                     fileList={fileList}
                     onChange={onChange}
                     onPreview={onPreview}
-                    defaultFileList={editSelected.avatarUrl}
+                    defaultFileList={[editSelected.avatarUrl]}
                   >
                     {fileList.length < 1}
                   </Upload>

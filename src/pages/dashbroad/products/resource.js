@@ -91,11 +91,12 @@ function TabData(props) {
     }
 
     await UpdateBackend(request);
+    message.success("Cập nhật thành công chức năng backend", 2);
+    setEditBox(false);
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);
-    message.success("Cập nhật thành công chức năng backend", 2);
-    setEditBox(false);
+    
   };
 
   const handleClickActive = async (id, active, value) => {
@@ -344,10 +345,10 @@ function TabData(props) {
                 />
               </Form.Item>
               <Form.Item name="http" label="HttpVerb">
-                <Select defaultValue={editSelected.httpVerb}>
-                  <Select.Option value="get">GET</Select.Option>
-                  <Select.Option value="put">PUT</Select.Option>
-                  <Select.Option value="post">POST</Select.Option>
+                <Select defaultValue={editSelected.httpVerb} style={{textTransform: 'uppercase'}}>
+                  <Select.Option value="GET">GET</Select.Option>
+                  <Select.Option value="PUT">PUT</Select.Option>
+                  <Select.Option value="POST">POST</Select.Option>
                 </Select>
               </Form.Item>
 
