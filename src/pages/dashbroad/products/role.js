@@ -27,9 +27,11 @@ function TabData(props) {
   const [dataActiveFe] = useState(window.store.activatedFe);
   const [dataActiveBe] = useState(window.store.activatedBe);
   const [searchProduct, setSearchProduct] = useState("");
+  
   const [visible, setVisible] = useState(false);
   const [editBox, setEditBox] = useState(false);
   const [model, setModel] = useState(false);
+
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
   const [dataBackend, setDataBackend] = useState();
@@ -37,12 +39,10 @@ function TabData(props) {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [active, setActive] = useState("");
   const [frontend, setFrontend] = useState();
   const [backend, setBackend] = useState();
 
   const [reason, setReason] = useState("");
-  const [username, setUsername] = useState("");
 
   const handleEditBox = (item) => {
     setEditSelected(item);

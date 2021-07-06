@@ -11,7 +11,7 @@ import "./css/tab-data.css";
 import {
   BackendToFuncLog,
   ResourceApi,
-  pushActiveBackend,
+  pushBackend,
   UpdateBackend,
 } from "../../../services/api";
 
@@ -29,8 +29,10 @@ function TabData(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
   const [reason, setReason] = useState("");
+  
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
+
   const [title, setTitle] = useState("");
   const [path, setPath] = useState("");
   const [http, setHTTP] = useState("");
@@ -65,6 +67,7 @@ function TabData(props) {
   };
 
   const handleFormSubmit = () => {
+    alert("Thay đổi thành công trạng thái chức năng backend");
     message.success("Thay đổi thành công trạng thái chức năng backend", 2);
     setVisible(false);
   };
@@ -122,7 +125,9 @@ function TabData(props) {
       httpVerb: "GET",
       locationPath: path,
     };
-    await pushActiveBackend(f);
+    await pushBackend(f);
+    message.success("Thêm thành công chức năng backend", 2);
+    setModel(false);
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);

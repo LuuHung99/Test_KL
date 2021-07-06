@@ -20,7 +20,7 @@ export const ProductApi = async () => {
 };
 
 /* Add Frontend */
-export const pushActiveFrontend = async (tab) => {
+export const pushFrontend = async (tab) => {
   const url = "http://localhost:5000/api/root/tab";
   const response = await axios.put(url, { tab });
   const result = (await response.status) === 200 ? await response.data : {};
@@ -69,7 +69,7 @@ export const ResourceApi = async () => {
 };
 
 /* Add Backend  */
-export const pushActiveBackend = async (backend) => {
+export const pushBackend = async (backend) => {
   const url = "http://localhost:5000/api/root/backend";
   const response = await axios.put(url, { backend });
   console.log("res backend", response);

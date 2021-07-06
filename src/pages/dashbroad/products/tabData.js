@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input, Form, Button, Modal, message } from "antd";
 import {
   FrontendToFuncLog,
-  pushActiveFrontend,
+  pushFrontend,
   ProductApi,
   UpdateFrontend,
 } from "../../../services/api";
@@ -108,7 +108,7 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    await pushActiveFrontend(f);
+    await pushFrontend(f);
     message.success("Thêm thành công chức năng frontend", 2);
     setModel(false);
     const newData = await ProductApi();
@@ -127,6 +127,7 @@ function TabData(props) {
     };
     await FrontendToFuncLog(l);
     setReason("");
+    alert("Thay đổi thành công trạng thái chức năng frontend");
     message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
     setVisible(false);
     const newData = await ProductApi();
