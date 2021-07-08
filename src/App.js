@@ -93,7 +93,7 @@ function App() {
       }
     };
     getDataActivateFe();
-  }, []);
+  }, [setDataFrontend]);
 
   useEffect(() => {
     const getDataActivateBe = async () => {

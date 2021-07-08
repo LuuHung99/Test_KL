@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/product.css";
-import { Layout, Tabs, Button } from "antd";
+import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import TabData from "./tabData";
 import Role from "./role";
@@ -33,7 +33,8 @@ function DetailProducts(props) {
   };
 
   const onChange = (activeKey) => {
-    history.push(`/dashbroad/${activeKey}`);
+    console.log(activeKey)
+    history.push(`/dashboard/${activeKey}`);
   };
 
   function researchItem(id) {
@@ -66,7 +67,7 @@ function DetailProducts(props) {
           activeKey={item.url}
           style={{ margin: "0px 15px" }}
         >
-          {panes.map((pane) => (
+          {panes.map((pane, index) => (
             <TabPane
               tab={pane.title}
               key={pane.url}

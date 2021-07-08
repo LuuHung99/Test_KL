@@ -1,16 +1,9 @@
 
 .header {
   background-color: #4680ff;
-  /* position: fixed; */
   width: 100%;
   font-family: 'Roboto', sans-serif;
   list-style-type: none;
-}
-
-.header__block {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 }
 
 .header__img {
@@ -23,11 +16,6 @@
   font-weight: bold;
   color: #fff;
 
-}
-
-.header__logo2 {
-  display: flex;
-  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 1300px) {

@@ -1,10 +1,10 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { routes } from "../routers/index";
+import PrivateRoute from "../routers/privateRouter";
 
 const Login = lazy(() => import("./authen/login"));
 const Register = lazy(() => import("./authen/register"));
-const Dashbroad = lazy(() => import("./dashbroad/index"));
-const Logout = lazy(() => import("./authen/login"));
 
 function AppRouter() {
   return (
@@ -16,20 +16,24 @@ function AppRouter() {
           </h1>
         }
       >
-        <Switch>
+          <Route>
+            {routes.map((route, index) => {
+              return (
+                <PrivateRoute
+                  key={index}
+                  path={route.root + route.path}
+                  exact={route.exact}
+                  component={route.component}
+                />
+              );
+            })}
+            </Route>
           <Route exact path="/">
             <Login />
           </Route>
           <Route path="/register">
             <Register />
           </Route>
-          <Route path="/dashbroad">
-            <Dashbroad />
-          </Route>
-          <Route path="/">
-            <Logout />
-          </Route>
-        </Switch>
       </Suspense>
     </Router>
   );

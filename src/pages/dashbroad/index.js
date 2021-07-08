@@ -6,14 +6,11 @@ import DetailProducts from "./products/products";
 
 function Dashbroad(props) {
   const match = useRouteMatch();
-
   return (
     <>
       <Header />
       <Sidebar>
-        <Switch>
           <Route path={`${match.path}/:id`} component={DetailProducts} />
-        </Switch>
       </Sidebar>
     </>
   );

@@ -65,16 +65,6 @@ function TabData(props) {
     setEditBox(false);
   };
 
-  // const handleFormSubmit = () => {
-  //   message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
-  //   setVisible(false);
-  // };
-
-  // const handleFromAddFrontend = () => {
-  //   message.success("Thêm thành công chức năng frontend", 2);
-  //   setModel(false);
-  // };
-
   const handleFormSubmitUpdateFrontend = async (value) => {
     const request = { _id: editSelected._id };
 
@@ -97,6 +87,7 @@ function TabData(props) {
     window.store["datatab"] = newData;
     setDataPd(newData);
     
+    
   };
 
   const handleAddInfor = async (title, url, description, author) => {
@@ -114,7 +105,8 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    
+    // const updateActiveSidebar = await ProductApi();
+    // window.store["activatedFe"] = updateActiveSidebar;
   };
 
   const handleClickActive = async (id, active, author, value) => {

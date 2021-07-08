@@ -203,3 +203,12 @@ export const UpdateUser = async (update) => {
 };
 
 /*End - API User */
+
+
+/* Login */
+
+export const PostLogin = async (account) => {
+  const url = "http://localhost:5000/api/login";
+  const response = await axios.post(url, account);
+  return response;
+};

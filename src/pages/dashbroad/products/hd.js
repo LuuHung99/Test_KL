@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Col } from "antd";
+import { Layout, Col, message } from "antd";
 import "./css/hd.css";
 import {
   MenuOutlined,
@@ -12,6 +12,10 @@ import { Link } from "react-router-dom";
 const { Header } = Layout;
 function HeaderTest(props) {
   const [showMenu, setShowMenu] = useState(false);
+  const handleLogOut = ()=>{
+    window.localStorage.clear();
+    message.success("Đăng xuất thành công!", 2)
+  }
   return (
     <Header className="headerPd">
       <Col className="header__block">
@@ -53,7 +57,7 @@ function HeaderTest(props) {
               <div>
                 <LogoutOutlined />
               </div>
-              <Link to="/">Logout</Link>
+              <Link onClick={handleLogOut} to="">Logout</Link>
             </li>
             </div>
             

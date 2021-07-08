@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/login.css";
 import LayoutPage from "../../components/layout";
 
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
+import { PostLogin } from "../../services/api";
+// import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const layout = {
   labelCol: { span: 8 },
@@ -14,12 +17,34 @@ const tailLayout = {
 };
 
 function Login(props) {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  //username: admin
+  //password: abc123
+
+  const history = useHistory();
+
+  const handleSubmit = async () => {
+    const account = { username, password, _app_secretKey: "secretKey" };
+    const res = await PostLogin(account);
+
+    console.log(res);
+
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+    }
+    const key = "updatable";
+    if (window.localStorage.token) {
+      message.success({ content: "Đăng nhập thành công", key, duration: 2 });
+      history.push("dashboard");
+    }
+    if (res.status !== 200) {
+      setTimeout(() => {
+        message.error("Tài khoản không có trong hệ thống!");
+      }, 1000);
+    }
   };
 
   return (
@@ -32,17 +57,15 @@ function Login(props) {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            // onClick={onSubmit}
           >
-            <img src="images/logo2.png" alt="" className="login-logo" />
+            <img src="/images/logo2.png" alt="" className="login-logo" />
 
             <h1>Đăng nhập</h1>
             <Form.Item
               className="input_info"
-              label="Email"
-              name="email"
+              label="Tài khoản"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
               rules={[
                 {
                   required: true,
@@ -57,48 +80,36 @@ function Login(props) {
               className="input_info"
               label="Mật khẩu"
               name="password"
+              onChange={(e) => setPassword(e.target.value)}
               rules={[
                 {
                   required: true,
                   message: "Mật khẩu không được để trống!",
                 },
-                // ({ getFieldValue }) => ({
-                //   validator(_, value) {
-                //     // if (!value || getFieldValue("password") === value) {
-                //     //   return Promise.resolve();
-                //     // }
-                //     if (!value || getFieldValue("password") === value) {
-                //       return Promise.resolve();
-                //     }
-                //     return Promise.reject("Mật khẩu không khớp!");
-                //   },
-                // }),
               ]}
             >
               <Input.Password />
             </Form.Item>
-
-            <br />
             <Form.Item {...tailLayout}>
               <Button
+                onClick={handleSubmit}
                 htmlType="submit"
                 type="primary"
                 className="button_authen"
               >
-                <Link to="dashbroad">Đăng nhập</Link>
+                Đăng nhập
               </Button>
             </Form.Item>
-
             <p style={{ textAlign: "center" }}>
-              Bạn chưa có tài khoản?{" "}
-              <Link to="register" style={{ color: "blue", fontWeight: "bold" }}>
+              Bạn chưa có tài khoản?
+              <Link to="register" style={{ marginLeft: 5}}>
                 Đăng ký
               </Link>
             </p>
             <div className="social-network-wrapper">
-              <img src="images/facebook.png" alt="" className="logo-img" />
-              <img src="images/google.png" alt="" className="logo-img" />
-              <img src="images/phone.png" alt="" className="logo-img" />
+              <img src="/images/facebook.png" alt="" className="logo-img" />
+              <img src="/images/google.png" alt="" className="logo-img" />
+              <img src="/images/phone.png" alt="" className="logo-img" />
             </div>
           </Form>
         </div>

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./css/login.css";
 import Tools from "../../Tools/Tools";
 import LayoutPage from "../../components/layout";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link, Redirect } from "react-router-dom";
+import { UserApi, PushUser } from "../../services/api";
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,26 +17,28 @@ const tailLayout = {
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // const onFinish = (values) => {
-  //   console.log("Success:", values);
-  // };
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const validatePhoneNumber = ({ getFieldValue }) => ({
-    validator(_, value) {
-      const result = Tools.checkPhoneNumber(value);
-      if (!value || result) {
-        return Promise.resolve();
-      }
-      return Promise.reject("Số điện thoại không đúng!");
-    },
-  });
 
-  const signUp = () => {
+  const signUp = async (value) => {
+    const username = value.username;
+    const fullname = value.fullname;
+    const password = value.password;
+
+    const l = {
+      username: username,
+      fullname: fullname,
+      activated: true,
+      hashedPass: password,
+      salt: "hung12",
+    };
+    await PushUser(l);
+    message.success("Đăng ký tài khoản thành công", 2);
     setIsSuccess(true);
-    alert("Đăng ký tài khoản thành công");
+    const newData = await UserApi();
+    window.store["datauser"] = newData;
+    
   };
 
   return (
@@ -75,7 +78,7 @@ function Register(props) {
                 {
                   required: true,
                   message: "Tên tài khoản không được để trống!",
-                }
+                },
               ]}
             >
               <Input />
@@ -133,8 +136,8 @@ function Register(props) {
               </Button>
             </Form.Item>
             <p style={{ textAlign: "center" }}>
-              Bạn đã có tài khoản?{" "}
-              <Link to="/" style={{ color: "blue", fontWeight: "bold" }}>
+              Bạn đã có tài khoản?
+              <Link to="/" style={{ marginLeft: 5}}>
                 Đăng nhập
               </Link>
             </p>

@@ -53,7 +53,6 @@ function TabData(props) {
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    
   };
 
   const onPreview = async (file) => {
@@ -69,11 +68,9 @@ function TabData(props) {
     image.src = src;
     const imgWindow = window.open(src);
     imgWindow.document.write(image.outerHTML);
-    
   };
 
   const handleEditBox = (item) => {
-    console.log("eidt image", item);
     setEditSelected(item);
     setEditBox(true);
   };
@@ -126,6 +123,9 @@ function TabData(props) {
     if (fileList !== undefined) {
       request.avatarUrl = `${url}` + `${fileList[0].name}`;
     }
+    // if(fileList === undefined) {
+    //   request.avatarUrl = [];
+    // }
 
     await UpdateUser(request);
     message.success("Thay đổi thành công chức năng user", 2);
@@ -230,75 +230,73 @@ function TabData(props) {
                     return val;
                   }
                 })
-                .map((item, index) =>
-                  item.username !== "root" ? (
-                    <>
-                      <tr
-                        className={
-                          item.activated === true
-                            ? "table_col_content_role"
-                            : "table_col_content_unactivated_role"
-                        }
-                        key={index}
-                      >
-                        <td>
-                          <img
-                            src={item.avatarUrl}
-                            alt=""
+                .map((item, index) => (
+                  <>
+                    <tr
+                      className={
+                        item.activated === true
+                          ? "table_col_content_role"
+                          : "table_col_content_unactivated_role"
+                      }
+                      key={index}
+                    >
+                      <td>
+                        <img
+                          src={item.avatarUrl}
+                          alt=""
+                          style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </td>
+                      <td>
+                        {item.roles.length > 0
+                          ? item.roles.map((item) => (
+                              <>
+                                <Tooltip placement="top" title={item.title}>
+                                  <div className="title_user">
+                                    {item.description}
+                                  </div>
+                                </Tooltip>
+                              </>
+                            ))
+                          : null}
+                      </td>
+                      <td>{item.username}</td>
+                      <td>{item.fullname}</td>
+                      <td onClick={() => handleShowModel(item)}>
+                        {String(item.activated) === "true" ? (
+                          <CheckOutlined className="icon_active" />
+                        ) : (
+                          <CloseOutlined className="icon_deactive" />
+                        )}
+                      </td>
+                      <td>
+                        <tr
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button
                             style={{
-                              width: 50,
-                              height: 50,
-                              borderRadius: "50%",
-                              objectFit: "cover",
+                              backgroundColor: "#00acc1",
+                              border: "none",
+                              color: "white",
                             }}
-                          />
-                        </td>
-                        <td>
-                          {item.roles.length > 0
-                            ? item.roles.map((item) => (
-                                <>
-                                  <Tooltip placement="top" title={item.title}>
-                                    <div className="title_user">
-                                      {item.description}
-                                    </div>
-                                  </Tooltip>
-                                </>
-                              ))
-                            : null}
-                        </td>
-                        <td>{item.username}</td>
-                        <td>{item.fullname}</td>
-                        <td onClick={() => handleShowModel(item)}>
-                          {String(item.activated) === "true" ? (
-                            <CheckOutlined className="icon_active" />
-                          ) : (
-                            <CloseOutlined className="icon_deactive" />
-                          )}
-                        </td>
-                        <td>
-                          <tr
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
+                            icon={<FormOutlined />}
+                            onClick={() => handleEditBox(item)}
                           >
-                            <Button
-                              style={{
-                                backgroundColor: "#00acc1",
-                                border: "none",
-                                color: "white",
-                              }}
-                              icon={<FormOutlined />}
-                              onClick={() => handleEditBox(item)}
-                            >
-                              Edit
-                            </Button>
-                          </tr>
-                        </td>
-                      </tr>
-                    </>
-                  ) : null
-                )
+                            Edit
+                          </Button>
+                        </tr>
+                      </td>
+                    </tr>
+                  </>
+                ))
             : null}
         </table>
         {visible && (
@@ -423,7 +421,7 @@ function TabData(props) {
               onFinish={handleFormSubmitUpdateUser}
             >
               <Form.Item name="image" label="Image">
-                <ImgCrop rotate >
+                <ImgCrop rotate>
                   <Upload
                     listType="picture-card"
                     fileList={fileList}
