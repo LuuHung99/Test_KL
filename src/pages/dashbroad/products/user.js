@@ -123,9 +123,6 @@ function TabData(props) {
     if (fileList !== undefined) {
       request.avatarUrl = `${url}` + `${fileList[0].name}`;
     }
-    // if(fileList === undefined) {
-    //   request.avatarUrl = [];
-    // }
 
     await UpdateUser(request);
     message.success("Thay đổi thành công chức năng user", 2);

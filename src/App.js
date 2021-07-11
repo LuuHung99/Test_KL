@@ -12,6 +12,7 @@ import {
   RoleApi,
   UserApi,
 } from "./services/api";
+import returnLocalStorage from "./services";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -32,7 +33,7 @@ function App() {
     activatedFe: dataActivatedFe,
     activatedBe: dataActivatedBe,
     activatedRole: dataActivatedRole,
-    datasidebar: dataSideBar.concat(dataFrontend),
+    // datasidebar: dataSideBar.concat(dataFrontend),
   };
 
   useEffect(() => {

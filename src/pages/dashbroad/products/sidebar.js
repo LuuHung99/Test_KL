@@ -38,7 +38,7 @@ function Products(props) {
                         <Menu.Item key={item.id} path={item.url}>
                           <Link
                             to={`${match.url}/${item.url}`}
-                            style={{ fontSize: "16px", color: "#8699ad" }}
+                            style={{ fontSize: "16px", color: "#fff"}}
                           >
                             {item.title}
                           </Link>
@@ -53,7 +53,7 @@ function Products(props) {
                 <Menu.Item key={text.id} path={text.url}>
                   <Link
                     to={`${match.url}/${text.url}`}
-                    style={{ color: "#8699ad" }}
+                    style={{color: "#fff"}}
                   >
                     {text.title}
                   </Link>

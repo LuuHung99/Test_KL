@@ -5,7 +5,6 @@ import LayoutPage from "../../components/layout";
 import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { PostLogin } from "../../services/api";
-// import { Redirect } from "react-router";
 import { useHistory } from "react-router-dom";
 
 const layout = {
@@ -28,22 +27,19 @@ function Login(props) {
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     const res = await PostLogin(account);
-
-    console.log(res);
-
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-    }
-    const key = "updatable";
-    if (window.localStorage.token) {
-      message.success({ content: "Đăng nhập thành công", key, duration: 2 });
-      history.push("dashboard");
-    }
-    if (res.status !== 200) {
-      setTimeout(() => {
-        message.error("Tài khoản không có trong hệ thống!");
-      }, 1000);
+    if(res) {
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
+     
+      const key = "updatable";
+      if (window.localStorage.token) {
+        setTimeout(() => {
+          message.success({ content: "Đăng nhập thành công", key, duration: 2 });
+          history.push("dashboard");
+        }, 1500);
+      } 
     }
   };
 
@@ -102,7 +98,7 @@ function Login(props) {
             </Form.Item>
             <p style={{ textAlign: "center" }}>
               Bạn chưa có tài khoản?
-              <Link to="register" style={{ marginLeft: 5}}>
+              <Link to="register" style={{ marginLeft: 5 }}>
                 Đăng ký
               </Link>
             </p>

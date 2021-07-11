@@ -46,7 +46,7 @@ function HeaderTest(props) {
               />
               <p>Hung Luu</p>
             </div>
-            <div style={{backgroundColor: "white", paddingBottom: 5, paddingTop: 5}}>
+            <div style={{backgroundColor: "#f5f5f5", paddingBottom: 5, paddingTop: 5}}>
             <li className="profile_menu">
               <div>
                 <UserOutlined />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal, message } from "antd";
+import { Input, Form, Button, Modal, message, Table } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,

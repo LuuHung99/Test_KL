@@ -1,5 +1,4 @@
 import Dashbroad from "../pages/dashbroad";
-import Register from "../pages/authen/register";
 
 export const routes = [
   {
