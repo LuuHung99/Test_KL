@@ -174,7 +174,7 @@ function TabData(props) {
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >
-          Add new role
+          Thêm quyền truy cập
         </Button>
         <Input
           type="text"
@@ -191,12 +191,12 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
-              <th>Title</th>
-              <th>Description</th>
-              <th>Activated</th>
+              <th>Tên</th>
+              <th>Miêu tả</th>
+              <th>Trạng thái</th>
               <th>Frontend</th>
               <th>Backend</th>
-              <th>Options</th>
+              <th>Tùy chọn</th>
             </tr>
           </thead>
           {dataPd
@@ -297,7 +297,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title="Add new role"
+            title="Thêm quyền truy cập"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -307,13 +307,13 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitAddRole}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   value={description}
@@ -352,10 +352,10 @@ function TabData(props) {
                     handleAddInfor(title, description, frontend, backend)
                   }
                 >
-                  Add
+                  Thêm
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -365,7 +365,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
+            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -393,10 +393,10 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Disable" : "Activae"}
+                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -406,7 +406,7 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update role ${editSelected.title}`}
+            title={`Cập nhật quyền ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -416,13 +416,13 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUPdateRole}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   defaultValue={editSelected.description}
@@ -452,10 +452,10 @@ function TabData(props) {
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
-                  Update
+                  Cập nhật
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>

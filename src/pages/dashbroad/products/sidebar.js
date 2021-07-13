@@ -90,7 +90,7 @@ function Products(props) {
             mode="inline"
             style={{ marginTop: "10px" }}
             className="sidebar_menus"
-            // triggerSubMenuAction="hover"
+            triggerSubMenuAction="hover"
           >
             {renderProductList()}
           </Menu>

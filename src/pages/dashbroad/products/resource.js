@@ -143,7 +143,7 @@ function TabData(props) {
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
-          Add new resource
+          Thêm chức năng
         </Button>
         <Input
           type="text"
@@ -160,12 +160,12 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
-              <th>Title</th>
-              <th>LocationPath</th>
-              <th>HttpVerb</th>
-              <th>Activated</th>
-              <th>Description</th>
-              <th>Options</th>
+              <th>Tên</th>
+              <th>Đường dẫn</th>
+              <th>Phương thức</th>
+              <th>Trạng thái</th>
+              <th>Miêu tả</th>
+              <th>Tùy chọn</th>
             </tr>
           </thead>
           {dataPd
@@ -233,7 +233,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
+            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -260,10 +260,10 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Disable" : "Activate"}
+                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -272,7 +272,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title="Add new backend"
+            title="Thêm chức năng backend"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -282,16 +282,16 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitAddRole}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="path" label="LocationPath">
+              <Form.Item name="path" label="Đường dẫn">
                 <Input value={path} onChange={(e) => setPath(e.target.value)} />
               </Form.Item>
-              <Form.Item name="http" label="HttpVerb">
+              <Form.Item name="http" label="Phương thức">
                 <Select value={http}>
                   <Select.Option value="get">GET</Select.Option>
                   <Select.Option value="put">PUT</Select.Option>
@@ -299,7 +299,7 @@ function TabData(props) {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   value={description}
@@ -314,10 +314,10 @@ function TabData(props) {
                   htmlType="submit"
                   onClick={() => handleAddInfor(title, http, description, path)}
                 >
-                  Add
+                  Thêm
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -327,7 +327,7 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update Resource ${editSelected.title}`}
+            title={`Cập nhật chức năng ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -337,19 +337,19 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUpdateFrontend}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="path" label="LocationPath">
+              <Form.Item name="path" label="Đường dẫn">
                 <Input
                   defaultValue={editSelected.locationPath}
                   onChange={(e) => setPath(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="http" label="HttpVerb">
+              <Form.Item name="http" label="Phương thức">
                 <Select defaultValue={editSelected.httpVerb} style={{textTransform: 'uppercase'}}>
                   <Select.Option value="GET">GET</Select.Option>
                   <Select.Option value="PUT">PUT</Select.Option>
@@ -357,7 +357,7 @@ function TabData(props) {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   defaultValue={editSelected.description}
@@ -367,10 +367,10 @@ function TabData(props) {
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
-                  Update
+                  Cập nhật
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>

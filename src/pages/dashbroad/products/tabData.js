@@ -138,7 +138,7 @@ function TabData(props) {
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
-          Add new frontend
+          Thêm chức năng
         </Button>
         <Input
           type="text"
@@ -155,12 +155,12 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
-              <th>Title</th>
-              <th>Url</th>
-              <th>Description</th>
-              <th>Activated</th>
-              <th>Author</th>
-              <th>Options</th>
+              <th>Tên</th>
+              <th>Đường dẫn</th>
+              <th>Miêu tả</th>
+              <th>Trạng thái</th>
+              <th>Tác giả</th>
+              <th>Tùy chọn</th>
             </tr>
           </thead>
           {dataPd.length > 0
@@ -228,7 +228,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`${itemSelected.activated ? "Activated" : "Disable"} ${
+            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -256,10 +256,10 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Disable" : "Active"}
+                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -269,7 +269,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title="Add new frontend"
+            title="Thêm chức năng frontend"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -279,7 +279,7 @@ function TabData(props) {
               name="control-hooks"
               
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -288,14 +288,14 @@ function TabData(props) {
               <Form.Item name="url" label="Url">
                 <Input value={url} onChange={(e) => setUrl(e.target.value)} />
               </Form.Item>
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="author" label="Author">
+              <Form.Item name="author" label="Tác giả">
                 <Input
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
@@ -311,10 +311,10 @@ function TabData(props) {
                     handleAddInfor(title, url, description, author)
                   }
                 >
-                  Add
+                  Thêm
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -324,7 +324,7 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update Tab ${editSelected.title}`}
+            title={`Cập nhật chức năng ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -334,26 +334,26 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUpdateFrontend}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="url" label="Url">
+              <Form.Item name="url" label="Đường dẫn">
                 <Input
                   defaultValue={editSelected.url}
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="author" label="Author">
+              <Form.Item name="author" label="Tác giả">
                 <Input
                   defaultValue={editSelected.author}
                   onChange={(e) => setAuthor(e.target.value)}
                 />
               </Form.Item>
 
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   defaultValue={editSelected.description}
@@ -363,10 +363,10 @@ function TabData(props) {
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
-                  Update
+                  Cập nhật
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
