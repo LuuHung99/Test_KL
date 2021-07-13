@@ -12,6 +12,8 @@ import {
   RoleApi,
   UserApi,
 } from "./services/api";
+import { useDispatch } from "react-redux";
+import { getALlProducts } from "./redux/actions";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -22,6 +24,12 @@ function App() {
   const [dataActivatedBe, setDataActivatedBe] = useState([]);
   const [dataActivatedRole, setDataActivatedRole] = useState([]);
   const [dataSideBar, setDataSideBar] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getALlProducts());
+  }, [dispatch]);
 
   window.store = {
     products: createCategories(dataSideBar.concat(dataFrontend)),
