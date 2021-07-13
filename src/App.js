@@ -12,7 +12,6 @@ import {
   RoleApi,
   UserApi,
 } from "./services/api";
-import returnLocalStorage from "./services";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);

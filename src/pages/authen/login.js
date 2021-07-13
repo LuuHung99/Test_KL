@@ -3,6 +3,7 @@ import "./css/login.css";
 import LayoutPage from "../../components/layout";
 
 import { Form, Input, Button, message } from "antd";
+import SpinNest from "./spin";
 import { Link } from "react-router-dom";
 import { PostLogin } from "../../services/api";
 import { useHistory } from "react-router-dom";
@@ -18,6 +19,7 @@ const tailLayout = {
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //username: admin
   //password: abc123
@@ -27,19 +29,24 @@ function Login(props) {
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     const res = await PostLogin(account);
-    if(res) {
+    setLoading(true);
+    if (res) {
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
       }
-     
+
       const key = "updatable";
       if (window.localStorage.token) {
         setTimeout(() => {
-          message.success({ content: "Đăng nhập thành công", key, duration: 2 });
+          message.success({
+            content: "Đăng nhập thành công",
+            key,
+            duration: 2,
+          });
           history.push("dashboard");
         }, 1500);
-      } 
+      }
     }
   };
 
@@ -86,6 +93,10 @@ function Login(props) {
             >
               <Input.Password />
             </Form.Item>
+            <div style={{ textAlign: "center", margin: "-10px 0px 15px 0px" }}>
+              {loading ? <SpinNest /> : null}
+            </div>
+
             <Form.Item {...tailLayout}>
               <Button
                 onClick={handleSubmit}
