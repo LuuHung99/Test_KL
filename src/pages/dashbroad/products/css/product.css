@@ -77,9 +77,7 @@ i.ant-menu-submenu-arrow {
   color: #ffffff !important;
 }
 
-.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
-  border-right: 0;
-}
+ 
 
 #check {
   display: none;

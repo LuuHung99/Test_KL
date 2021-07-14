@@ -209,7 +209,7 @@ function TabData(props) {
               <th>Hình ảnh</th>
               <th>Quyền truy cập</th>
               <th>Họ tên</th>
-              <th>Tên đầy đủ</th>
+              <th>Tên tài khoản</th>
               <th>Trạng thái</th>
               <th>Tùy chọn</th>
             </tr>
@@ -309,7 +309,7 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitAddUser}
             >
-              <Form.Item name="image" label="Hỉnh ảnh">
+              <Form.Item name="image" label="Hình ảnh">
                 <ImgCrop rotate>
                   <Upload
                     listType="picture-card"
@@ -318,7 +318,7 @@ function TabData(props) {
                     onPreview={onPreview}
                     status="uploading"
                   >
-                    {fileList.length < 1 && "+ Upload"}
+                    {fileList.length < 1 && "+ Thêm ảnh"}
                   </Upload>
                 </ImgCrop>
               </Form.Item>
@@ -328,7 +328,7 @@ function TabData(props) {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="fullname" label="Tên đầy đủ">
+              <Form.Item name="fullname" label="Tên tài khoản">
                 <Input
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
@@ -424,7 +424,7 @@ function TabData(props) {
                     fileList={fileList}
                     onChange={onChange}
                     onPreview={onPreview}
-                    defaultFileList={[editSelected.avatarUrl]}
+                    defaultFileList={editSelected.avatarUrl}
                   >
                     {fileList.length < 1}
                   </Upload>
@@ -436,7 +436,7 @@ function TabData(props) {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="fullname" label="Tên đầy đủ">
+              <Form.Item name="fullname" label="Tên tài khoản">
                 <Input
                   defaultValue={editSelected.fullname}
                   onChange={(e) => setFullname(e.target.value)}

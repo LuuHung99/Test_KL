@@ -56,9 +56,11 @@ function TabData(props) {
       const total_results = data.length;
       setTotalItems(total_results);
       const total_pages = Math.round(total_results / 10);
+
       if(page < 1) {
         setPage(1);
       }
+      
       else if(page > total_pages) {
         setPage(total_pages);
       }
@@ -312,7 +314,7 @@ function TabData(props) {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="url" label="Url">
+              <Form.Item name="url" label="Đường dẫn">
                 <Input value={url} onChange={(e) => setUrl(e.target.value)} />
               </Form.Item>
               <Form.Item name="description" label="Miêu tả">

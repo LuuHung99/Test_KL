@@ -23,7 +23,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const auth = useSelector((state) => state.auth);
-  console.log("ayth", auth);
   const dispatch = useDispatch();
 
   //username: admin
@@ -46,8 +45,7 @@ function Login() {
         history.push("dashboard");
         setLoading(false);
       }, 1500);
-    }
-    else if (!auth.loading) {
+    } else if (!auth.loading) {
       setLoading(true);
       setTimeout(() => {
         message.error({
@@ -60,10 +58,6 @@ function Login() {
       }, 1500);
     }
   };
-
-  
-
-  
 
   return (
     <LayoutPage>

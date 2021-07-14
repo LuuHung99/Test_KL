@@ -24,7 +24,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState();
+  const [dataPd, setDataPd] = useState([]);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
@@ -68,7 +68,7 @@ function TabData(props) {
     }
   }
 
-  if (loading) {
+  if (loading && dataPd.length === 0) {
     return (
         <LoadingData />
     );
