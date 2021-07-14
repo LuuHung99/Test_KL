@@ -77,7 +77,7 @@ function Products(props) {
         <Sider className="sidebar_container">
           <div className="logo">
             <img src={tokenUser.avatarUrl} className="logo__img" alt="" />
-            <p style={{ color: "white" }}>Hi Hung</p>
+            <p style={{ color: "white", textTransform: "capitalize"}}>Hi {tokenUser.username}</p>
           </div>
           <Input
             type="text"
