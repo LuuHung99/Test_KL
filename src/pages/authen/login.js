@@ -29,12 +29,14 @@ function Login(props) {
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     const res = await PostLogin(account);
+    console.log("res",res);
     setLoading(true);
     if (res) {
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
       }
+      
 
       const key = "updatable";
       if (window.localStorage.token) {

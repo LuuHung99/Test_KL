@@ -7,6 +7,8 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -15,6 +17,9 @@ function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
   const [data] = useState(window.store.products);
+  const tokenUser = JSON.parse(window.localStorage.user);
+
+  // const datas = useSelector(state => state.products.siderbar);
 
   function renderProductList() {
     return data
@@ -75,7 +80,7 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src="/images/avatar-1.jpg" className="logo__img" alt="" />
+            <img src={tokenUser.avatarUrl} className="logo__img" alt="" />
             <p style={{ color: "white" }}>Hi Hung</p>
           </div>
           <Input
@@ -97,7 +102,7 @@ function Products(props) {
         </Sider>
         <div className="sidebar_image">
           <img
-            src="/images/avatar-1.jpg"
+            src={tokenUser.avatarUrl}
             alt=""
             style={{
               width: "100px",

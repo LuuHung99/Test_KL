@@ -13,7 +13,6 @@ const reducer = (state = initialState, action) => {
         siderbar: action.payload.siderbar,
         products: action.payload.products,
       };
-      console.log(state);
       break;
     default:
       return state;

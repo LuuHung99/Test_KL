@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Input, Form, Button, Modal, message, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Input, Form, Button, Modal, message, Pagination } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,
@@ -13,6 +13,7 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
+import LoadingData from '../../../components/loadingData';
 import "./css/tab-data.css";
 
 const { TextArea } = Input;
@@ -23,7 +24,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.datatab);
+  const [dataPd, setDataPd] = useState([]);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -31,11 +32,46 @@ function TabData(props) {
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(false);
+
   const [reason, setReason] = useState("");
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
+
+  //Phan trang
+
+  useEffect(() => {
+    getData();
+  }, [page]);
+
+  const getData = async () => {
+    setLoading(true);
+    const data = await ProductApi();
+    if(data) {
+      setDataPd(data);
+      const total_results = data.length;
+      setTotalItems(total_results);
+      const total_pages = Math.round(total_results / 10);
+      if(page < 1) {
+        setPage(1);
+      }
+      else if(page > total_pages) {
+        setPage(total_pages);
+      }
+
+      setLoading(false);
+    }
+  }
+
+  if (loading || dataPd.length === 0) {
+    return (
+        <LoadingData />
+    );
+  }
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -86,8 +122,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    
-    
   };
 
   const handleAddInfor = async (title, url, description, author) => {
@@ -105,8 +139,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    // const updateActiveSidebar = await ProductApi();
-    // window.store["activatedFe"] = updateActiveSidebar;
   };
 
   const handleClickActive = async (id, active, author, value) => {
@@ -125,7 +157,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    
   };
 
   return (
@@ -235,7 +266,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" >
+            <Form {...layout} name="control-hooks">
               <h2>Lý do</h2>
               <TextArea
                 rows={4}
@@ -274,11 +305,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form
-              {...layout}
-              name="control-hooks"
-              
-            >
+            <Form {...layout} name="control-hooks">
               <Form.Item name="title" label="Tên">
                 <Input
                   value={title}
@@ -373,6 +400,13 @@ function TabData(props) {
           </Modal>
         )}
       </div>
+      <Pagination
+        current={page}
+        pageSize={10}
+        total={totalItems}
+        onChange={(pages) => setPage(pages)}
+        style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
+      />
     </div>
   );
 }

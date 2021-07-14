@@ -13,7 +13,7 @@ import {
   UserApi,
 } from "./services/api";
 import { useDispatch } from "react-redux";
-import { getALlProducts } from "./redux/actions";
+import { getAllProducts } from "./redux/actions";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -28,7 +28,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getALlProducts());
+    dispatch(getAllProducts());
   }, [dispatch]);
 
   window.store = {

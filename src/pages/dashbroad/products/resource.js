@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Input, Form, Button, Modal, Select, message, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Input, Form, Button, Modal, Select, message, Pagination } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -14,6 +14,7 @@ import {
   pushBackend,
   UpdateBackend,
 } from "../../../services/api";
+import LoadingData from '../../../components/loadingData';
 
 const { TextArea } = Input;
 
@@ -23,7 +24,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.dataresource);
+  const [dataPd, setDataPd] = useState();
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
@@ -33,10 +34,45 @@ function TabData(props) {
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(false);
+
   const [title, setTitle] = useState("");
   const [path, setPath] = useState("");
   const [http, setHTTP] = useState("");
   const [description, setDescription] = useState("");
+
+  //Phan trang
+
+  useEffect(() => {
+    getData();
+  }, [page]);
+
+  const getData = async () => {
+    setLoading(true);
+    const data = await ResourceApi();
+    if(data) {
+      setDataPd(data);
+      const total_results = data.length;
+      setTotalItems(total_results);
+      const total_pages = Math.round(total_results / 10);
+      if(page < 1) {
+        setPage(1);
+      }
+      else if(page > total_pages) {
+        setPage(total_pages);
+      }
+
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+        <LoadingData />
+    );
+  }
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -377,6 +413,13 @@ function TabData(props) {
           </Modal>
         )}
       </div>
+      <Pagination
+        current={page}
+        pageSize={4}
+        total={totalItems}
+        onChange={(pages) => setPage(pages)}
+        style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
+      />
     </div>
   );
 }

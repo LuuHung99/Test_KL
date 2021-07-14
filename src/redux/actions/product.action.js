@@ -2,7 +2,7 @@ import axiosClient from "../../api";
 import { createCategories } from "../../services/middlewares";
 import { productContants } from "./constants";
 
-export const getALlProducts = () => {
+export const getAllProducts = () => {
   return async (dispatch) => {
     const res1 = await axiosClient.get("/root/tab/activated");
     const res2 = await axiosClient.get("/root/sidebar");

@@ -12,10 +12,11 @@ import { Link } from "react-router-dom";
 const { Header } = Layout;
 function HeaderTest(props) {
   const [showMenu, setShowMenu] = useState(false);
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     window.localStorage.clear();
     message.success("Đăng xuất thành công!", 2)
   }
+  const tokenUser = JSON.parse(window.localStorage.user);
   return (
     <Header className="headerPd">
       <Col className="header__block">
@@ -40,7 +41,7 @@ function HeaderTest(props) {
           <ul className="menu">
             <div className="menu-logo">
               <img
-                src="/images/avatar-1.jpg"
+                src={tokenUser.avatarUrl}
                 alt=""
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
