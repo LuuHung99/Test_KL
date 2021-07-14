@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import "./css/header.css";
 const { Header } = Layout;
 
-function HeaderTest(props) {
+function HeaderTest() {
   return (
     <Header className="header">
       <div className="header__block">

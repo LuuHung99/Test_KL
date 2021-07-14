@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
@@ -33,7 +33,7 @@ function DetailProducts(props) {
   };
 
   const onChange = (activeKey) => {
-    console.log(activeKey)
+    console.log(activeKey);
     history.push(`/dashboard/${activeKey}`);
   };
 

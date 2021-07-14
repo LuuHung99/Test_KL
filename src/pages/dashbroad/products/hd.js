@@ -8,14 +8,17 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { isLogOut } from "../../../redux/actions";
 
 const { Header } = Layout;
-function HeaderTest(props) {
+function HeaderTest() {
+  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const handleLogOut = () => {
-    window.localStorage.clear();
-    message.success("Đăng xuất thành công!", 2)
-  }
+    dispatch(isLogOut());
+    message.success("Đăng xuất thành công!", 2);
+  };
   const tokenUser = JSON.parse(window.localStorage.user);
   return (
     <Header className="headerPd">
@@ -43,25 +46,32 @@ function HeaderTest(props) {
               <img
                 src={tokenUser.avatarUrl}
                 alt=""
-                style={{ width: 40, height: 40, borderRadius: '50%' }}
+                style={{ width: 40, height: 40, borderRadius: "50%" }}
               />
               <p>Hung Luu</p>
             </div>
-            <div style={{backgroundColor: "#f5f5f5", paddingBottom: 5, paddingTop: 5}}>
-            <li className="profile_menu">
-              <div>
-                <UserOutlined />
-              </div>
-              <div>Profile</div>
-            </li>
-            <li className="profile_menu">
-              <div>
-                <LogoutOutlined />
-              </div>
-              <Link onClick={handleLogOut} to="">Logout</Link>
-            </li>
+            <div
+              style={{
+                backgroundColor: "#f5f5f5",
+                paddingBottom: 5,
+                paddingTop: 5,
+              }}
+            >
+              <li className="profile_menu">
+                <div>
+                  <UserOutlined />
+                </div>
+                <div>Profile</div>
+              </li>
+              <li className="profile_menu">
+                <div>
+                  <LogoutOutlined />
+                </div>
+                <Link onClick={handleLogOut} to="">
+                  Logout
+                </Link>
+              </li>
             </div>
-            
           </ul>
         </div>
       ) : null}

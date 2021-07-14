@@ -13,7 +13,7 @@ import {
   UserApi,
 } from "./services/api";
 import { useDispatch } from "react-redux";
-import { getAllProducts } from "./redux/actions";
+import { getAllProducts, isUserLogin } from "./redux/actions";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -26,10 +26,14 @@ function App() {
   const [dataSideBar, setDataSideBar] = useState([]);
 
   const dispatch = useDispatch();
+  const auth = useDispatch((state) => state.auth);
 
   useEffect(() => {
+    if (!auth.authenticate) {
+      dispatch(isUserLogin());
+    }
     dispatch(getAllProducts());
-  }, [dispatch]);
+  }, [auth, dispatch]);
 
   window.store = {
     products: createCategories(dataSideBar.concat(dataFrontend)),

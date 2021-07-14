@@ -13,7 +13,7 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import LoadingData from '../../../components/loadingData';
+import LoadingData from "../../../components/loadingData";
 import "./css/tab-data.css";
 
 const { TextArea } = Input;
@@ -46,31 +46,28 @@ function TabData(props) {
 
   useEffect(() => {
     getData();
-  }, [page]);
+  }, []);
 
   const getData = async () => {
     setLoading(true);
     const data = await ProductApi();
-    if(data) {
+    if (data) {
       setDataPd(data);
       const total_results = data.length;
       setTotalItems(total_results);
       const total_pages = Math.round(total_results / 10);
-      if(page < 1) {
+      if (page < 1) {
         setPage(1);
-      }
-      else if(page > total_pages) {
+      } else if (page > total_pages) {
         setPage(total_pages);
       }
 
       setLoading(false);
     }
-  }
+  };
 
   if (loading || dataPd.length === 0) {
-    return (
-        <LoadingData />
-    );
+    return <LoadingData />;
   }
 
   const handleShowBox = (item) => {

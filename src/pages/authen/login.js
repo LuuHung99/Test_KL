@@ -5,8 +5,9 @@ import LayoutPage from "../../components/layout";
 import { Form, Input, Button, message } from "antd";
 import SpinNest from "./spin";
 import { Link } from "react-router-dom";
-import { PostLogin } from "../../services/api";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/actions";
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,10 +17,13 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-function Login(props) {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   //username: admin
   //password: abc123
@@ -28,29 +32,21 @@ function Login(props) {
 
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
-    const res = await PostLogin(account);
-    console.log("res",res);
     setLoading(true);
-    if (res) {
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-      }
-      
-
-      const key = "updatable";
-      if (window.localStorage.token) {
-        setTimeout(() => {
-          message.success({
-            content: "Đăng nhập thành công",
-            key,
-            duration: 2,
-          });
-          history.push("dashboard");
-        }, 1500);
-      }
-    }
+    dispatch(login(account));
   };
+
+  const key = "updatable";
+  if (auth.authenticate) {
+    setTimeout(() => {
+      message.success({
+        content: "Đăng nhập thành công",
+        key,
+        duration: 2,
+      });
+      history.push("dashboard");
+    }, 1500);
+  }
 
   return (
     <LayoutPage>
