@@ -30,13 +30,20 @@ function Login() {
 
   const history = useHistory();
 
+  const key = "updatable";
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     setLoading(true);
     dispatch(login(account));
+    if (!auth.authenticate) {
+      setTimeout(() => {
+        message.error("Đăng nhập thất bại");
+        history.push("/");
+        setLoading(false);
+      }, 1500);
+    }
   };
 
-  const key = "updatable";
   if (auth.authenticate) {
     setTimeout(() => {
       message.success({
@@ -58,7 +65,6 @@ function Login() {
             initialValues={{
               remember: true,
             }}
-            
           >
             <img src="/images/logo2.png" alt="" className="login-logo" />
 
