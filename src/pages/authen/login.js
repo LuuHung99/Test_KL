@@ -35,9 +35,13 @@ function Login() {
     const account = { username, password, _app_secretKey: "secretKey" };
     setLoading(true);
     dispatch(login(account));
-    if (!auth.authenticate) {
+    if (!auth.loading) {
       setTimeout(() => {
-        message.error("Đăng nhập thất bại");
+        message.error({
+          content: "Đăng nhập thất bại",
+          key,
+          duration: 2,
+        });
         history.push("/");
         setLoading(false);
       }, 1500);

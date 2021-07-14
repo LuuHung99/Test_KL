@@ -13,6 +13,7 @@ const reducer = (state = initialState, action) => {
     case authContants.LOGIN_REQUEST:
       state = {
         ...state,
+        loading: true,
         authenticating: true,
       };
       break;
@@ -21,8 +22,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
+        loading: false,
         authenticate: true,
         authenticating: false,
+      };
+      break;
+    case authContants.LOGIN_FAILED:
+      state = {
+        ...state,
+        loading: false,
+        authenticating: true,
       };
       break;
     case authContants.LOGOUT_SUCCES:
