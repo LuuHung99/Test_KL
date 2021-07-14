@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./css/login.css";
 import Tools from "../../Tools/Tools";
 import LayoutPage from "../../components/layout";

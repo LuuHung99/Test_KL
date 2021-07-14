@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Route, useRouteMatch } from "react-router-dom";
 import Sidebar from "./products/sidebar";
 import Header from "./products/hd";
 import DetailProducts from "./products/products";

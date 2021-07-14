@@ -145,7 +145,7 @@ function TabData(props) {
       });
       setDataRole(getData);
     }
-  }, []);
+  }, [activeRole]);
 
   const handleClickActive = async (id, activated, reason, username) => {
     const l = {
