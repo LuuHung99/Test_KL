@@ -14,7 +14,7 @@ function HeaderTest(props) {
   const [showMenu, setShowMenu] = useState(false);
   const handleLogOut = () => {
     window.localStorage.clear();
-    message.success("Đăng xuất thành công!", 2)
+    message.success("Đăng xuất thành công!", 2);
   }
   const tokenUser = JSON.parse(window.localStorage.user);
   return (
