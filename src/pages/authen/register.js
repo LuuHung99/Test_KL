@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/login.css";
 import Tools from "../../Tools/Tools";
 import LayoutPage from "../../components/layout";
@@ -16,6 +16,7 @@ const tailLayout = {
 
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
+  const tokenUser = window.store.datauser;
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -32,13 +33,21 @@ function Register(props) {
       activated: true,
       hashedPass: password,
       salt: "hung12",
+      avatarUrl: "http://localhost:3000/images/download.png",
     };
-    await PushUser(l);
-    message.success("Đăng ký tài khoản thành công", 2);
-    setIsSuccess(true);
-    const newData = await UserApi();
-    window.store["datauser"] = newData;
-    
+
+    const user = tokenUser.map((item) => item.username).indexOf(value.username);
+
+    if (user === -1) {
+      await PushUser(l);
+
+      message.success("Đăng ký tài khoản thành công", 2);
+      setIsSuccess(true);
+      const newData = await UserApi();
+      window.store["datauser"] = newData;
+    } else {
+      message.error("Tài khoản đã tồn tại. Xin mời nhập lại!", 2);
+    }
   };
 
   return (
@@ -137,7 +146,7 @@ function Register(props) {
             </Form.Item>
             <p style={{ textAlign: "center" }}>
               Bạn đã có tài khoản?
-              <Link to="/" style={{ marginLeft: 5}}>
+              <Link to="/" style={{ marginLeft: 5 }}>
                 Đăng nhập
               </Link>
             </p>

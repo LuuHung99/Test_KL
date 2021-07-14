@@ -399,14 +399,15 @@ function TabData(props) {
             </Form>
           </Modal>
         )}
-      </div>
-      <Pagination
+        <Pagination
         current={page}
         pageSize={10}
         total={totalItems}
         onChange={(pages) => setPage(pages)}
         style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
       />
+      </div>
+      
     </div>
   );
 }

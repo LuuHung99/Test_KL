@@ -62,6 +62,7 @@ function Login(props) {
             initialValues={{
               remember: true,
             }}
+            
           >
             <img src="/images/logo2.png" alt="" className="login-logo" />
 

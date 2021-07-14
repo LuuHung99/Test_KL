@@ -76,7 +76,7 @@
 
 .profile_menu {
   display: grid;
-  grid-template-columns: 30px 20px;
+  grid-template-columns: 30px 100px;
   margin-left: 20px;
   cursor: pointer;
 }
