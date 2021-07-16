@@ -253,9 +253,9 @@ function TabData(props) {
                         {item.roles.length > 0
                           ? item.roles.map((item) => (
                               <>
-                                <Tooltip placement="top" title={item.title}>
+                                <Tooltip placement="top" title={item.description}>
                                   <div className="title_user">
-                                    {item.description}
+                                    {item.title}
                                   </div>
                                 </Tooltip>
                               </>

@@ -55,8 +55,7 @@ function TabData(props) {
       setDataPd(data);
       const total_results = data.length;
       setTotalItems(total_results);
-      const total_pages = Math.round(total_results / 10);
-
+      const total_pages = Math.ceil(total_results / 10);
       if(page < 1) {
         setPage(1);
       }
@@ -199,7 +198,7 @@ function TabData(props) {
           {dataPd.length > 0
             ? dataPd
                 .filter((val) => {
-                  if (searchProduct === "") {
+                  if (searchProduct === "" ) {
                     return val;
                   } else if (
                     val.title

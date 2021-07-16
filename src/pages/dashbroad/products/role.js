@@ -27,7 +27,7 @@ function TabData(props) {
   const [dataActiveFe] = useState(window.store.activatedFe);
   const [dataActiveBe] = useState(window.store.activatedBe);
   const [searchProduct, setSearchProduct] = useState("");
-  
+
   const [visible, setVisible] = useState(false);
   const [editBox, setEditBox] = useState(false);
   const [model, setModel] = useState(false);
@@ -103,7 +103,6 @@ function TabData(props) {
     const newData = await RoleApi();
     window.store["datarole"] = newData;
     setDataPd(newData);
-    
   };
 
   const handleChangeFrontend = (frontend, id) => {
@@ -213,6 +212,7 @@ function TabData(props) {
                   }
                 })
                 .map((item, index) => (
+                  item.title !== 'Root' ?
                   <>
                     <tbody>
                       <tr
@@ -291,6 +291,7 @@ function TabData(props) {
                       </tr>
                     </tbody>
                   </>
+                  : null
                 ))
             : null}
         </table>

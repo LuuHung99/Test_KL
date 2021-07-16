@@ -5,6 +5,7 @@ import LayoutPage from "../../components/layout";
 import { Form, Input, Button, message } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { UserApi, PushUser } from "../../services/api";
+import SpinNest from "./spin";
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,6 +17,7 @@ const tailLayout = {
 
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const tokenUser = window.store.datauser;
 
   const onFinishFailed = (errorInfo) => {
@@ -37,16 +39,17 @@ function Register(props) {
     };
 
     const user = tokenUser.map((item) => item.username).indexOf(value.username);
-
+    
     if (user === -1) {
       await PushUser(l);
-
       message.success("Đăng ký tài khoản thành công", 2);
       setIsSuccess(true);
       const newData = await UserApi();
       window.store["datauser"] = newData;
     } else {
-      message.error("Tài khoản đã tồn tại. Xin mời nhập lại!", 2);
+      setTimeout(() => {
+        message.error("Tài khoản đã tồn tại. Xin mời nhập lại!", 2);
+      }, 1000);
     }
   };
 
@@ -135,6 +138,9 @@ function Register(props) {
             >
               <Input.Password />
             </Form.Item>
+            <div style={{ textAlign: "center", margin: "-10px 0px 15px 0px" }}>
+              {loading ? <SpinNest /> : null}
+            </div>
             <Form.Item {...tailLayout}>
               <Button
                 htmlType="submit"
