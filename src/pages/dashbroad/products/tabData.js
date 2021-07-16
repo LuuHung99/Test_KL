@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal, message, Table } from "antd";
+import { Input, Form, Button, Modal, message } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,
@@ -86,8 +86,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    
-    
   };
 
   const handleAddInfor = async (title, url, description, author) => {
@@ -125,7 +123,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    
   };
 
   return (
@@ -165,17 +162,11 @@ function TabData(props) {
           </thead>
           {dataPd.length > 0
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.title
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
+                .filter((val) =>
+                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
                 .map((item, index) =>
                   item.description !== "" ? (
                     <>
@@ -235,7 +226,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form {...layout} name="control-hooks" >
+            <Form {...layout} name="control-hooks">
               <h2>Lý do</h2>
               <TextArea
                 rows={4}
@@ -274,11 +265,7 @@ function TabData(props) {
             onCancel={handleCancel}
             footer={[]}
           >
-            <Form
-              {...layout}
-              name="control-hooks"
-              
-            >
+            <Form {...layout} name="control-hooks">
               <Form.Item name="title" label="Title">
                 <Input
                   value={title}

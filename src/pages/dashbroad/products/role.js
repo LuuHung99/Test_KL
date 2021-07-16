@@ -27,7 +27,7 @@ function TabData(props) {
   const [dataActiveFe] = useState(window.store.activatedFe);
   const [dataActiveBe] = useState(window.store.activatedBe);
   const [searchProduct, setSearchProduct] = useState("");
-  
+
   const [visible, setVisible] = useState(false);
   const [editBox, setEditBox] = useState(false);
   const [model, setModel] = useState(false);
@@ -103,7 +103,6 @@ function TabData(props) {
     const newData = await RoleApi();
     window.store["datarole"] = newData;
     setDataPd(newData);
-    
   };
 
   const handleChangeFrontend = (frontend, id) => {
@@ -123,7 +122,7 @@ function TabData(props) {
       });
       setDataBackend(getDataBe);
     }
-  }, []);
+  }, [dataActiveBe]);
 
   useEffect(() => {
     if (dataActiveFe) {
@@ -133,7 +132,7 @@ function TabData(props) {
 
       setDataFrontend(getDataFe);
     }
-  }, []);
+  }, [dataActiveFe]);
 
   const handleAddInfor = async (title, description, frontend, backend) => {
     const f = {
@@ -201,17 +200,11 @@ function TabData(props) {
           </thead>
           {dataPd
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.title
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
+                .filter((val) =>
+                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
                 .map((item, index) => (
                   <>
                     <tbody>

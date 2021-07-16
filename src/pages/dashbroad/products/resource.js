@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form, Button, Modal, Select, message, Table } from "antd";
+import { Input, Form, Button, Modal, Select, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -29,13 +29,13 @@ function TabData(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
   const [reason, setReason] = useState("");
-  
+
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
   const [title, setTitle] = useState("");
   const [path, setPath] = useState("");
-  const [http, setHTTP] = useState("");
+  const [http] = useState("");
   const [description, setDescription] = useState("");
 
   const handleEditBox = (item) => {
@@ -99,7 +99,6 @@ function TabData(props) {
     const newData = await ResourceApi();
     window.store["dataresource"] = newData;
     setDataPd(newData);
-    
   };
 
   const handleClickActive = async (id, active, value) => {
@@ -170,17 +169,11 @@ function TabData(props) {
           </thead>
           {dataPd
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.title
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
+                .filter((val) =>
+                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
                 .map((item, index) => (
                   <>
                     <tbody>
@@ -350,7 +343,10 @@ function TabData(props) {
                 />
               </Form.Item>
               <Form.Item name="http" label="HttpVerb">
-                <Select defaultValue={editSelected.httpVerb} style={{textTransform: 'uppercase'}}>
+                <Select
+                  defaultValue={editSelected.httpVerb}
+                  style={{ textTransform: "uppercase" }}
+                >
                   <Select.Option value="GET">GET</Select.Option>
                   <Select.Option value="PUT">PUT</Select.Option>
                   <Select.Option value="POST">POST</Select.Option>

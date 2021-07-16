@@ -121,7 +121,7 @@ function TabData(props) {
       request.roles = role;
     }
     if (fileList !== undefined) {
-      request.avatarUrl = `${url}` + `${fileList[0].name}`;
+      request.avatarUrl = `${url}${fileList[0].name}`;
     }
 
     await UpdateUser(request);
@@ -145,7 +145,7 @@ function TabData(props) {
       });
       setDataRole(getData);
     }
-  }, []);
+  }, [activeRole]);
 
   const handleClickActive = async (id, activated, reason, username) => {
     const l = {
@@ -170,7 +170,7 @@ function TabData(props) {
       roles: role,
       hashedPass: "abc123",
       salt: "hung12",
-      avatarUrl: `${url}` + `${fileList[0].name}`,
+      avatarUrl: `${url}${fileList[0].name}`,
     };
     await PushUser(l);
     setFileList([]);
@@ -216,17 +216,13 @@ function TabData(props) {
           </thead>
           {dataPd
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.username
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
+                .filter((val) =>
+                  val.username
+                    .toLowerCase()
+                    .includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
                 .map((item, index) => (
                   <>
                     <tr
