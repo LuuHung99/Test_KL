@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import LoadingData from "../../../components/loadingData";
 import "./css/tab-data.css";
+import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
 
@@ -24,7 +25,10 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState([]);
+  const tabs = useSelector((state) => state.tabs.tabs);
+
+  const [dataPd, setDataPd] = useState(tabs.splice(0, 9));
+
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -33,7 +37,7 @@ function TabData(props) {
   const [editSelected, setEditSelected] = useState();
 
   const [page, setPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
+  const [totalItems, setTotalItems] = useState(tabs.length);
   const [loading, setLoading] = useState(false);
 
   const [reason, setReason] = useState("");
@@ -45,23 +49,18 @@ function TabData(props) {
   //Phan trang
 
   const handleChangPage = (page) => {
-    console.log("page", page);
-  };
-
-  const getData = async () => {
     setLoading(true);
-    const data = await ProductApi();
-    if (data) {
-      setDataPd(data);
-      const total_results = data.length;
-      setTotalItems(total_results);
-      const total_pages = Math.ceil(total_results / 10);
+    if (tabs) {
+      const total_pages = Math.ceil(tabs.length / 10);
       if (page < 1) {
         setPage(1);
       } else if (page > total_pages) {
         setPage(total_pages);
       }
-
+      const start = (page - 1) * 10;
+      const end = page * 10 - 1;
+      setDataPd(tabs.splice(start, end));
+      console.log("dataPd", dataPd);
       setLoading(false);
     }
   };

@@ -13,7 +13,7 @@ import {
   UserApi,
 } from "./services/api";
 import { useDispatch } from "react-redux";
-import { getAllProducts, isUserLogin } from "./redux/actions";
+import { getAllProducts, getAllTab, isUserLogin } from "./redux/actions";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -33,6 +33,7 @@ function App() {
       dispatch(isUserLogin());
     }
     dispatch(getAllProducts());
+    dispatch(getAllTab());
   }, [auth, dispatch]);
 
   window.store = {

@@ -3,13 +3,12 @@ import { tabContants } from "./constants";
 
 export const getAllTab = () => {
   return async (dispatch) => {
-    const url = "http://localhost:5000/api/root/tab";
-    const res = await axiosClient.get(url);
+    const res = await axiosClient.get("http://localhost:5000/api/root/tab");
     if (res.status === 200) {
       dispatch({
         type: tabContants.GET_TAB_SUCCESS,
         payload: {
-          tab: res.data,
+          tabs: res.data,
         },
       });
     }
