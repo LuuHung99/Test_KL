@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Input, Form, Button, Modal, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Input, Form, Button, Modal, message, Pagination } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,
@@ -13,6 +13,7 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
+import LoadingData from "../../../components/loadingData";
 import "./css/tab-data.css";
 
 const { TextArea } = Input;
@@ -23,7 +24,7 @@ const layout = {
 };
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.datatab);
+  const [dataPd, setDataPd] = useState([]);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -31,11 +32,43 @@ function TabData(props) {
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(false);
+
   const [reason, setReason] = useState("");
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
+
+  //Phan trang
+
+  const handleChangPage = (page) => {
+    console.log("page", page);
+  };
+
+  const getData = async () => {
+    setLoading(true);
+    const data = await ProductApi();
+    if (data) {
+      setDataPd(data);
+      const total_results = data.length;
+      setTotalItems(total_results);
+      const total_pages = Math.ceil(total_results / 10);
+      if (page < 1) {
+        setPage(1);
+      } else if (page > total_pages) {
+        setPage(total_pages);
+      }
+
+      setLoading(false);
+    }
+  };
+
+  // if (loading || dataPd.length === 0) {
+  //   return <LoadingData />;
+  // }
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -103,8 +136,6 @@ function TabData(props) {
     const newData = await ProductApi();
     window.store["datatab"] = newData;
     setDataPd(newData);
-    // const updateActiveSidebar = await ProductApi();
-    // window.store["activatedFe"] = updateActiveSidebar;
   };
 
   const handleClickActive = async (id, active, author, value) => {
@@ -135,7 +166,7 @@ function TabData(props) {
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
-          Add new frontend
+          Thêm chức năng
         </Button>
         <Input
           type="text"
@@ -152,12 +183,12 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
-              <th>Title</th>
-              <th>Url</th>
-              <th>Description</th>
-              <th>Activated</th>
-              <th>Author</th>
-              <th>Options</th>
+              <th>Tên</th>
+              <th>Đường dẫn</th>
+              <th>Miêu tả</th>
+              <th>Trạng thái</th>
+              <th>Tác giả</th>
+              <th>Tùy chọn</th>
             </tr>
           </thead>
           {dataPd.length > 0
@@ -219,7 +250,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title={`${itemSelected.activated ? "Activated" : "Disable"} ${
+            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
               itemSelected.title
             }`}
             onOk={handleOk}
@@ -247,10 +278,10 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Disable" : "Active"}
+                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -260,7 +291,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title="Add new frontend"
+            title="Thêm chức năng frontend"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -272,17 +303,17 @@ function TabData(props) {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="url" label="Url">
+              <Form.Item name="url" label="Đường dẫn">
                 <Input value={url} onChange={(e) => setUrl(e.target.value)} />
               </Form.Item>
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="author" label="Author">
+              <Form.Item name="author" label="Tác giả">
                 <Input
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
@@ -298,10 +329,10 @@ function TabData(props) {
                     handleAddInfor(title, url, description, author)
                   }
                 >
-                  Add
+                  Thêm
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -311,7 +342,7 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update Tab ${editSelected.title}`}
+            title={`Cập nhật chức năng ${editSelected.title}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -321,26 +352,26 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUpdateFrontend}
             >
-              <Form.Item name="title" label="Title">
+              <Form.Item name="title" label="Tên">
                 <Input
                   defaultValue={editSelected.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="url" label="Url">
+              <Form.Item name="url" label="Đường dẫn">
                 <Input
                   defaultValue={editSelected.url}
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="author" label="Author">
+              <Form.Item name="author" label="Tác giả">
                 <Input
                   defaultValue={editSelected.author}
                   onChange={(e) => setAuthor(e.target.value)}
                 />
               </Form.Item>
 
-              <Form.Item name="description" label="Description">
+              <Form.Item name="description" label="Miêu tả">
                 <TextArea
                   rows={4}
                   defaultValue={editSelected.description}
@@ -350,15 +381,22 @@ function TabData(props) {
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
-                  Update
+                  Cập nhật
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
           </Modal>
         )}
+        <Pagination
+          current={page}
+          pageSize={10}
+          total={totalItems}
+          onChange={(pages) => handleChangPage(pages)}
+          style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
+        />
       </div>
     </div>
   );

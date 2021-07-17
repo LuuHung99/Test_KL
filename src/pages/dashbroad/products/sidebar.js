@@ -15,6 +15,7 @@ function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
   const [data] = useState(window.store.products);
+  const tokenUser = JSON.parse(window.localStorage.user);
 
   function renderProductList() {
     return data
@@ -71,8 +72,8 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src="/images/avatar-1.jpg" className="logo__img" alt="" />
-            <p style={{ color: "white" }}>Hi Hung</p>
+            <img src={tokenUser.avatarUrl} className="logo__img" alt="" />
+            <p style={{ color: "white", textTransform: "capitalize"}}>Hi {tokenUser.username}</p>
           </div>
           <Input
             type="text"
@@ -93,7 +94,7 @@ function Products(props) {
         </Sider>
         <div className="sidebar_image">
           <img
-            src="/images/avatar-1.jpg"
+            src={tokenUser.avatarUrl}
             alt=""
             style={{
               width: "100px",

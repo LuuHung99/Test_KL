@@ -12,6 +12,8 @@ import {
   RoleApi,
   UserApi,
 } from "./services/api";
+import { useDispatch } from "react-redux";
+import { getAllProducts, isUserLogin } from "./redux/actions";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -22,6 +24,16 @@ function App() {
   const [dataActivatedBe, setDataActivatedBe] = useState([]);
   const [dataActivatedRole, setDataActivatedRole] = useState([]);
   const [dataSideBar, setDataSideBar] = useState([]);
+
+  const dispatch = useDispatch();
+  const auth = useDispatch((state) => state.auth);
+
+  useEffect(() => {
+    if (!auth.authenticate) {
+      dispatch(isUserLogin());
+    }
+    dispatch(getAllProducts());
+  }, [auth, dispatch]);
 
   window.store = {
     products: createCategories(dataSideBar.concat(dataFrontend)),

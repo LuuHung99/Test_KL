@@ -3,9 +3,11 @@ import "./css/login.css";
 import LayoutPage from "../../components/layout";
 
 import { Form, Input, Button, message } from "antd";
+import SpinNest from "./spin";
 import { Link } from "react-router-dom";
-import { PostLogin } from "../../services/api";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/actions/auth.action";
 
 const layout = {
   labelCol: { span: 8 },
@@ -15,31 +17,45 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-function Login(props) {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   //username: admin
   //password: abc123
 
   const history = useHistory();
 
+  const key = "updatable";
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
-    const res = await PostLogin(account);
-    if(res) {
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-      }
-     
-      const key = "updatable";
-      if (window.localStorage.token) {
-        setTimeout(() => {
-          message.success({ content: "Đăng nhập thành công", key, duration: 2 });
-          history.push("dashboard");
-        }, 1500);
-      } 
+    dispatch(login(account));
+    if (auth.authenticate) {
+      setLoading(true);
+      setTimeout(() => {
+        message.success({
+          content: "Đăng nhập thành công",
+          key,
+          duration: 2,
+        });
+        history.push("dashboard");
+        setLoading(false);
+      }, 1500);
+    } else if (!auth.loading) {
+      setLoading(true);
+      setTimeout(() => {
+        message.error({
+          content: "Tài khoản hoặc mật khẩu không đúng!",
+          key,
+          duration: 2,
+        });
+        history.push("/");
+        setLoading(false);
+      }, 1500);
     }
   };
 
@@ -86,6 +102,10 @@ function Login(props) {
             >
               <Input.Password />
             </Form.Item>
+            <div style={{ textAlign: "center", margin: "-10px 0px 15px 0px" }}>
+              {loading ? <SpinNest /> : null}
+            </div>
+
             <Form.Item {...tailLayout}>
               <Button
                 onClick={handleSubmit}

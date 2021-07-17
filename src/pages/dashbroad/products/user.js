@@ -182,14 +182,14 @@ function TabData(props) {
   return (
     <div style={{ maxWidth: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1 style={{ color: "green" }}>Bảng chức năng User</h1>
+        <h1 style={{ color: "green" }}>Bảng người dùng</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -500 }}
+          style={{ fontSize: 14, marginLeft: -600 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >
-          Add new user
+          Thêm người dùng
         </Button>
         <Input
           type="text"
@@ -206,12 +206,12 @@ function TabData(props) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr className="table_col_header">
-              <th>Image</th>
-              <th>Roles</th>
-              <th>Username</th>
-              <th>Fullname</th>
-              <th>Activated</th>
-              <th>Options</th>
+              <th>Hình ảnh</th>
+              <th>Quyền truy cập</th>
+              <th>Họ tên</th>
+              <th>Tên tài khoản</th>
+              <th>Trạng thái</th>
+              <th>Tùy chọn</th>
             </tr>
           </thead>
           {dataPd
@@ -249,9 +249,9 @@ function TabData(props) {
                         {item.roles.length > 0
                           ? item.roles.map((item) => (
                               <>
-                                <Tooltip placement="top" title={item.title}>
+                                <Tooltip placement="top" title={item.description}>
                                   <div className="title_user">
-                                    {item.description}
+                                    {item.title}
                                   </div>
                                 </Tooltip>
                               </>
@@ -295,7 +295,7 @@ function TabData(props) {
         {visible && (
           <Modal
             visible={visible}
-            title="Add new user"
+            title="Thêm người dùng"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -305,7 +305,7 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitAddUser}
             >
-              <Form.Item name="image" label="Image">
+              <Form.Item name="image" label="Hình ảnh">
                 <ImgCrop rotate>
                   <Upload
                     listType="picture-card"
@@ -314,23 +314,23 @@ function TabData(props) {
                     onPreview={onPreview}
                     status="uploading"
                   >
-                    {fileList.length < 1 && "+ Upload"}
+                    {fileList.length < 1 && "+ Thêm ảnh"}
                   </Upload>
                 </ImgCrop>
               </Form.Item>
-              <Form.Item name="username" label="Username">
+              <Form.Item name="username" label="Họ tên">
                 <Input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="fullname" label="Fullname">
+              <Form.Item name="fullname" label="Tên tài khoản">
                 <Input
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="roles" label="Role">
+              <Form.Item name="roles" label="Quyền truy cập">
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
@@ -350,10 +350,10 @@ function TabData(props) {
                     handleAddInfor(username, fullname, role, fileList)
                   }
                 >
-                  Add
+                  Thêm
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -362,7 +362,7 @@ function TabData(props) {
         {model && (
           <Modal
             visible={model}
-            title={`${itemSelected.activated ? "Activate" : "Disable"} ${
+            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
               itemSelected.username
             }`}
             onOk={handleOk}
@@ -390,10 +390,10 @@ function TabData(props) {
                     )
                   }
                 >
-                  {itemSelected.activated ? "Disable" : "Active"}
+                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>
@@ -403,7 +403,7 @@ function TabData(props) {
         {editBox && (
           <Modal
             visible={editBox}
-            title={`Update user ${editSelected.username}`}
+            title={`Cập nhật người dùng ${editSelected.username}`}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[]}
@@ -413,36 +413,36 @@ function TabData(props) {
               name="control-hooks"
               onFinish={handleFormSubmitUpdateUser}
             >
-              <Form.Item name="image" label="Image">
+              <Form.Item name="image" label="Hình ảnh">
                 <ImgCrop rotate>
                   <Upload
                     listType="picture-card"
                     fileList={fileList}
                     onChange={onChange}
                     onPreview={onPreview}
-                    defaultFileList={[editSelected.avatarUrl]}
+                    defaultFileList={editSelected.avatarUrl}
                   >
                     {fileList.length < 1}
                   </Upload>
                 </ImgCrop>
               </Form.Item>
-              <Form.Item name="username" label="Username">
+              <Form.Item name="username" label="Họ tên">
                 <Input
                   defaultValue={editSelected.username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="fullname" label="Fullname">
+              <Form.Item name="fullname" label="Tên tài khoản">
                 <Input
                   defaultValue={editSelected.fullname}
                   onChange={(e) => setFullname(e.target.value)}
                 />
               </Form.Item>
-              <Form.Item name="roles" label="Role">
+              <Form.Item name="roles" label="Quyền truy cập">
                 <Select
                   mode="multiple"
                   style={{ width: "100%" }}
-                  placeholder="Add role"
+                  placeholder="Thêm quyền ..."
                   onChange={handleChangeRole}
                   options={dataRole}
                   value={role}
@@ -452,10 +452,10 @@ function TabData(props) {
 
               <div className="box_products">
                 <Button key="submit" type="primary" htmlType="submit">
-                  Update
+                  Cập nhật
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
-                  Cancel
+                  Hủy bỏ
                 </Button>
               </div>
             </Form>

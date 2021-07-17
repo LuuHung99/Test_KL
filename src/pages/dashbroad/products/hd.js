@@ -12,10 +12,11 @@ import { Link } from "react-router-dom";
 const { Header } = Layout;
 function HeaderTest(props) {
   const [showMenu, setShowMenu] = useState(false);
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     window.localStorage.clear();
     message.success("Đăng xuất thành công!", 2)
   }
+  const tokenUser = JSON.parse(window.localStorage.user);
   return (
     <Header className="headerPd">
       <Col className="header__block">
@@ -40,24 +41,24 @@ function HeaderTest(props) {
           <ul className="menu">
             <div className="menu-logo">
               <img
-                src="/images/avatar-1.jpg"
+                src={tokenUser.avatarUrl}
                 alt=""
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
-              <p>Hung Luu</p>
+              <p style={{textTransform: 'capitalize'}}>{tokenUser.username}</p>
             </div>
             <div style={{backgroundColor: "#f5f5f5", paddingBottom: 5, paddingTop: 5}}>
             <li className="profile_menu">
               <div>
                 <UserOutlined />
               </div>
-              <div>Profile</div>
+              <div>Giới thiệu</div>
             </li>
             <li className="profile_menu">
               <div>
                 <LogoutOutlined />
               </div>
-              <Link onClick={handleLogOut} to="">Logout</Link>
+              <Link onClick={handleLogOut} to="">Đăng xuất</Link>
             </li>
             </div>
             
