@@ -52,6 +52,7 @@ function TabData(props) {
     setLoading(true);
     const data = await ProductApi();
     if(data) {
+      console.log("data", data);
       setDataPd(data);
       const total_results = data.length;
       setTotalItems(total_results);

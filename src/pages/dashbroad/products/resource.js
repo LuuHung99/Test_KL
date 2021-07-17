@@ -108,11 +108,6 @@ function TabData(props) {
     setVisible(false);
   };
 
-  const handleFormSubmitAddRole = () => {
-    message.success("Thêm thành công chức năng backend", 2);
-    setModel(false);
-  };
-
   const handleFormSubmitUpdateFrontend = async (value) => {
     const request = { _id: editSelected._id };
 
@@ -153,12 +148,16 @@ function TabData(props) {
     setDataPd(newData);
   };
 
+  const handleChangeSelectHttp = (value) => {
+    setHTTP(value);
+  } 
+
   const handleAddInfor = async (title, http, description, path) => {
     const f = {
       title: title,
       description: description,
       activated: true,
-      httpVerb: "GET",
+      httpVerb: http,
       locationPath: path,
     };
     await pushBackend(f);
@@ -316,7 +315,6 @@ function TabData(props) {
             <Form
               {...layout}
               name="control-hooks"
-              onFinish={handleFormSubmitAddRole}
             >
               <Form.Item name="title" label="Tên">
                 <Input
@@ -328,10 +326,10 @@ function TabData(props) {
                 <Input value={path} onChange={(e) => setPath(e.target.value)} />
               </Form.Item>
               <Form.Item name="http" label="Phương thức">
-                <Select value={http}>
-                  <Select.Option value="get">GET</Select.Option>
-                  <Select.Option value="put">PUT</Select.Option>
-                  <Select.Option value="post">POST</Select.Option>
+                <Select value={http} onChange={handleChangeSelectHttp} style={{textTransform: 'uppercase'}}>
+                  <Select.Option value="GET">GET</Select.Option>
+                  <Select.Option value="PUT">PUT</Select.Option>
+                  <Select.Option value="POST">POST</Select.Option>
                 </Select>
               </Form.Item>
 
