@@ -45,7 +45,7 @@ function Login() {
         history.push("dashboard");
         setLoading(false);
       }, 1500);
-    } else if (!auth.loading) {
+    } else if(!auth.authenticate)  {
       setLoading(true);
       setTimeout(() => {
         message.error({
@@ -81,7 +81,7 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: "Email không được để trống!",
+                  message: "Tài khoản không được để trống!",
                 },
               ]}
             >

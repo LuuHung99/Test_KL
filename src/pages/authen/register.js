@@ -17,7 +17,7 @@ const tailLayout = {
 
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const tokenUser = window.store.datauser;
 
   const onFinishFailed = (errorInfo) => {

@@ -20,15 +20,11 @@ function Products(props) {
   function renderProductList() {
     return data
       ? data
-          .filter((val) => {
-            if (searchSidebar === "") {
-              return val;
-            } else if (
-              val.title.toLowerCase().includes(searchSidebar.toLowerCase())
-            ) {
-              return val;
-            }
-          })
+          .filter((val) =>
+            val.title.toLowerCase().includes(searchSidebar.toLowerCase())
+              ? val
+              : null
+          )
           .map((text) => {
             if (text.subs.length > 0)
               return (
@@ -39,7 +35,7 @@ function Products(props) {
                         <Menu.Item key={item.id} path={item.url}>
                           <Link
                             to={`${match.url}/${item.url}`}
-                            style={{ fontSize: "16px", color: "#fff"}}
+                            style={{ fontSize: "16px", color: "#fff" }}
                           >
                             {item.title}
                           </Link>
@@ -54,7 +50,7 @@ function Products(props) {
                 <Menu.Item key={text.id} path={text.url}>
                   <Link
                     to={`${match.url}/${text.url}`}
-                    style={{color: "#fff"}}
+                    style={{ color: "#fff" }}
                   >
                     {text.title}
                   </Link>
@@ -77,7 +73,9 @@ function Products(props) {
         <Sider className="sidebar_container">
           <div className="logo">
             <img src={tokenUser.avatarUrl} className="logo__img" alt="" />
-            <p style={{ color: "white", textTransform: "capitalize"}}>Hi {tokenUser.username}</p>
+            <p style={{ color: "white", textTransform: "capitalize" }}>
+              Hi {tokenUser.fullname}
+            </p>
           </div>
           <Input
             type="text"
@@ -103,7 +101,7 @@ function Products(props) {
             style={{
               width: "100px",
               height: "100px",
-              borderRadius: "100px"
+              borderRadius: "100px",
             }}
           />
         </div>

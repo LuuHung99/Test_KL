@@ -17,14 +17,14 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import "./css/tab-data.css";
+import "../css/tab-data.css";
 
 import {
   ActivateUser,
   UserApi,
   PushUser,
   UpdateUser,
-} from "../../../services/api";
+} from "../../../../services/api";
 
 const { TextArea } = Input;
 
@@ -33,9 +33,10 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-function TabData(props) {
+function User(props) {
   const [dataPd, setDataPd] = useState(window.store.datauser);
   const [activeRole] = useState(window.store.activatedRole);
+  
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -51,7 +52,7 @@ function TabData(props) {
 
   const [fileList, setFileList] = useState([]);
 
-  const onChange = ({ fileList: newFileList }) => {
+  const onChangeUpLoad = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
 
@@ -120,8 +121,8 @@ function TabData(props) {
     if (role !== undefined) {
       request.roles = role;
     }
-    if (fileList !== undefined) {
-      request.avatarUrl = `${url}` + `${fileList[0].name}`;
+    if (fileList.length > 0) {
+      request.avatarUrl = `${url}${fileList[0].name}`;
     }
 
     await UpdateUser(request);
@@ -170,7 +171,7 @@ function TabData(props) {
       roles: role,
       hashedPass: "abc123",
       salt: "hung12",
-      avatarUrl: `${url}` + `${fileList[0].name}`,
+      avatarUrl: `${url}${fileList[0].name}`,
     };
     await PushUser(l);
     setFileList([]);
@@ -193,7 +194,7 @@ function TabData(props) {
         </Button>
         <Input
           type="text"
-          placeholder="Search ..."
+          placeholder="Tìm kiếm ..."
           className="searchData"
           prefix={
             <SearchOutlined style={{ fontSize: "20px", color: "#8699ad" }} />
@@ -216,26 +217,19 @@ function TabData(props) {
           </thead>
           {dataPd
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.username
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
+                .filter((val) =>
+                  val.username.toLowerCase().includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
                 .map((item, index) => (
-                  <>
+                  <tbody key={index}>
                     <tr
                       className={
                         item.activated === true
                           ? "table_col_content_role"
                           : "table_col_content_unactivated_role"
                       }
-                      key={index}
                     >
                       <td>
                         <img
@@ -251,14 +245,14 @@ function TabData(props) {
                       </td>
                       <td>
                         {item.roles.length > 0
-                          ? item.roles.map((item) => (
-                              <>
-                                <Tooltip placement="top" title={item.description}>
-                                  <div className="title_user">
-                                    {item.title}
-                                  </div>
+                          ? item.roles.map((item, index) => (
+                                <Tooltip
+                                  placement="top"
+                                  title={item.description}
+                                  key={index}
+                                >
+                                  <div className="title_user">{item.title}</div>
                                 </Tooltip>
-                              </>
                             ))
                           : null}
                       </td>
@@ -272,7 +266,7 @@ function TabData(props) {
                         )}
                       </td>
                       <td>
-                        <tr
+                        <div
                           style={{
                             display: "flex",
                             justifyContent: "center",
@@ -289,10 +283,10 @@ function TabData(props) {
                           >
                             Edit
                           </Button>
-                        </tr>
+                        </div>
                       </td>
                     </tr>
-                  </>
+                  </tbody>
                 ))
             : null}
         </table>
@@ -314,7 +308,7 @@ function TabData(props) {
                   <Upload
                     listType="picture-card"
                     fileList={fileList}
-                    onChange={onChange}
+                    onChange={onChangeUpLoad}
                     onPreview={onPreview}
                     status="uploading"
                   >
@@ -422,9 +416,9 @@ function TabData(props) {
                   <Upload
                     listType="picture-card"
                     fileList={fileList}
-                    onChange={onChange}
+                    onChange={onChangeUpLoad}
                     onPreview={onPreview}
-                    defaultFileList={editSelected.avatarUrl}
+                    defaultFileList={editSelected?.avatarUrl}
                   >
                     {fileList.length < 1}
                   </Upload>
@@ -470,4 +464,4 @@ function TabData(props) {
   );
 }
 
-export default TabData;
+export default User;

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
-import TabData from "./tabData";
-import Role from "./role";
-import User from "./user";
-import Resource from "./resource";
+import TabData from "./Frontend/index";
+import Role from "./Role/index";
+import User from "./User/index";
+import Resource from "./Backend/index";
 
 const { TabPane } = Tabs;
 
@@ -75,7 +75,7 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <div className="content_product">
+              <div className="content_product" >
                 {pane.url === "tab" ? <TabData /> : null}
                 {pane.description}
                 {pane.url === "role" ? <Role /> : null}

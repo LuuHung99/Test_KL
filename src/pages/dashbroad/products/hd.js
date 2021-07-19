@@ -45,7 +45,7 @@ function HeaderTest(props) {
                 alt=""
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
-              <p style={{textTransform: 'capitalize'}}>{tokenUser.username}</p>
+              <p style={{textTransform: 'capitalize'}}>{tokenUser.fullname}</p>
             </div>
             <div style={{backgroundColor: "#f5f5f5", paddingBottom: 5, paddingTop: 5}}>
             <li className="profile_menu">

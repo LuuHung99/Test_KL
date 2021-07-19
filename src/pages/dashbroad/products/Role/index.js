@@ -7,13 +7,13 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import "./css/tab-data.css";
+import "../css/tab-data.css";
 import {
   pushRole,
   RoleApi,
   RoleActiveToHistory,
   UpdateRole,
-} from "../../../services/api";
+} from "../../../../services/api";
 
 const { TextArea } = Input;
 
@@ -22,7 +22,7 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-function TabData(props) {
+function Role(props) {
   const [dataPd, setDataPd] = useState(window.store.datarole);
   const [dataActiveFe] = useState(window.store.activatedFe);
   const [dataActiveBe] = useState(window.store.activatedBe);
@@ -122,7 +122,7 @@ function TabData(props) {
       });
       setDataBackend(getDataBe);
     }
-  }, []);
+  }, [dataActiveBe]);
 
   useEffect(() => {
     if (dataActiveFe) {
@@ -132,7 +132,7 @@ function TabData(props) {
 
       setDataFrontend(getDataFe);
     }
-  }, []);
+  }, [dataActiveFe]);
 
   const handleAddInfor = async (title, description, frontend, backend) => {
     const f = {
@@ -177,7 +177,7 @@ function TabData(props) {
         </Button>
         <Input
           type="text"
-          placeholder="Search ..."
+          placeholder="Tìm kiếm ..."
           className="searchData"
           value={searchProduct}
           prefix={
@@ -200,28 +200,20 @@ function TabData(props) {
           </thead>
           {dataPd
             ? dataPd
-                .filter((val) => {
-                  if (searchProduct === "") {
-                    return val;
-                  } else if (
-                    val.title
-                      .toLowerCase()
-                      .includes(searchProduct.toLowerCase())
-                  ) {
-                    return val;
-                  }
-                })
-                .map((item, index) => (
-                  item.title !== 'Root' ?
-                  <>
-                    <tbody>
+                .filter((val) =>
+                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
+                .map((item, index) =>
+                  item.title !== "Root" ? (
+                    <tbody key={index}>
                       <tr
                         className={
                           item.activated === true
                             ? "table_col_content_role"
                             : "table_col_content_unactivated_role"
                         }
-                        key={index}
                       >
                         <td>{item.title}</td>
                         <td>{item.description}</td>
@@ -233,43 +225,35 @@ function TabData(props) {
                           )}
                         </td>
                         <td>
-                          <>
                             {item.tabs
-                              ? item.tabs.map((item) => (
-                                  <>
+                              ? item.tabs.map((item, index) => (
                                     <Tooltip
                                       placement="top"
                                       title={item.description}
+                                      key={index}
                                     >
                                       <div className="title_role">
                                         {item.title}
                                       </div>
                                     </Tooltip>
-                                  </>
                                 ))
                               : null}
-                          </>
                         </td>
                         <td>
-                          <>
-                            {item.backends
-                              ? item.backends.map((item) => (
-                                  <>
-                                    <Tooltip
-                                      placement="top"
-                                      title={item.description}
-                                    >
-                                      <div className="title_role">
-                                        {item.title}
-                                      </div>
-                                    </Tooltip>
-                                  </>
-                                ))
-                              : null}
-                          </>
+                          {item.backends
+                            ? item.backends.map((item, index) => (
+                                <Tooltip
+                                  placement="top"
+                                  title={item.description}
+                                  key={index}
+                                >
+                                  <div className="title_role">{item.title}</div>
+                                </Tooltip>
+                              ))
+                            : null}
                         </td>
                         <td>
-                          <tr
+                          <div
                             style={{
                               display: "flex",
                               justifyContent: "center",
@@ -286,13 +270,12 @@ function TabData(props) {
                             >
                               Edit
                             </Button>
-                          </tr>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
-                  </>
-                  : null
-                ))
+                  ) : null
+                )
             : null}
         </table>
         {visible && (
@@ -467,4 +450,4 @@ function TabData(props) {
   );
 }
 
-export default TabData;
+export default Role;
