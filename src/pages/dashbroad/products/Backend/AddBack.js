@@ -65,7 +65,7 @@ function AddBack(props) {
                   htmlType="submit"
                   onClick={() => handleAddInfor(title, http, description, path)}
                 >
-                  Thêm
+                  Thêm mới
                 </Button>
                 <Button type="danger" onClick={ChangeBox}>
                   Hủy bỏ

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Modal, Form, Select, Tooltip, message } from "antd";
+import { Button, Input, Tooltip, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -14,13 +14,9 @@ import {
   RoleActiveToHistory,
   UpdateRole,
 } from "../../../../services/api";
-
-const { TextArea } = Input;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+import UpdateActive from "../components/UpdateActive";
+import AddRole from "./AddRole";
+import UpdateRoles from "./UpdateRole";
 
 function Role(props) {
   const [dataPd, setDataPd] = useState(window.store.datarole);
@@ -37,12 +33,8 @@ function Role(props) {
   const [dataBackend, setDataBackend] = useState();
   const [dataFrontend, setDataFrontend] = useState();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [frontend, setFrontend] = useState();
   const [backend, setBackend] = useState();
-
-  const [reason, setReason] = useState("");
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -50,12 +42,13 @@ function Role(props) {
   };
 
   const handleShowBox = () => {
-    setVisible(true);
+    setModel(true);
+    
   };
 
   const handleShowModel = (item) => {
     setItemSelected(item);
-    setModel(true);
+    setVisible(true);
   };
 
   const handleOk = () => {};
@@ -67,19 +60,15 @@ function Role(props) {
   };
 
   const ChangeBox = () => {
+    setModel(false);
     setVisible(false);
-    setModel(false);
     setEditBox(false);
-  };
-
-  const handleFormSubmit = () => {
-    message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
-    setModel(false);
+    
   };
 
   const handleFormSubmitAddRole = () => {
     message.success("Thêm mới thành công quyền truy cập", 2);
-    setVisible(false);
+    setModel(false);
   };
 
   const handleFormSubmitUPdateRole = async (value) => {
@@ -157,7 +146,8 @@ function Role(props) {
       activated: active ? false : true,
     };
     await RoleActiveToHistory(l);
-    setReason("");
+    message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
+    setVisible(false);
     const newData = await RoleApi();
     window.store["datarole"] = newData;
     setDataPd(newData);
@@ -225,19 +215,17 @@ function Role(props) {
                           )}
                         </td>
                         <td>
-                            {item.tabs
-                              ? item.tabs.map((item, index) => (
-                                    <Tooltip
-                                      placement="top"
-                                      title={item.description}
-                                      key={index}
-                                    >
-                                      <div className="title_role">
-                                        {item.title}
-                                      </div>
-                                    </Tooltip>
-                                ))
-                              : null}
+                          {item.tabs
+                            ? item.tabs.map((item, index) => (
+                                <Tooltip
+                                  placement="top"
+                                  title={item.description}
+                                  key={index}
+                                >
+                                  <div className="title_role">{item.title}</div>
+                                </Tooltip>
+                              ))
+                            : null}
                         </td>
                         <td>
                           {item.backends
@@ -278,173 +266,51 @@ function Role(props) {
                 )
             : null}
         </table>
-        {visible && (
-          <Modal
-            visible={visible}
-            title="Thêm quyền truy cập"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form
-              {...layout}
-              name="control-hooks"
-              onFinish={handleFormSubmitAddRole}
-            >
-              <Form.Item name="title" label="Tên">
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="description" label="Miêu tả">
-                <TextArea
-                  rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Form.Item>
-
-              <Form.Item name="tab" label="Frontend">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder="Tag frontend"
-                  onChange={handleChangeFrontend}
-                  options={dataFrontend}
-                  value={frontend}
-                ></Select>
-              </Form.Item>
-
-              <Form.Item name="backend" label="Backend">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder="Tag backend"
-                  onChange={handleChangeBackend}
-                  options={dataBackend}
-                  value={backend}
-                ></Select>
-              </Form.Item>
-
-              <div className="box_products">
-                <Button
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(title, description, frontend, backend)
-                  }
-                >
-                  Thêm
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
-        )}
 
         {model && (
-          <Modal
-            visible={model}
-            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
-              itemSelected.title
-            }`}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-              <h2>Lý do</h2>
-              <TextArea
-                rows={4}
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-              <div className="box_products">
-                <Button
-                  key="submit"
-                  type={itemSelected.activated ? "ghost" : "primary"}
-                  htmlType="submit"
-                  onClick={() =>
-                    handleClickActive(
-                      itemSelected._id,
-                      itemSelected.activated,
-                      itemSelected.title,
-                      reason
-                    )
-                  }
-                >
-                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
+          <AddRole
+            model={model}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            handleFormSubmitAddRole={handleFormSubmitAddRole}
+            handleChangeFrontend={handleChangeFrontend}
+            handleChangeBackend={handleChangeBackend}
+            handleAddInfor={handleAddInfor}
+            ChangeBox={ChangeBox}
+            frontend={frontend}
+            backend={backend}
+            dataFrontend={dataFrontend}
+            dataBackend={dataBackend}
+          />
+        )}
+
+        {visible && (
+          <UpdateActive
+            visible={visible}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+            handleClickActive={handleClickActive}
+            ChangeBox={ChangeBox}
+            itemSelected={itemSelected}
+          />
         )}
 
         {editBox && (
-          <Modal
-            visible={editBox}
-            title={`Cập nhật quyền ${editSelected.title}`}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form
-              {...layout}
-              name="control-hooks"
-              onFinish={handleFormSubmitUPdateRole}
-            >
-              <Form.Item name="title" label="Tên">
-                <Input
-                  defaultValue={editSelected.title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="description" label="Miêu tả">
-                <TextArea
-                  rows={4}
-                  defaultValue={editSelected.description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Form.Item>
+          <UpdateRoles
+            editBox={editBox}
+            editSelected={editSelected}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            handleFormSubmitUPdateRole={handleFormSubmitUPdateRole}
+            handleChangeFrontend={handleChangeFrontend}
+            handleChangeBackend={handleChangeBackend}
+            ChangeBox={ChangeBox}
+            dataFrontend={dataFrontend}
+            dataBackend={dataBackend}
 
-              <Form.Item name="tabs" label="Frontend">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  onChange={handleChangeFrontend}
-                  options={dataFrontend}
-                  defaultValue={editSelected.tabs.map((item) => item.title)}
-                ></Select>
-              </Form.Item>
-
-              <Form.Item name="backends" label="Backend">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  onChange={handleChangeBackend}
-                  options={dataBackend}
-                  defaultValue={editSelected.backends.map((item) => item.title)}
-                ></Select>
-              </Form.Item>
-
-              <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit">
-                  Cập nhật
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
+          />
         )}
+         
       </div>
     </div>
   );

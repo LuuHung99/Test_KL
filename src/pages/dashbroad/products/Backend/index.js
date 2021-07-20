@@ -37,6 +37,7 @@ function Resource(props) {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const getData = async () => {
@@ -87,6 +88,7 @@ function Resource(props) {
     setModel(false);
     setVisible(false);
     setEditBox(false);
+    console.log("edit");
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
@@ -261,7 +263,7 @@ function Resource(props) {
             editBox={editBox}
             handleOk={handleOk}
             handleCancel={handleCancel}
-            changeBox={ChangeBox}
+            ChangeBox={ChangeBox}
             handleFormSubmitUpdateFrontend={handleFormSubmitUpdateFrontend}
             editSelected={editSelected}
           />

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   Input,
-  Select,
-  Form,
-  Modal,
   Button,
   Tooltip,
-  Upload,
-  message,
+  message
 } from "antd";
-import ImgCrop from "antd-img-crop";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -18,25 +13,20 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import "../css/tab-data.css";
-
 import {
   ActivateUser,
   UserApi,
   PushUser,
   UpdateUser,
 } from "../../../../services/api";
-
-const { TextArea } = Input;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+import UpdateActive from "../components/UpdateActive";
+import AddUser from "./AddUser";
+import UpdateUsers from "./UpdateUser";
 
 function User(props) {
   const [dataPd, setDataPd] = useState(window.store.datauser);
   const [activeRole] = useState(window.store.activatedRole);
-  
+
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -45,10 +35,6 @@ function User(props) {
   const [editSelected, setEditSelected] = useState();
   const [role, setRole] = useState();
   const [itemSelected, setItemSelected] = useState();
-  const [reason, setReason] = useState("");
-
-  const [username, setUsername] = useState("");
-  const [fullname, setFullname] = useState("");
 
   const [fileList, setFileList] = useState([]);
 
@@ -77,12 +63,12 @@ function User(props) {
   };
 
   const handleShowBox = () => {
-    setVisible(true);
+    setModel(true);
   };
 
   const handleShowModel = (item) => {
     setItemSelected(item);
-    setModel(true);
+    setVisible(true);
   };
 
   const handleOk = () => {};
@@ -99,14 +85,9 @@ function User(props) {
     setEditBox(false);
   };
 
-  const handleFormSubmit = () => {
-    message.success("Thay đổi thành công trạng thái chức năng user", 2);
-    setModel(false);
-  };
-
   const handleFormSubmitAddUser = () => {
     message.success("Thêm thành công chức năng user", 2);
-    setVisible(false);
+    setModel(false);
   };
 
   const handleFormSubmitUpdateUser = async (value) => {
@@ -156,7 +137,8 @@ function User(props) {
       activated: activated ? false : true,
     };
     await ActivateUser(l);
-    setReason("");
+    message.success("Thay đổi thành công trạng thái chức năng user", 2);
+    setVisible(false);
     const newData = await UserApi();
     window.store["datauser"] = newData;
     setDataPd(newData);
@@ -218,7 +200,9 @@ function User(props) {
           {dataPd
             ? dataPd
                 .filter((val) =>
-                  val.username.toLowerCase().includes(searchProduct.toLowerCase())
+                  val.username
+                    .toLowerCase()
+                    .includes(searchProduct.toLowerCase())
                     ? val
                     : null
                 )
@@ -246,13 +230,13 @@ function User(props) {
                       <td>
                         {item.roles.length > 0
                           ? item.roles.map((item, index) => (
-                                <Tooltip
-                                  placement="top"
-                                  title={item.description}
-                                  key={index}
-                                >
-                                  <div className="title_user">{item.title}</div>
-                                </Tooltip>
+                              <Tooltip
+                                placement="top"
+                                title={item.description}
+                                key={index}
+                              >
+                                <div className="title_user">{item.title}</div>
+                              </Tooltip>
                             ))
                           : null}
                       </td>
@@ -290,174 +274,49 @@ function User(props) {
                 ))
             : null}
         </table>
-        {visible && (
-          <Modal
-            visible={visible}
-            title="Thêm người dùng"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form
-              {...layout}
-              name="control-hooks"
-              onFinish={handleFormSubmitAddUser}
-            >
-              <Form.Item name="image" label="Hình ảnh">
-                <ImgCrop rotate>
-                  <Upload
-                    listType="picture-card"
-                    fileList={fileList}
-                    onChange={onChangeUpLoad}
-                    onPreview={onPreview}
-                    status="uploading"
-                  >
-                    {fileList.length < 1 && "+ Thêm ảnh"}
-                  </Upload>
-                </ImgCrop>
-              </Form.Item>
-              <Form.Item name="username" label="Họ tên">
-                <Input
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="fullname" label="Tên tài khoản">
-                <Input
-                  value={fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="roles" label="Quyền truy cập">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder="Add role"
-                  onChange={handleChangeRole}
-                  options={dataRole}
-                  value={role}
-                ></Select>
-              </Form.Item>
 
-              <div className="box_products">
-                <Button
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() =>
-                    handleAddInfor(username, fullname, role, fileList)
-                  }
-                >
-                  Thêm
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
-        )}
         {model && (
-          <Modal
-            visible={model}
-            title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
-              itemSelected.username
-            }`}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form {...layout} name="control-hooks" onFinish={handleFormSubmit}>
-              <h2>Lý do</h2>
-              <TextArea
-                rows={4}
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-              <div className="box_products">
-                <Button
-                  key="submit"
-                  type={itemSelected.activated ? "ghost" : "primary"}
-                  htmlType="submit"
-                  onClick={() =>
-                    handleClickActive(
-                      itemSelected._id,
-                      itemSelected.activated,
-                      reason,
-                      itemSelected.username
-                    )
-                  }
-                >
-                  {itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"}
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
+          <AddUser
+            model={model}
+            fileList={fileList}
+            dataRole={dataRole}
+            role={role}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            handleFormSubmitAddUser={handleFormSubmitAddUser}
+            onChangeUpLoad={onChangeUpLoad}
+            onPreview={onPreview}
+            handleChangeRole={handleChangeRole}
+            handleAddInfor={handleAddInfor}
+            ChangeBox={ChangeBox}
+          />
+        )}
+
+        {visible && (
+          <UpdateActive
+            visible={visible}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+            handleClickActive={handleClickActive}
+            ChangeBox={ChangeBox}
+            itemSelected={itemSelected}
+          />
         )}
 
         {editBox && (
-          <Modal
-            visible={editBox}
-            title={`Cập nhật người dùng ${editSelected.username}`}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[]}
-          >
-            <Form
-              {...layout}
-              name="control-hooks"
-              onFinish={handleFormSubmitUpdateUser}
-            >
-              <Form.Item name="image" label="Hình ảnh">
-                <ImgCrop rotate>
-                  <Upload
-                    listType="picture-card"
-                    fileList={fileList}
-                    onChange={onChangeUpLoad}
-                    onPreview={onPreview}
-                    defaultFileList={editSelected?.avatarUrl}
-                  >
-                    {fileList.length < 1}
-                  </Upload>
-                </ImgCrop>
-              </Form.Item>
-              <Form.Item name="username" label="Họ tên">
-                <Input
-                  defaultValue={editSelected.username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="fullname" label="Tên tài khoản">
-                <Input
-                  defaultValue={editSelected.fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="roles" label="Quyền truy cập">
-                <Select
-                  mode="multiple"
-                  style={{ width: "100%" }}
-                  placeholder="Thêm quyền ..."
-                  onChange={handleChangeRole}
-                  options={dataRole}
-                  value={role}
-                  defaultValue={editSelected.roles.map((item) => item.title)}
-                ></Select>
-              </Form.Item>
-
-              <div className="box_products">
-                <Button key="submit" type="primary" htmlType="submit">
-                  Cập nhật
-                </Button>
-                <Button type="danger" onClick={ChangeBox}>
-                  Hủy bỏ
-                </Button>
-              </div>
-            </Form>
-          </Modal>
+          <UpdateUsers
+            editBox={editBox}
+            editSelected={editSelected}
+            dataRole={dataRole}
+            fileList={fileList}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            handleFormSubmitUpdateUser={handleFormSubmitUpdateUser}
+            onChangeUpLoad={onChangeUpLoad}
+            onPreview={onPreview}
+            handleChangeRole={handleChangeRole}
+            ChangeBox={ChangeBox}
+          />
         )}
       </div>
     </div>

@@ -45,6 +45,7 @@ function UpdateActive(props) {
                 itemSelected._id,
                 itemSelected.activated,
                 itemSelected.author,
+                itemSelected.username,
                 reason
               )
             }

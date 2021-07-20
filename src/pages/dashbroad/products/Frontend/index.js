@@ -37,6 +37,7 @@ function TabData(props) {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const getData = async () => {

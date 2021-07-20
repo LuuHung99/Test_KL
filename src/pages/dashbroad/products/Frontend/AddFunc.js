@@ -48,7 +48,7 @@ function AddFunc(props) {
             htmlType="submit"
             onClick={() => handleAddInfor(title, url, description, author)}
           >
-            Thêm
+            Thêm mới
           </Button>
           <Button type="danger" onClick={ChangeBox}>
             Hủy bỏ
