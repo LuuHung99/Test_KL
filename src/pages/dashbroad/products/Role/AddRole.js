@@ -36,10 +36,28 @@ function AddRole(props) {
       footer={[]}
     >
       <Form {...layout} name="control-hooks" onFinish={handleFormSubmitAddRole}>
-        <Form.Item name="title" label="Tên">
+        <Form.Item
+          name="title"
+          label="Tên"
+          rules={[
+            {
+              required: true,
+              message: "Tên không được để trống!",
+            },
+          ]}
+        >
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
-        <Form.Item name="description" label="Miêu tả">
+        <Form.Item
+          name="description"
+          label="Miêu tả"
+          rules={[
+            {
+              required: true,
+              message: "Miêu tả không được để trống!",
+            },
+          ]}
+        >
           <TextArea
             rows={4}
             value={description}
@@ -47,7 +65,16 @@ function AddRole(props) {
           />
         </Form.Item>
 
-        <Form.Item name="tab" label="Frontend">
+        <Form.Item
+          name="tab"
+          label="Frontend"
+          rules={[
+            {
+              required: true,
+              message: "Tab Frontend không được để trống!",
+            },
+          ]}
+        >
           <Select
             mode="multiple"
             style={{ width: "100%" }}
@@ -58,7 +85,16 @@ function AddRole(props) {
           ></Select>
         </Form.Item>
 
-        <Form.Item name="backend" label="Backend">
+        <Form.Item
+          name="backend"
+          label="Backend"
+          rules={[
+            {
+              required: true,
+              message: "Tab Backend không được để trống!",
+            },
+          ]}
+        >
           <Select
             mode="multiple"
             style={{ width: "100%" }}

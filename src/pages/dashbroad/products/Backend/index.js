@@ -88,7 +88,6 @@ function Resource(props) {
     setModel(false);
     setVisible(false);
     setEditBox(false);
-    console.log("edit");
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
@@ -115,21 +114,27 @@ function Resource(props) {
     setDataPd(newData);
   };
 
-  const handleClickActive = async (id, active, value) => {
+  const handleClickActive = async (id, active, value, username) => {
     const l = {
       funcId: id,
       funcType: "backend",
       reason: value,
-      username: "Root admin",
+      username: username,
       activated: active ? false : true,
     };
-    await BackendToFuncLog(l);
-    alert("Thay đổi thành công trạng thái chức năng backend");
-    message.success("Cập nhật thành công trạng thái chức năng backend", 2);
-    setVisible(false);
-    const newData = await ResourceApi();
-    window.store["dataresource"] = newData;
-    setDataPd(newData);
+    if(l.reason !== "") {
+      await BackendToFuncLog(l);
+      alert("Thay đổi thành công trạng thái chức năng backend");
+      message.success("Cập nhật thành công trạng thái chức năng backend", 2);
+      setVisible(false);
+      const newData = await ResourceApi();
+      window.store["dataresource"] = newData;
+      setDataPd(newData);
+    }
+    else {
+      message.error("Lý do không được để trống!", 2);
+    }
+    
   };
 
 
@@ -141,12 +146,15 @@ function Resource(props) {
       httpVerb: http,
       locationPath: path,
     };
-    await pushBackend(f);
-    message.success("Thêm thành công chức năng backend", 2);
-    setModel(false);
-    const newData = await ResourceApi();
-    window.store["dataresource"] = newData;
-    setDataPd(newData);
+    if(f.title && f.description && f.httpVerb && f.locationPath) {
+      await pushBackend(f);
+      message.success("Thêm thành công chức năng backend", 2);
+      setModel(false);
+      const newData = await ResourceApi();
+      window.store["dataresource"] = newData;
+      setDataPd(newData);
+    }
+    
   };
 
   return (

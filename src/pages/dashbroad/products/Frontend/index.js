@@ -122,29 +122,35 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    await pushFrontend(f);
-    message.success("Thêm thành công chức năng frontend", 2);
-    setModel(false);
-    const newData = await ProductApi();
-    window.store["datatab"] = newData;
-    setDataPd(newData);
+    if(f.title && f.url && f.description && f.author) {
+      await pushFrontend(f);
+      message.success("Thêm thành công chức năng frontend", 2);
+      setModel(false);
+      const newData = await ProductApi();
+      window.store["datatab"] = newData;
+      setDataPd(newData);
+    }
+    
   };
 
-  const handleClickActive = async (id, active, author, value) => {
+  const handleClickActive = async (id, active, author, reason) => {
     const l = {
       funcId: id,
       funcType: "frontend",
-      reason: value,
+      reason: reason,
       username: author,
       activated: active ? false : true,
     };
-    await FrontendToFuncLog(l);
-    alert("Thay đổi thành công trạng thái chức năng frontend");
-    message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
-    setVisible(false);
-    const newData = await ProductApi();
-    window.store["datatab"] = newData;
-    setDataPd(newData);
+    if(l.reason !== "") {
+      await FrontendToFuncLog(l);
+      alert("Thay đổi thành công trạng thái chức năng frontend");
+      message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
+      setVisible(false);
+      const newData = await ProductApi();
+      window.store["datatab"] = newData;
+      setDataPd(newData);
+    }
+    
   };
 
   return (

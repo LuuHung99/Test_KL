@@ -28,13 +28,24 @@ function UpdateActive(props) {
       onCancel={handleCancel}
       footer={[]}
     >
-      <Form {...layout} name="control-hooks">
-        <h2>Lý do</h2>
-        <TextArea
-          rows={4}
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-        />
+      <Form {...layout} name="control-hooks" >
+        <h2 style={{marginLeft: 50}}>Lý do</h2>
+        <Form.Item
+          name="reason"
+          rules={[
+            {
+              required: true,
+              message: "Lý do không được để trống!",
+            },
+          ]}
+          style={{ marginRight: -150, marginLeft: 50 }}
+        >
+          <TextArea
+            rows={4}
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
+        </Form.Item>
         <div className="box_products">
           <Button
             key="submit"

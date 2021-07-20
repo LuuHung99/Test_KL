@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Button,
-  Tooltip,
-  message
-} from "antd";
+import { Input, Button, Tooltip, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -136,16 +131,21 @@ function User(props) {
       username: username,
       activated: activated ? false : true,
     };
-    await ActivateUser(l);
-    message.success("Thay đổi thành công trạng thái chức năng user", 2);
-    setVisible(false);
-    const newData = await UserApi();
-    window.store["datauser"] = newData;
-    setDataPd(newData);
+    if (l.reason !=="") {
+     
+      await ActivateUser(l);
+      message.success("Thay đổi thành công trạng thái chức năng user", 2);
+      setVisible(false);
+      const newData = await UserApi();
+      window.store["datauser"] = newData;
+      setDataPd(newData);
+    }
   };
 
   const handleAddInfor = async (username, fullname, role, fileList) => {
     const url = "http://localhost:3000/images/";
+    let image = `${url}${fileList.length > 0 ? fileList[0].name : null}`;
+
     const l = {
       username: username,
       fullname: fullname,
@@ -153,13 +153,15 @@ function User(props) {
       roles: role,
       hashedPass: "abc123",
       salt: "hung12",
-      avatarUrl: `${url}${fileList[0].name}`,
+      avatarUrl: image,
     };
-    await PushUser(l);
-    setFileList([]);
-    const newData = await UserApi();
-    window.store["datauser"] = newData;
-    setDataPd(newData);
+    if (l.username && l.fullname && l.roles && l.avatarUrl) {
+      await PushUser(l);
+      setFileList([]);
+      const newData = await UserApi();
+      window.store["datauser"] = newData;
+      setDataPd(newData);
+    }
   };
 
   return (

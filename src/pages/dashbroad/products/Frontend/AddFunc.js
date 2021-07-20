@@ -24,20 +24,56 @@ function AddFunc(props) {
       footer={[]}
     >
       <Form {...layout} name="control-hooks">
-        <Form.Item name="title" label="Tên">
+        <Form.Item
+          name="title"
+          label="Tên"
+          rules={[
+            {
+              required: true,
+              message: "Tên không được để trống!",
+            },
+          ]}
+        >
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
-        <Form.Item name="url" label="Đường dẫn">
+        <Form.Item
+          name="url"
+          label="Đường dẫn"
+          rules={[
+            {
+              required: true,
+              message: "Đường dẫn không được để trống!",
+            },
+          ]}
+        >
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
         </Form.Item>
-        <Form.Item name="description" label="Miêu tả">
+        <Form.Item
+          name="description"
+          label="Miêu tả"
+          rules={[
+            {
+              required: true,
+              message: "Miêu tả không được để trống!",
+            },
+          ]}
+        >
           <TextArea
             rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Item>
-        <Form.Item name="author" label="Tác giả">
+        <Form.Item
+          name="author"
+          label="Tác giả"
+          rules={[
+            {
+              required: true,
+              message: "Tác giả không được để trống!",
+            },
+          ]}
+        >
           <Input value={author} onChange={(e) => setAuthor(e.target.value)} />
         </Form.Item>
 

@@ -20,8 +20,7 @@ function AddUser(props) {
     dataRole,
     handleAddInfor,
     ChangeBox,
-    role
-    
+    role,
   } = props;
 
   const [username, setUsername] = useState("");
@@ -35,7 +34,16 @@ function AddUser(props) {
       footer={[]}
     >
       <Form {...layout} name="control-hooks" onFinish={handleFormSubmitAddUser}>
-        <Form.Item name="image" label="Hình ảnh">
+        <Form.Item
+          name="image"
+          label="Hình ảnh"
+          rules={[
+            {
+              required: true,
+              message: "Hình ảnh không được để trống!",
+            },
+          ]}
+        >
           <ImgCrop rotate>
             <Upload
               listType="picture-card"
@@ -48,19 +56,46 @@ function AddUser(props) {
             </Upload>
           </ImgCrop>
         </Form.Item>
-        <Form.Item name="username" label="Họ tên">
+        <Form.Item
+          name="username"
+          label="Họ tên"
+          rules={[
+            {
+              required: true,
+              message: "họ tên không được để trống!",
+            },
+          ]}
+        >
           <Input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Item>
-        <Form.Item name="fullname" label="Tên tài khoản">
+        <Form.Item
+          name="fullname"
+          label="Tên tài khoản"
+          rules={[
+            {
+              required: true,
+              message: "Tên tài khoản không được để trống!",
+            },
+          ]}
+        >
           <Input
             value={fullname}
             onChange={(e) => setFullname(e.target.value)}
           />
         </Form.Item>
-        <Form.Item name="roles" label="Quyền truy cập">
+        <Form.Item
+          name="roles"
+          label="Quyền truy cập"
+          rules={[
+            {
+              required: true,
+              message: "Quyền truy cập không được để trống!",
+            },
+          ]}
+        >
           <Select
             mode="multiple"
             style={{ width: "100%" }}

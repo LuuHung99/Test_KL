@@ -131,10 +131,13 @@ function Role(props) {
       tabs: frontend,
       backends: backend,
     };
-    await pushRole(f);
-    const newDataRole = await RoleApi();
-    window.store["datarole"] = newDataRole;
-    setDataPd(newDataRole);
+    if(f.title && f.description && f.tabs && f.backends) {
+      await pushRole(f);
+      const newDataRole = await RoleApi();
+      window.store["datarole"] = newDataRole;
+      setDataPd(newDataRole);
+    }
+    
   };
 
   const handleClickActive = async (id, active, title, value) => {
@@ -145,12 +148,18 @@ function Role(props) {
       type: active ? false : true,
       activated: active ? false : true,
     };
-    await RoleActiveToHistory(l);
-    message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
-    setVisible(false);
-    const newData = await RoleApi();
-    window.store["datarole"] = newData;
-    setDataPd(newData);
+    if(l.reason !== "") {
+      await RoleActiveToHistory(l);
+      message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
+      setVisible(false);
+      const newData = await RoleApi();
+      window.store["datarole"] = newData;
+      setDataPd(newData);
+    }
+    else {
+      message.error("Lý do không được để trống!", 2);
+    }
+    
   };
 
   return (
