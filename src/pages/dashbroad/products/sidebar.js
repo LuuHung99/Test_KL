@@ -7,6 +7,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -14,8 +15,19 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  const [data] = useState(window.store.products);
+  const data = useSelector((state) => state.products.sidebar);
   const tokenUser = JSON.parse(window.localStorage.user);
+
+  const handleClickTab = (item) => {
+    const tabs = window.sessionStorage.getItem("tabs");
+    const list = JSON.parse(tabs).data;
+    const find = list.filter((i) => i === item.url);
+    if (find.length === 0) {
+      window.sessionStorage.tabs = JSON.stringify({
+        data: [...list, item],
+      });
+    }
+  };
 
   function renderProductList() {
     return data
@@ -32,7 +44,11 @@ function Products(props) {
                   {text.subs.map((item) => {
                     if (item.activated === true)
                       return (
-                        <Menu.Item key={item.id} path={item.url}>
+                        <Menu.Item
+                          key={item.id}
+                          path={item.url}
+                          onClick={() => handleClickTab(item)}
+                        >
                           <Link
                             to={`${match.url}/${item.url}`}
                             style={{ fontSize: "16px", color: "#fff" }}
@@ -47,7 +63,11 @@ function Products(props) {
               );
             if (text.activated === true) {
               return (
-                <Menu.Item key={text.id} path={text.url}>
+                <Menu.Item
+                  key={text.id}
+                  path={text.url}
+                  onClick={() => handleClickTab(text)}
+                >
                   <Link
                     to={`${match.url}/${text.url}`}
                     style={{ color: "#fff" }}

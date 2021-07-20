@@ -34,19 +34,7 @@ function Login() {
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     dispatch(login(account));
-    if (auth.authenticate) {
-      setLoading(true);
-      setTimeout(() => {
-        message.success({
-          content: "Đăng nhập thành công",
-          key,
-          duration: 2,
-        });
-        history.push("dashboard");
-        setLoading(false);
-      }, 1500);
-    } else if(!auth.authenticate)  {
-      setLoading(true);
+    if (!auth.loading) {
       setTimeout(() => {
         message.error({
           content: "Tài khoản hoặc mật khẩu không đúng!",
@@ -55,8 +43,19 @@ function Login() {
         });
         history.push("/");
         setLoading(false);
-      }, 1500);
+      }, 1000);
     }
+
+    setTimeout(() => {
+      message.success({
+        content: "Đăng nhập thành công",
+        key,
+        duration: 2,
+      });
+      history.push("/dashboard");
+      window.sessionStorage.tabs = JSON.stringify({ data: [] });
+      setLoading(false);
+    }, 1000);
   };
 
   return (

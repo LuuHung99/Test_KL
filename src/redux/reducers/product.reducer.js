@@ -1,7 +1,7 @@
 import { productContants } from "../actions/constants";
 
 const initialState = {
-  siderbar: [],
+  sidebar: [],
   products: [],
 };
 
@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
     case productContants.GET_PRODUCT_SUCCESS:
       state = {
         ...state,
-        siderbar: action.payload.siderbar,
+        sidebar: action.payload.sidebar,
         products: action.payload.products,
       };
       break;

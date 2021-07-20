@@ -39,7 +39,8 @@ function DetailProducts(props) {
 
   function researchItem(id) {
     let result = [];
-    const data = window.store.products;
+    const tabs = window.sessionStorage.getItem("tabs");
+    const data = JSON.parse(tabs).data;
     let item_parent = data.filter((x) => x.url === id);
     if (item_parent.length === 0) {
       let item = [];
@@ -75,7 +76,7 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <div className="content_product" >
+              <div className="content_product">
                 {pane.url === "tab" ? <TabData /> : null}
                 {pane.description}
                 {pane.url === "role" ? <Role /> : null}
