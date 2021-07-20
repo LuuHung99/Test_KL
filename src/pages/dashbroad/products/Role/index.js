@@ -43,7 +43,6 @@ function Role(props) {
 
   const handleShowBox = () => {
     setModel(true);
-    
   };
 
   const handleShowModel = (item) => {
@@ -63,7 +62,6 @@ function Role(props) {
     setModel(false);
     setVisible(false);
     setEditBox(false);
-    
   };
 
   const handleFormSubmitAddRole = () => {
@@ -131,13 +129,12 @@ function Role(props) {
       tabs: frontend,
       backends: backend,
     };
-    if(f.title && f.description && f.tabs && f.backends) {
+    if (f.title && f.description && f.tabs && f.backends) {
       await pushRole(f);
       const newDataRole = await RoleApi();
       window.store["datarole"] = newDataRole;
       setDataPd(newDataRole);
     }
-    
   };
 
   const handleClickActive = async (id, active, title, value) => {
@@ -148,18 +145,12 @@ function Role(props) {
       type: active ? false : true,
       activated: active ? false : true,
     };
-    if(l.reason !== "") {
-      await RoleActiveToHistory(l);
-      message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
-      setVisible(false);
-      const newData = await RoleApi();
-      window.store["datarole"] = newData;
-      setDataPd(newData);
-    }
-    else {
-      message.error("Lý do không được để trống!", 2);
-    }
-    
+    await RoleActiveToHistory(l);
+    message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
+    setVisible(false);
+    const newData = await RoleApi();
+    window.store["datarole"] = newData;
+    setDataPd(newData);
   };
 
   return (
@@ -316,10 +307,8 @@ function Role(props) {
             ChangeBox={ChangeBox}
             dataFrontend={dataFrontend}
             dataBackend={dataBackend}
-
           />
         )}
-         
       </div>
     </div>
   );

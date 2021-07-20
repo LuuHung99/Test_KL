@@ -7,6 +7,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -14,8 +15,9 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  const [data] = useState(window.store.products);
   const tokenUser = JSON.parse(window.localStorage.user);
+  const data = useSelector(state=>state.products.siderbar);
+  console.log("data", data);
 
   function renderProductList() {
     return data

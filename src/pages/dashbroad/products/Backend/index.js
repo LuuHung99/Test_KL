@@ -122,21 +122,14 @@ function Resource(props) {
       username: username,
       activated: active ? false : true,
     };
-    if(l.reason !== "") {
-      await BackendToFuncLog(l);
-      alert("Thay đổi thành công trạng thái chức năng backend");
-      message.success("Cập nhật thành công trạng thái chức năng backend", 2);
-      setVisible(false);
-      const newData = await ResourceApi();
-      window.store["dataresource"] = newData;
-      setDataPd(newData);
-    }
-    else {
-      message.error("Lý do không được để trống!", 2);
-    }
-    
+    await BackendToFuncLog(l);
+    alert("Thay đổi thành công trạng thái chức năng backend");
+    message.success("Cập nhật thành công trạng thái chức năng backend", 2);
+    setVisible(false);
+    const newData = await ResourceApi();
+    window.store["dataresource"] = newData;
+    setDataPd(newData);
   };
-
 
   const handleAddInfor = async (title, http, description, path) => {
     const f = {
@@ -146,7 +139,7 @@ function Resource(props) {
       httpVerb: http,
       locationPath: path,
     };
-    if(f.title && f.description && f.httpVerb && f.locationPath) {
+    if (f.title && f.description && f.httpVerb && f.locationPath) {
       await pushBackend(f);
       message.success("Thêm thành công chức năng backend", 2);
       setModel(false);
@@ -154,7 +147,6 @@ function Resource(props) {
       window.store["dataresource"] = newData;
       setDataPd(newData);
     }
-    
   };
 
   return (

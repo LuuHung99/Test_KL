@@ -11,9 +11,10 @@ export const getAllProducts = () => {
       dispatch({
         type: productContants.GET_PRODUCT_SUCCESS,
         payload: {
-          siderbar: createCategories(res2.data.concat(res1.data)),
+          siderbar: createCategories(res1.data.concat(res2.data)),
           products: res3.data,
         },
+        
       });
     }
   };

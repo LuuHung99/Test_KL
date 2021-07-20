@@ -53,6 +53,7 @@ function User(props) {
   };
 
   const handleEditBox = (item) => {
+    console.log("item", item);
     setEditSelected(item);
     setEditBox(true);
   };
@@ -131,15 +132,12 @@ function User(props) {
       username: username,
       activated: activated ? false : true,
     };
-    if (l.reason !=="") {
-     
-      await ActivateUser(l);
-      message.success("Thay đổi thành công trạng thái chức năng user", 2);
-      setVisible(false);
-      const newData = await UserApi();
-      window.store["datauser"] = newData;
-      setDataPd(newData);
-    }
+    await ActivateUser(l);
+    message.success("Thay đổi thành công trạng thái chức năng user", 2);
+    setVisible(false);
+    const newData = await UserApi();
+    window.store["datauser"] = newData;
+    setDataPd(newData);
   };
 
   const handleAddInfor = async (username, fullname, role, fileList) => {
@@ -242,8 +240,8 @@ function User(props) {
                             ))
                           : null}
                       </td>
-                      <td>{item.username}</td>
                       <td>{item.fullname}</td>
+                      <td>{item.username}</td>
                       <td onClick={() => handleShowModel(item)}>
                         {String(item.activated) === "true" ? (
                           <CheckOutlined className="icon_active" />

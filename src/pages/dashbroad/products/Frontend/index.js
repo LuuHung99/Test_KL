@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Input, Button, message, Pagination } from "antd";
+import React, { useState } from "react";
+import { Input, Button, message } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,
@@ -13,54 +13,21 @@ import {
   SearchOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import LoadingData from "../../../../components/loadingData";
 import AddFunc from "./AddFunc";
 import UpdateFunc from "./UpdateFunc";
 import UpdateActive from "../components/UpdateActive";
+// import Paginations from "../components/Panigation";
 import "../css/tab-data.css";
 
 function TabData(props) {
-  const [dataPd, setDataPd] = useState([]);
+  const [dataPd, setDataPd] = useState(window.store.products);
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
-  
+
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
-
-  const [page, setPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  //Phan trang
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  const getData = async () => {
-    setLoading(true);
-    const data = await ProductApi();
-    if (data) {
-      setDataPd(data);
-      const total_results = data.length;
-      setTotalItems(total_results);
-      const total_pages = Math.ceil(total_results / 10);
-      if (page < 1) {
-        setPage(1);
-      } else if (page > total_pages) {
-        setPage(total_pages);
-      }
-
-      setLoading(false);
-    }
-  };
-
-  if (loading || dataPd.length === 0) {
-    return <LoadingData />;
-  }
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -122,7 +89,7 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    if(f.title && f.url && f.description && f.author) {
+    if (f.title && f.url && f.description && f.author) {
       await pushFrontend(f);
       message.success("Thêm thành công chức năng frontend", 2);
       setModel(false);
@@ -130,7 +97,6 @@ function TabData(props) {
       window.store["datatab"] = newData;
       setDataPd(newData);
     }
-    
   };
 
   const handleClickActive = async (id, active, author, reason) => {
@@ -141,16 +107,14 @@ function TabData(props) {
       username: author,
       activated: active ? false : true,
     };
-    if(l.reason !== "") {
-      await FrontendToFuncLog(l);
-      alert("Thay đổi thành công trạng thái chức năng frontend");
-      message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
-      setVisible(false);
-      const newData = await ProductApi();
-      window.store["datatab"] = newData;
-      setDataPd(newData);
-    }
-    
+
+    await FrontendToFuncLog(l);
+    alert("Thay đổi thành công trạng thái chức năng frontend");
+    message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
+    setVisible(false);
+    const newData = await ProductApi();
+    window.store["datatab"] = newData;
+    setDataPd(newData);
   };
 
   return (
@@ -274,13 +238,7 @@ function TabData(props) {
           />
         )}
 
-        <Pagination
-          current={page}
-          pageSize={10}
-          total={totalItems}
-          onChange={(pages) => setPage(pages)}
-          style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
-        />
+        {/* <Paginations /> */}
       </div>
     </div>
   );
