@@ -16,7 +16,6 @@ import {
 import AddFunc from "./AddFunc";
 import UpdateFunc from "./UpdateFunc";
 import UpdateActive from "../components/UpdateActive";
-// import Paginations from "../components/Panigation";
 import "../css/tab-data.css";
 
 function TabData(props) {
@@ -58,6 +57,7 @@ function TabData(props) {
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
+    const item = dataPd.map((item => item.url)).indexOf(value.url);
     const request = { _id: editSelected._id };
 
     if (value["url"] !== undefined) {
@@ -72,15 +72,22 @@ function TabData(props) {
     if (value["author"] !== undefined) {
       request.author = value["author"];
     }
-    await UpdateFrontend(request);
-    message.success("Cập nhật thành công chức năng frontend", 2);
-    setEditBox(false);
-    const newData = await ProductApi();
-    window.store["datatab"] = newData;
-    setDataPd(newData);
+    if(item === -1) {
+      await UpdateFrontend(request);
+      message.success("Cập nhật thành công chức năng frontend", 2);
+      setEditBox(false);
+      const newData = await ProductApi();
+      window.store["datatab"] = newData;
+      setDataPd(newData);
+    }
+    else {
+      message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!", 2);
+    }
+    
   };
 
   const handleAddInfor = async (title, url, description, author) => {
+    const item = dataPd.map((item => item.url)).indexOf(url);
     const f = {
       title: title,
       url: url,
@@ -89,13 +96,16 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    if (f.title && f.url && f.description && f.author) {
+    if (f.title && f.url && f.description && f.author && item === -1) {
       await pushFrontend(f);
       message.success("Thêm thành công chức năng frontend", 2);
       setModel(false);
       const newData = await ProductApi();
       window.store["datatab"] = newData;
       setDataPd(newData);
+    }
+    else {
+      message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!")
     }
   };
 
@@ -238,7 +248,6 @@ function TabData(props) {
           />
         )}
 
-        {/* <Paginations dataPd={dataPd} /> */}
       </div>
     </div>
   );

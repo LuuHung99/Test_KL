@@ -103,7 +103,7 @@ function User(props) {
     }
 
     await UpdateUser(request);
-    message.success("Thay đổi thành công chức năng user", 2);
+    message.success("Cập nhật thành công chức năng user", 2);
     setEditBox(false);
     setFileList([]);
     const newData = await UserApi();

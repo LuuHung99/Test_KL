@@ -20,6 +20,7 @@ function Products(props) {
 
   const handleClickTab = (item) => {
     const tabs = window.sessionStorage.getItem("tabs");
+    console.log("tabs", tabs);
     const list = JSON.parse(tabs).data;
     const find = list.filter((i) => i === item.url);
     if (find.length === 0) {

@@ -21,35 +21,25 @@ function UpdateActive(props) {
   return (
     <Modal
       visible={visible}
-      title={`${itemSelected.activated ? "Kích hoạt" : "Vô hiệu hóa"} ${
+      title={`${itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"} ${
         itemSelected.title
       }`}
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[]}
     >
-      <Form {...layout} name="control-hooks" >
-        <h2 style={{marginLeft: 50}}>Lý do</h2>
-        <Form.Item
-          name="reason"
-          rules={[
-            {
-              required: true,
-              message: "Lý do không được để trống!",
-            },
-          ]}
-          style={{ marginRight: -150, marginLeft: 50 }}
-        >
-          <TextArea
-            rows={4}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-          />
-        </Form.Item>
+      <Form {...layout} name="control-hooks">
+        <h2>Lý do</h2>
+
+        <TextArea
+          rows={4}
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
         <div className="box_products">
           <Button
             key="submit"
-            type={itemSelected.activated ? "ghost" : "primary"}
+            type={itemSelected.activated ? "primary" : "ghost"}
             htmlType="submit"
             onClick={() =>
               handleClickActive(

@@ -13,7 +13,6 @@ export const getAllProducts = () => {
           sidebar: createCategories(res1.data.concat(res2.data)),
           products: res2.data,
         },
-        
       });
     }
   };

@@ -44,6 +44,7 @@ function Login() {
           duration: 2,
         });
         history.push("dashboard");
+        window.sessionStorage.tabs = JSON.stringify({ data: [] });
         setLoading(false);
       }, 1500);
     } else if (!auth.authenticate) {
@@ -55,7 +56,7 @@ function Login() {
           duration: 2,
         });
         history.push("/");
-        window.sessionStorage.tabs = JSON.stringify({ data: [] });
+        
         setLoading(false);
       }, 1500);
     }

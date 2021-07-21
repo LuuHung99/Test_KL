@@ -35,7 +35,7 @@ function UpdateUser(props) {
         name="control-hooks"
         onFinish={handleFormSubmitUpdateUser}
       >
-        <Form.Item name="image" label="Hình ảnh">
+        <Form.Item name="avatarUrl" label="Hình ảnh">
           <ImgCrop rotate>
             <Upload
               listType="picture-card"
