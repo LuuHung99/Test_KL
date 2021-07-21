@@ -31,6 +31,7 @@ export const login = (user) => {
 
 export const isLogOut = () => {
   return async (dispatch) => {
+    window.sessionStorage.clear();
     window.localStorage.clear();
     dispatch({ type: authContants.LOGOUT_SUCCES });
   };

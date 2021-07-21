@@ -1,10 +1,12 @@
-// import React from 'react';
+// import React from "react";
+// import './panigation.css';
+// import $ from 'jquery';
 
-// class TodoApp extends React.Component {
+// class Panigations extends React.Component {
 //     constructor() {
 //       super();
 //       this.state = {
-//         todos: ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
+//         todos: this.props.dataPd,
 //         currentPage: 1,
 //         todosPerPage: 3,
 //         upperPageBound: 3,
@@ -18,7 +20,7 @@
 //       this.btnIncrementClick = this.btnIncrementClick.bind(this);
 //       this.btnNextClick = this.btnNextClick.bind(this);
 //       this.btnPrevClick = this.btnPrevClick.bind(this);
-//       // this.componentDidMount = this.componentDidMount.bind(this);
+//       this.componentDidMount = this.componentDidMount.bind(this);
 //       this.setPrevAndNextBtnClass = this.setPrevAndNextBtnClass.bind(this);
 //     }
 //     componentDidUpdate() {
@@ -149,4 +151,5 @@
 //     }
 //   }
 
-//   export default TodoApp;
+
+// export default Panigations;

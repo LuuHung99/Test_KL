@@ -1,17 +1,15 @@
-import { productContants } from "../actions/constants";
+import { tabContants } from "../actions/constants";
 
 const initialState = {
-  sidebar: [],
-  products: [],
+  tabs: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case productContants.GET_PRODUCT_SUCCESS:
+    case tabContants.GET_TAB_SUCCESS:
       state = {
         ...state,
-        sidebar: action.payload.sidebar,
-        products: action.payload.products,
+        tabs: action.payload.tabs,
       };
       break;
     default:

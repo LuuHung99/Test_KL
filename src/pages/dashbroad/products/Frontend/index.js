@@ -238,7 +238,7 @@ function TabData(props) {
           />
         )}
 
-        {/* <Paginations /> */}
+        {/* <Paginations dataPd={dataPd} /> */}
       </div>
     </div>
   );

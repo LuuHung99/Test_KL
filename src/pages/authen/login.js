@@ -34,6 +34,7 @@ function Login() {
   const handleSubmit = async () => {
     const account = { username, password, _app_secretKey: "secretKey" };
     dispatch(login(account));
+
     if (auth.authenticate) {
       setLoading(true);
       setTimeout(() => {
@@ -45,7 +46,7 @@ function Login() {
         history.push("dashboard");
         setLoading(false);
       }, 1500);
-    } else if(!auth.authenticate)  {
+    } else if (!auth.authenticate) {
       setLoading(true);
       setTimeout(() => {
         message.error({
@@ -54,6 +55,7 @@ function Login() {
           duration: 2,
         });
         history.push("/");
+        window.sessionStorage.tabs = JSON.stringify({ data: [] });
         setLoading(false);
       }, 1500);
     }

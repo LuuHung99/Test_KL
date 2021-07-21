@@ -13,3 +13,9 @@ export const authContants = {
   LOGIN_FAILED: "LOGIN_FAILED",
   LOGOUT_SUCCES: "LOGOUT_SUCCES",
 };
+
+export const tabContants = {
+  GET_TAB_REQUEST: "GET_TAB_REQUEST",
+  GET_TAB_SUCCESS: "GET_TAB_SUCCESS",
+  GET_TAB_FAILED: "GET_TAB_FAILED",
+};
