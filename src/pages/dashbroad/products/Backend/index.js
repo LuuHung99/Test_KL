@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, message } from "antd";
+import { Input, Button, Pagination, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -25,10 +25,22 @@ function Resource(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
 
+  const [paginate, setPaginate] = useState(
+    dataPd.filter((item, index) => item && index < 10)
+  );
+
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
   //Phan trang
+  const setPage = (page) => {
+    setPaginate(
+      dataPd.filter(
+        (item, index) =>
+          item && index < page * 10 - 1 && index > (page - 1) * 10
+      )
+    );
+  };
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -119,11 +131,17 @@ function Resource(props) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", position: "relative"}}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <h1 style={{ color: "green" }}>Bảng chức năng Backend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, position: 'absolute', left:270 }}
+          style={{ fontSize: 14, position: "absolute", left: 270 }}
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
@@ -152,8 +170,8 @@ function Resource(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {dataPd
-            ? dataPd
+          {paginate
+            ? paginate
                 .filter((val) =>
                   val.title.toLowerCase().includes(searchProduct.toLowerCase())
                     ? val
@@ -205,6 +223,12 @@ function Resource(props) {
                 ))
             : null}
         </table>
+        <Pagination
+          defaultCurrent={1}
+          total={dataPd.length}
+          onChange={(page) => setPage(page)}
+        />
+        <div style={{ width: "100%", height: "100px" }}></div>
         {visible && (
           <UpdateActive
             itemSelected={itemSelected}
