@@ -155,11 +155,11 @@ function Role(props) {
 
   return (
     <div style={{ maxWidth: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
         <h1 style={{ color: "green" }}>Quản lý các quyền truy cập</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -500 }}
+          style={{ fontSize: 14, position: 'absolute', left: 300 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >

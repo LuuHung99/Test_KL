@@ -164,11 +164,11 @@ function User(props) {
 
   return (
     <div style={{ maxWidth: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
         <h1 style={{ color: "green" }}>Bảng người dùng</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -600 }}
+          style={{ fontSize: 14, position: 'absolute', left: 200 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >

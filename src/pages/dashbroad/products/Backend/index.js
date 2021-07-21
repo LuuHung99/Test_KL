@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Input, Button, message, Pagination } from "antd";
+import React, { useState } from "react";
+import { Input, Button, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -14,13 +14,12 @@ import {
   pushBackend,
   UpdateBackend,
 } from "../../../../services/api";
-import LoadingData from "../../../../components/loadingData";
 import AddBack from "./AddBack";
 import UpdateBack from "./UpdateBack";
 import UpdateActive from "../components/UpdateActive";
 
 function Resource(props) {
-  const [dataPd, setDataPd] = useState([]);
+  const [dataPd, setDataPd] = useState(window.store.dataresource);
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
@@ -29,38 +28,7 @@ function Resource(props) {
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
-  const [page, setPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [loading, setLoading] = useState(false);
-
   //Phan trang
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  const getData = async () => {
-    setLoading(true);
-    const data = await ResourceApi();
-    if (data) {
-      setDataPd(data);
-      const total_results = data.length;
-      setTotalItems(total_results);
-      const total_pages = Math.round(total_results / 10);
-      if (page < 1) {
-        setPage(1);
-      } else if (page > total_pages) {
-        setPage(total_pages);
-      }
-
-      setLoading(false);
-    }
-  };
-
-  if (loading && dataPd.length === 0) {
-    return <LoadingData />;
-  }
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -151,11 +119,11 @@ function Resource(props) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", position: "relative"}}>
         <h1 style={{ color: "green" }}>Bảng chức năng Backend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -450 }}
+          style={{ fontSize: 14, position: 'absolute', left:270 }}
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
@@ -268,13 +236,6 @@ function Resource(props) {
             editSelected={editSelected}
           />
         )}
-        <Pagination
-          current={page}
-          pageSize={10}
-          total={totalItems}
-          onChange={(pages) => setPage(pages)}
-          style={{ marginTop: 20, display: "flex", justifyContent: "flex-end" }}
-        />
       </div>
     </div>
   );

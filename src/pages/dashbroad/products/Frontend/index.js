@@ -129,11 +129,11 @@ function TabData(props) {
 
   return (
     <div className="container_tabdata">
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", position: 'relative' }}>
         <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, marginLeft: -450 }}
+          style={{ fontSize: 14, position: "absolute", left: 270}}
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >

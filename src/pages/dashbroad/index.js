@@ -1,8 +1,9 @@
-import React from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { Route, useRouteMatch, Switch } from "react-router-dom";
 import Sidebar from "./products/sidebar";
 import Header from "./products/hd";
-import DetailProducts from "./products/products";
+// import DetailProducts from "./products/products";
+const DetailProducts = lazy(() => import("./products/products"));
 
 function Dashbroad(props) {
   const match = useRouteMatch();
@@ -10,7 +11,11 @@ function Dashbroad(props) {
     <>
       <Header />
       <Sidebar>
-        <Route path={`${match.path}/:id`} component={DetailProducts} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path={`${match.path}/:id`} component={DetailProducts} />
+          </Switch>
+        </Suspense>
       </Sidebar>
     </>
   );
