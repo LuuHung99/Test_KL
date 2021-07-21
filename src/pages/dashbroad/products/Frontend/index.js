@@ -57,7 +57,7 @@ function TabData(props) {
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
-    const item = dataPd.map((item => item.url)).indexOf(value.url);
+    const item = dataPd.map((item) => item.url).indexOf(value.url);
     const request = { _id: editSelected._id };
 
     if (value["url"] !== undefined) {

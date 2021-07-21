@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Input, Form, Button, Modal, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { useSelector } from "react-redux";
@@ -20,9 +20,9 @@ function UpdateActive(props) {
     onPreview,
   } = props;
 
-  const data = useSelector(state=>state.auth)
+  const data = useSelector((state) => state.auth);
   const [auth] = useState(data.user);
-  
+
   return (
     <Modal
       visible={showAccount}
@@ -31,7 +31,12 @@ function UpdateActive(props) {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form {...layout} name="control-hooks" onFinish={handleFormSubmit} initialValues={auth}>
+      <Form
+        {...layout}
+        name="control-hooks"
+        onFinish={handleFormSubmit}
+        // initialValues={auth}
+      >
         <Form.Item name="avatarUrl" label="Hình ảnh">
           <ImgCrop rotate>
             <Upload
@@ -46,13 +51,13 @@ function UpdateActive(props) {
           </ImgCrop>
         </Form.Item>
         <Form.Item name="fullname" label="Họ tên">
-          <Input />
+          <Input defaultValue={auth.fullname} />
         </Form.Item>
         <Form.Item name="username" label="Tên người dùng">
-          <Input />
+          <Input defaultValue={auth.username} />
         </Form.Item>
         <Form.Item name="hashedPass" label="Mật khẩu">
-          <Input.Password  />
+          <Input.Password  defaultValue={auth.hashedPass} />
         </Form.Item>
 
         <div style={{ justifyContent: "center", display: "flex" }}>

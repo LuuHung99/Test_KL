@@ -45,7 +45,7 @@ function HeaderTest(props) {
     let user = users.map((item) => item.username).indexOf(value.username);
     const url = "http://localhost:3000/images/";
     const request = { _id: auth._id };
-    if ((request.username = !undefined)) {
+    if (value["username"] !== undefined) {
       request.username = value["username"];
     }
 

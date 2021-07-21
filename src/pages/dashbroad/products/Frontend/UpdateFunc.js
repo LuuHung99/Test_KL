@@ -30,6 +30,7 @@ function UpdateFunc(props) {
         {...layout}
         name="control-hooks"
         onFinish={handleFormSubmitUpdateFrontend}
+        // initialValues={editSelected}
       >
         <Form.Item name="title" label="Tên">
           <Input

@@ -49,10 +49,10 @@ function UpdateUser(props) {
           </ImgCrop>
         </Form.Item>
         <Form.Item name="username" label="Họ tên">
-          <Input defaultValue={editSelected.username} />
+          <Input defaultValue={editSelected.fullname} />
         </Form.Item>
         <Form.Item name="fullname" label="Tên tài khoản">
-          <Input defaultValue={editSelected.fullname} />
+          <Input defaultValue={editSelected.username} />
         </Form.Item>
         <Form.Item name="roles" label="Quyền truy cập">
           <Select
