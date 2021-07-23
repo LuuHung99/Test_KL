@@ -39,8 +39,8 @@ export const updateBack = (backend) => {
 
 export const updateActivedBackend = (actived) => {
   return async (dispatch) => {
-    const res = await axiosClient.post(
-      "http://localhost:5000/api/root/funcLog",
+    const res = await axiosClient.put(
+      "http://localhost:5000/api/root/funcLog",  
       { log: actived }
     );
     if (res.status === 200) return true;

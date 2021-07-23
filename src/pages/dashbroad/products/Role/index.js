@@ -22,6 +22,7 @@ import { createRoles, getAllRoles } from "../../../../redux/actions";
 
 function Role(props) {
   const backends = useSelector((state) => state.backends.backends);
+  console.log("backends", backends);
   const dispatch = useDispatch();
 
   const [dataPd, setDataPd] = useState(window.store.datarole);
@@ -37,6 +38,7 @@ function Role(props) {
   const [editSelected, setEditSelected] = useState();
   const [dataBackend, setDataBackend] = useState();
   const [dataFrontend, setDataFrontend] = useState();
+  console.log("dataBackend", dataBackend);
 
   const [frontend, setFrontend] = useState();
   const [backend, setBackend] = useState();

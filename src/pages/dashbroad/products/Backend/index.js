@@ -28,8 +28,6 @@ function Resource(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
 
-  // const tokenUser = JSON.parse(window.localStorage.user);
-
   const [paginate, setPaginate] = useState(
     backends.filter((item, index) => item && index < 10)
   );
