@@ -11,22 +11,28 @@ import "../css/tab-data.css";
 import {
   BackendToFuncLog,
   ResourceApi,
-  pushBackend,
   UpdateBackend,
 } from "../../../../services/api";
 import AddBack from "./AddBack";
 import UpdateBack from "./UpdateBack";
 import UpdateActive from "../components/UpdateActive";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createBackend,
+  getAllBackend,
+} from "../../../../redux/actions/backend.action";
 
 function Resource(props) {
-  const [dataPd, setDataPd] = useState(window.store.dataresource);
+  const backends = useSelector((state) => state.backends.backends);
+  const dispatch = useDispatch();
+
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
 
   const [paginate, setPaginate] = useState(
-    dataPd.filter((item, index) => item && index < 10)
+    backends.filter((item, index) => item && index < 10)
   );
 
   const [itemSelected, setItemSelected] = useState();
@@ -35,9 +41,9 @@ function Resource(props) {
   //Phan trang
   const setPage = (page) => {
     setPaginate(
-      dataPd.filter(
+      backends.filter(
         (item, index) =>
-          item && index < page * 10 - 1 && index > (page - 1) * 10
+          item && index <= page * 10 - 1 && index >= (page - 1) * 10
       )
     );
   };
@@ -89,9 +95,7 @@ function Resource(props) {
     await UpdateBackend(request);
     message.success("Cập nhật thành công chức năng backend", 2);
     setEditBox(false);
-    const newData = await ResourceApi();
-    window.store["dataresource"] = newData;
-    setDataPd(newData);
+    await ResourceApi();
   };
 
   const handleClickActive = async (id, active, value, username) => {
@@ -106,12 +110,10 @@ function Resource(props) {
     alert("Thay đổi thành công trạng thái chức năng backend");
     message.success("Cập nhật thành công trạng thái chức năng backend", 2);
     setVisible(false);
-    const newData = await ResourceApi();
-    window.store["dataresource"] = newData;
-    setDataPd(newData);
+    await ResourceApi();
   };
 
-  const handleAddInfor = async (title, http, description, path) => {
+  const handleAddInfor = (title, http, description, path) => {
     const f = {
       title: title,
       description: description,
@@ -120,12 +122,11 @@ function Resource(props) {
       locationPath: path,
     };
     if (f.title && f.description && f.httpVerb && f.locationPath) {
-      await pushBackend(f);
+      dispatch(createBackend(f)).then((result) => {
+        if (result) dispatch(getAllBackend());
+      });
       message.success("Thêm thành công chức năng backend", 2);
       setModel(false);
-      const newData = await ResourceApi();
-      window.store["dataresource"] = newData;
-      setDataPd(newData);
     }
   };
 
@@ -225,7 +226,7 @@ function Resource(props) {
         </table>
         <Pagination
           defaultCurrent={1}
-          total={dataPd.length}
+          total={backends.length}
           onChange={(page) => setPage(page)}
         />
         <div style={{ width: "100%", height: "100px" }}></div>

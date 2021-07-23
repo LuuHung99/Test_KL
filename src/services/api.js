@@ -72,7 +72,6 @@ export const ResourceApi = async () => {
 export const pushBackend = async (backend) => {
   const url = "http://localhost:5000/api/root/backend";
   const response = await axios.put(url, { backend });
-  console.log("res backend", response);
   const result = (await response.status) === 200 ? await response.data : {};
   return result;
 };
