@@ -25,3 +25,25 @@ export const createBackend = (backend) => {
     return false;
   };
 };
+
+export const updateBack = (backend) => {
+  return async (dispatch) => {
+    const res = await axiosClient.post(
+      "http://localhost:5000/api/root/backend",
+      { backend }
+    );
+    if (res.status === 200) return true;
+    return false;
+  };
+};
+
+export const updateActivedBackend = (actived) => {
+  return async (dispatch) => {
+    const res = await axiosClient.post(
+      "http://localhost:5000/api/root/funcLog",
+      { log: actived }
+    );
+    if (res.status === 200) return true;
+    return false;
+  };
+};
