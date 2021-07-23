@@ -8,11 +8,6 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import "../css/tab-data.css";
-import {
-  BackendToFuncLog,
-  ResourceApi,
-  UpdateBackend,
-} from "../../../../services/api";
 import AddBack from "./AddBack";
 import UpdateBack from "./UpdateBack";
 import UpdateActive from "../components/UpdateActive";
@@ -20,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createBackend,
   getAllBackend,
+  updateActivedBackend,
+  updateBack,
 } from "../../../../redux/actions/backend.action";
 
 function Resource(props) {
@@ -94,10 +91,11 @@ function Resource(props) {
       request.locationPath = value["path"];
     }
 
-    await UpdateBackend(request);
+    dispatch(updateBack(request)).then((result) => {
+      if (result) dispatch(getAllBackend());
+    });
     message.success("Cập nhật thành công chức năng backend", 2);
     setEditBox(false);
-    await ResourceApi();
   };
 
   const handleClickActive = async (id, active, value, username) => {
@@ -108,11 +106,12 @@ function Resource(props) {
       username: username,
       activated: active ? false : true,
     };
-    await BackendToFuncLog(l);
+    dispatch(updateActivedBackend(l)).then((result) => {
+      if (result) dispatch(getAllBackend());
+    });
     alert("Thay đổi thành công trạng thái chức năng backend");
     message.success("Cập nhật thành công trạng thái chức năng backend", 2);
     setVisible(false);
-    await ResourceApi();
   };
 
   const handleAddInfor = (title, http, description, path) => {

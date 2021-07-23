@@ -22,6 +22,8 @@ export const tabContants = {
 
 export const backendContants = {
   GET_ALL_BACKEND_SUCCESS: "GET_ALL_BACKEND_SUCCESS",
-  ADD_BACKEND_SUCCESS: "ADD_BACKEND_SUCCESS",
-  UPDATE_BACKEND_SUCCESS: "UPDATE_BACKEND_SUCCESS",
+};
+
+export const roleContants = {
+  GET_ALL_ROLE_SUCCESS: "GET_ALL_ROLE_SUCCESS",
 };

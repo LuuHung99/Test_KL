@@ -17,8 +17,13 @@ import {
 import UpdateActive from "../components/UpdateActive";
 import AddRole from "./AddRole";
 import UpdateRoles from "./UpdateRole";
+import { useDispatch, useSelector } from "react-redux";
+import { createRoles, getAllRoles } from "../../../../redux/actions";
 
 function Role(props) {
+  const backends = useSelector((state) => state.backends.backends);
+  const dispatch = useDispatch();
+
   const [dataPd, setDataPd] = useState(window.store.datarole);
   const [dataActiveFe] = useState(window.store.activatedFe);
   const [dataActiveBe] = useState(window.store.activatedBe);
@@ -130,10 +135,9 @@ function Role(props) {
       backends: backend,
     };
     if (f.title && f.description && f.tabs && f.backends) {
-      await pushRole(f);
-      const newDataRole = await RoleApi();
-      window.store["datarole"] = newDataRole;
-      setDataPd(newDataRole);
+      dispatch(createRoles(f)).then((result) => {
+        if (result) dispatch(getAllRoles());
+      });
     }
   };
 
@@ -155,11 +159,17 @@ function Role(props) {
 
   return (
     <div style={{ maxWidth: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <h1 style={{ color: "green" }}>Quản lý các quyền truy cập</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, position: 'absolute', left: 300 }}
+          style={{ fontSize: 14, position: "absolute", left: 300 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >
@@ -280,7 +290,7 @@ function Role(props) {
             frontend={frontend}
             backend={backend}
             dataFrontend={dataFrontend}
-            dataBackend={dataBackend}
+            dataBackend={backends}
           />
         )}
 
