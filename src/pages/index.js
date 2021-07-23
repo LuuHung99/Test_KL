@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { routes } from "../routers/index";
 import PrivateRoute from "../routers/privateRouter";
-import {Skeleton} from "antd";
 
 const Login = lazy(() => import("./authen/login"));
 const Register = lazy(() => import("./authen/register"));
@@ -11,9 +10,7 @@ function AppRouter() {
   return (
     <Router>
       <Suspense
-        fallback={
-          <Skeleton />
-        }
+       fallback={<h1 style={{textAlign: "center", marginTop: 200}}>Loading...</h1>}
       >
           <Route>
             {routes.map((route, index) => {

@@ -126,7 +126,6 @@ function Products(props) {
           />
         </div>
       </Layout>
-
       {props.children}
     </>
   );
