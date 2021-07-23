@@ -14,6 +14,7 @@ import {
 } from "./services/api";
 import { useDispatch } from "react-redux";
 import { getAllProducts, getAllTab, isUserLogin } from "./redux/actions";
+import { getAllBackend } from "./redux/actions/backend.action";
 
 function App() {
   const [dataFrontend, setDataFrontend] = useState([]);
@@ -33,6 +34,7 @@ function App() {
       dispatch(isUserLogin());
     }
     dispatch(getAllProducts());
+    dispatch(getAllBackend());
     dispatch(getAllTab());
   }, [auth, dispatch]);
 
