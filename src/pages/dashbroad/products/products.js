@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
@@ -13,15 +13,15 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
 
   const tokenUser = JSON.parse(window.localStorage.user);
 
-  useEffect(() => {
-    if (tokenUser.username === "admin") {
-      setUser(tokenUser.username);
-    }
-  }, [tokenUser.username]);
+  // useEffect(() => {
+  //   if (tokenUser.username === "admin") {
+  //     setUser(tokenUser.username);
+  //   }
+  // }, [tokenUser.username]);
 
   let item = researchItem(id);
 
@@ -86,7 +86,7 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              {user ? (
+              {tokenUser.username && (
                 <div className="content_product">
                   {pane.url === "tab" ? <TabData /> : null}
                   {pane.description}
@@ -94,13 +94,7 @@ function DetailProducts(props) {
                   {pane.url === "user" ? <User /> : null}
                   {pane.url === "resource" ? <Resource /> : null}
                 </div>
-              ) : (
-                <div className="content_product">
-                  {pane.url === "tab" ? <TabData /> : null}
-                  {pane.description}
-                  {(pane.url === "role" || pane.url === "user" || pane.url === "resource") && <h2>Không đủ quyền để truy cập</h2>}
-                </div>
-              )}
+              ) }
             </TabPane>
           ))}
         </Tabs>

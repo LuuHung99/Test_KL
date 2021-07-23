@@ -25,6 +25,8 @@ function Resource(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
 
+  // const tokenUser = JSON.parse(window.localStorage.user);
+
   const [paginate, setPaginate] = useState(
     dataPd.filter((item, index) => item && index < 10)
   );
@@ -37,7 +39,7 @@ function Resource(props) {
     setPaginate(
       dataPd.filter(
         (item, index) =>
-          item && index < page * 10 - 1 && index > (page - 1) * 10
+          item && index <= page * 10 && index > (page - 1) * 10
       )
     );
   };
@@ -224,11 +226,12 @@ function Resource(props) {
             : null}
         </table>
         <Pagination
+          style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}
           defaultCurrent={1}
           total={dataPd.length}
           onChange={(page) => setPage(page)}
         />
-        <div style={{ width: "100%", height: "100px" }}></div>
+        {/* <div style={{ width: "100%", height: "100px" }}></div> */}
         {visible && (
           <UpdateActive
             itemSelected={itemSelected}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, message } from "antd";
+import { Input, Button, message, Pagination } from "antd";
 import {
   FrontendToFuncLog,
   pushFrontend,
@@ -27,6 +27,19 @@ function TabData(props) {
   const [searchProduct, setSearchProduct] = useState("");
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
+
+  const [paginate, setPaginate] = useState(
+    dataPd.filter((item, index) => item && index < 10)
+  );
+
+  //Phan trang
+  const setPage = (page) => {
+    setPaginate(
+      dataPd.filter(
+        (item, index) => item && index <= page * 10 && index > (page - 1) * 10
+      )
+    );
+  };
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -72,22 +85,20 @@ function TabData(props) {
     if (value["author"] !== undefined) {
       request.author = value["author"];
     }
-    if(item === -1) {
+    if (item === -1) {
       await UpdateFrontend(request);
       message.success("Cập nhật thành công chức năng frontend", 2);
       setEditBox(false);
       const newData = await ProductApi();
       window.store["datatab"] = newData;
       setDataPd(newData);
-    }
-    else {
+    } else {
       message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!", 2);
     }
-    
   };
 
   const handleAddInfor = async (title, url, description, author) => {
-    const item = dataPd.map((item => item.url)).indexOf(url);
+    const item = dataPd.map((item) => item.url).indexOf(url);
     const f = {
       title: title,
       url: url,
@@ -103,9 +114,8 @@ function TabData(props) {
       const newData = await ProductApi();
       window.store["datatab"] = newData;
       setDataPd(newData);
-    }
-    else {
-      message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!")
+    } else {
+      message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!");
     }
   };
 
@@ -129,11 +139,17 @@ function TabData(props) {
 
   return (
     <div className="container_tabdata">
-      <div style={{ display: "flex", justifyContent: "space-between", position: 'relative' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <h1 style={{ color: "green" }}>Bảng chức năng Frontend</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, position: "absolute", left: 270}}
+          style={{ fontSize: 14, position: "absolute", left: 270 }}
           onClick={handleShowModel}
           icon={<PlusOutlined />}
         >
@@ -162,8 +178,8 @@ function TabData(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {dataPd.length > 0
-            ? dataPd
+          {paginate.length > 0
+            ? paginate
                 .filter((val) =>
                   val.title.toLowerCase().includes(searchProduct.toLowerCase())
                     ? val
@@ -216,6 +232,18 @@ function TabData(props) {
                 )
             : null}
         </table>
+
+        <Pagination
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: 20,
+          }}
+          defaultCurrent={1}
+          total={dataPd.length}
+          onChange={(page) => setPage(page)}
+        />
+
         {visible && (
           <UpdateActive
             itemSelected={itemSelected}
@@ -247,7 +275,6 @@ function TabData(props) {
             editSelected={editSelected}
           />
         )}
-
       </div>
     </div>
   );

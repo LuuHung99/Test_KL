@@ -21,6 +21,7 @@ function HeaderTest(props) {
   const [fileList, setFileList] = useState([]);
 
   const users = window.store.datauser;
+  const tokenUser = JSON.parse(window.localStorage.user);
 
   const onChangeUpLoad = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -92,7 +93,7 @@ function HeaderTest(props) {
     window.localStorage.clear();
     message.success("Đăng xuất thành công!", 2);
   };
-  const tokenUser = JSON.parse(window.localStorage.user);
+  
   return (
     <>
       <Header className="headerPd">

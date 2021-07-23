@@ -11,7 +11,7 @@ export const getAllProducts = () => {
         type: productContants.GET_PRODUCT_SUCCESS,
         payload: {
           sidebar: createCategories(res1.data.concat(res2.data)),
-          products: res2.data,
+          products: res1.data,
         },
       });
     }

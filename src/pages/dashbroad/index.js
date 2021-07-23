@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import { Route, useRouteMatch, Switch } from "react-router-dom";
 import Sidebar from "./products/sidebar";
 import Header from "./products/hd";
-// import DetailProducts from "./products/products";
 const DetailProducts = lazy(() => import("./products/products"));
 
 function Dashbroad(props) {
