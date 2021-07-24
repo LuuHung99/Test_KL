@@ -8,19 +8,21 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import "../css/tab-data.css";
-import {
-  ActivateUser,
-  UserApi,
-  PushUser,
-  UpdateUser,
-} from "../../../../services/api";
 import UpdateActive from "../components/UpdateActive";
 import AddUser from "./AddUser";
 import UpdateUsers from "./UpdateUser";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createUsers,
+  getAllUsers,
+  updateActivedUser,
+  updateUser,
+} from "../../../../redux/actions/user.action";
 
 function User(props) {
-  const [dataPd, setDataPd] = useState(window.store.datauser);
-  const [activeRole] = useState(window.store.activatedRole);
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state) => state.users.users);
+  const activeRole = useSelector((state) => state.roles.activeRole);
 
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
@@ -32,6 +34,20 @@ function User(props) {
   const [itemSelected, setItemSelected] = useState();
 
   const [fileList, setFileList] = useState([]);
+
+  const handleChangeRole = (user, id) => {
+    const newId = id.map((item) => item._id);
+    setRole(newId);
+  };
+
+  useEffect(() => {
+    if (activeRole) {
+      const getData = activeRole.map((item) => {
+        return { ...item, value: item.title };
+      });
+      setDataRole(getData);
+    }
+  }, [activeRole]);
 
   const onChangeUpLoad = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -81,12 +97,35 @@ function User(props) {
     setEditBox(false);
   };
 
-  const handleFormSubmitAddUser = () => {
-    message.success("Thêm thành công chức năng user", 2);
-    setModel(false);
+  const handleFormSubmitAddUser = (value) => {
+    const url = "http://localhost:3000/images/";
+    let image = `${url}${fileList.length > 0 ? fileList[0].name : null}`;
+    let user = dataUser.map((item) => item.username).indexOf(value.username);
+    const l = {
+      username: value.username,
+      fullname: value.fullname,
+      activated: true,
+      roles: role,
+      hashedPass: value.password,
+      salt: "hung12",
+      avatarUrl: image,
+    };
+    if (user === -1) {
+      if (l.fullname && l.roles && l.avatarUrl) {
+        dispatch(createUsers(l)).then((result) => {
+          if (result) dispatch(getAllUsers());
+        });
+        setFileList([]);
+        message.success("Thêm thành công người dùng", 2);
+        setModel(false);
+      }
+    } else {
+      message.error("Tài khoản đã tồn tại");
+    }
   };
 
   const handleFormSubmitUpdateUser = async (value) => {
+    let user = dataUser.map((item) => item.username).indexOf(value.username);
     const url = "http://localhost:3000/images/";
     const request = { _id: editSelected._id };
     if (value["username"] !== undefined) {
@@ -102,28 +141,17 @@ function User(props) {
       request.avatarUrl = `${url}${fileList[0].name}`;
     }
 
-    await UpdateUser(request);
-    message.success("Cập nhật thành công chức năng user", 2);
-    setEditBox(false);
-    setFileList([]);
-    const newData = await UserApi();
-    window.store["datauser"] = newData;
-    setDataPd(newData);
-  };
-
-  const handleChangeRole = (user, id) => {
-    const newId = id.map((item) => item._id);
-    setRole(newId);
-  };
-
-  useEffect(() => {
-    if (activeRole) {
-      const getData = activeRole.map((item) => {
-        return { ...item, value: item.title };
+    if (user === -1) {
+      dispatch(updateUser(request)).then((result) => {
+        if (result) dispatch(getAllUsers());
       });
-      setDataRole(getData);
+      message.success("Cập nhật thành công chức năng user", 2);
+      setEditBox(false);
+      setFileList([]);
+    } else {
+      message.error("Tên tài khoản đã tồn tại");
     }
-  }, [activeRole]);
+  };
 
   const handleClickActive = async (id, activated, reason, username) => {
     const l = {
@@ -132,43 +160,26 @@ function User(props) {
       username: username,
       activated: activated ? false : true,
     };
-    await ActivateUser(l);
+    dispatch(updateActivedUser(l)).then((result) => {
+      if (result) dispatch(getAllUsers());
+    });
     message.success("Thay đổi thành công trạng thái chức năng user", 2);
     setVisible(false);
-    const newData = await UserApi();
-    window.store["datauser"] = newData;
-    setDataPd(newData);
-  };
-
-  const handleAddInfor = async (username, fullname, role, fileList) => {
-    const url = "http://localhost:3000/images/";
-    let image = `${url}${fileList.length > 0 ? fileList[0].name : null}`;
-
-    const l = {
-      username: username,
-      fullname: fullname,
-      activated: true,
-      roles: role,
-      hashedPass: "abc123",
-      salt: "hung12",
-      avatarUrl: image,
-    };
-    if (l.username && l.fullname && l.roles && l.avatarUrl) {
-      await PushUser(l);
-      setFileList([]);
-      const newData = await UserApi();
-      window.store["datauser"] = newData;
-      setDataPd(newData);
-    }
   };
 
   return (
     <div style={{ maxWidth: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
         <h1 style={{ color: "green" }}>Bảng người dùng</h1>
         <Button
           type="primary"
-          style={{ fontSize: 14, position: 'absolute', left: 200 }}
+          style={{ fontSize: 14, position: "absolute", left: 200 }}
           onClick={handleShowBox}
           icon={<PlusOutlined />}
         >
@@ -197,8 +208,8 @@ function User(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {dataPd
-            ? dataPd
+          {dataUser
+            ? dataUser
                 .filter((val) =>
                   val.username
                     .toLowerCase()
@@ -287,7 +298,6 @@ function User(props) {
             onChangeUpLoad={onChangeUpLoad}
             onPreview={onPreview}
             handleChangeRole={handleChangeRole}
-            handleAddInfor={handleAddInfor}
             ChangeBox={ChangeBox}
           />
         )}

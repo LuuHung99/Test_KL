@@ -8,7 +8,21 @@ export const getAllRoles = () => {
       dispatch({
         type: roleContants.GET_ALL_ROLE_SUCCESS,
         payload: {
-          role: res.data,
+          roles: res.data,
+        },
+      });
+    }
+  };
+};
+
+export const getAllActveRoles = () => {
+  return async (dispatch) => {
+    const res = await axiosClient.get("http://localhost:5000/api/root/role/activated");
+    if (res.status === 200) {
+      dispatch({
+        type: roleContants.GET_ALL_ACTIVE_ROLE,
+        payload: {
+          activeRoles: res.data,
         },
       });
     }
@@ -24,3 +38,26 @@ export const createRoles = (role) => {
     return false;
   };
 };
+
+export const updateRole = (update) => {
+  return async (dispatch) => {
+    const res = await axiosClient.post("http://localhost:5000/api/root/role", {
+      role: update,
+    });
+    if (res.status === 200) return true;
+    return false;
+  };
+};
+
+export const updateActivedRole = (actived) => {
+  return async (dispatch) => {
+    const res = await axiosClient.post(
+      "http://localhost:5000/api/root/role/activate",
+      actived
+    );
+    if (res.status === 200) return true;
+    return false;
+  };
+};
+
+ 

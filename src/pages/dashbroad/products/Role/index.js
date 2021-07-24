@@ -8,26 +8,28 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import "../css/tab-data.css";
-import {
-  pushRole,
-  RoleApi,
-  RoleActiveToHistory,
-  UpdateRole,
-} from "../../../../services/api";
 import UpdateActive from "../components/UpdateActive";
 import AddRole from "./AddRole";
 import UpdateRoles from "./UpdateRole";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoles, getAllRoles } from "../../../../redux/actions";
+import {
+  createRoles,
+  getAllRoles,
+  updateRole,
+  updateActivedRole,
+} from "../../../../redux/actions/role.action";
+import { getAllUsers } from "../../../../redux/actions/user.action";
 
 function Role(props) {
   const backends = useSelector((state) => state.backends.backends);
-  console.log("backends", backends);
+  const frontends = useSelector((state) => state.tabs.tabs);
+  const dataRole = useSelector((state) => state.roles.roles);
+
   const dispatch = useDispatch();
 
-  const [dataPd, setDataPd] = useState(window.store.datarole);
-  const [dataActiveFe] = useState(window.store.activatedFe);
-  const [dataActiveBe] = useState(window.store.activatedBe);
+  const [activeBackend, setActiveBackend] = useState();
+  const [activeFe, setActiveFe] = useState();
+
   const [searchProduct, setSearchProduct] = useState("");
 
   const [visible, setVisible] = useState(false);
@@ -36,12 +38,23 @@ function Role(props) {
 
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
-  const [dataBackend, setDataBackend] = useState();
-  const [dataFrontend, setDataFrontend] = useState();
-  console.log("dataBackend", dataBackend);
 
   const [frontend, setFrontend] = useState();
   const [backend, setBackend] = useState();
+
+  useEffect(() => {
+    const getDataFe = frontends.map((item) => {
+      return { ...item, value: item.title };
+    });
+    setActiveFe(getDataFe);
+  }, [frontends]);
+
+  useEffect(() => {
+    const getDataBe = backends.map((item) => {
+      return { ...item, value: item.title };
+    });
+    setActiveBackend(getDataBe);
+  }, [backends]);
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -91,12 +104,14 @@ function Role(props) {
     if (backend !== undefined) {
       request.backends = backend;
     }
-    await UpdateRole(request);
+    dispatch(updateRole(request)).then((result) => {
+      if (result) {
+        dispatch(getAllRoles());
+        dispatch(getAllUsers());
+      }
+    });
     message.success("Cập nhật thành công quyền truy cập", 2);
     setEditBox(false);
-    const newData = await RoleApi();
-    window.store["datarole"] = newData;
-    setDataPd(newData);
   };
 
   const handleChangeFrontend = (frontend, id) => {
@@ -108,25 +123,6 @@ function Role(props) {
     const newId = id.map((item) => item._id);
     setBackend(newId);
   };
-
-  useEffect(() => {
-    if (dataActiveBe) {
-      const getDataBe = dataActiveBe.map((item) => {
-        return { ...item, value: item.title };
-      });
-      setDataBackend(getDataBe);
-    }
-  }, [dataActiveBe]);
-
-  useEffect(() => {
-    if (dataActiveFe) {
-      const getDataFe = dataActiveFe.map((item) => {
-        return { ...item, value: item.title };
-      });
-
-      setDataFrontend(getDataFe);
-    }
-  }, [dataActiveFe]);
 
   const handleAddInfor = async (title, description, frontend, backend) => {
     const f = {
@@ -151,12 +147,15 @@ function Role(props) {
       type: active ? false : true,
       activated: active ? false : true,
     };
-    await RoleActiveToHistory(l);
+    dispatch(updateActivedRole(l)).then((result) => {
+      if (result) {
+        dispatch(getAllRoles());
+        dispatch(getAllUsers());
+      }
+    });
+
     message.success("Cập nhật thành công trạng thái quyền truy cập", 2);
     setVisible(false);
-    const newData = await RoleApi();
-    window.store["datarole"] = newData;
-    setDataPd(newData);
   };
 
   return (
@@ -200,8 +199,8 @@ function Role(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {dataPd
-            ? dataPd
+          {dataRole
+            ? dataRole
                 .filter((val) =>
                   val.title.toLowerCase().includes(searchProduct.toLowerCase())
                     ? val
@@ -291,8 +290,8 @@ function Role(props) {
             ChangeBox={ChangeBox}
             frontend={frontend}
             backend={backend}
-            dataFrontend={dataFrontend}
-            dataBackend={backends}
+            dataFrontend={activeFe}
+            dataBackend={activeBackend}
           />
         )}
 
@@ -317,8 +316,8 @@ function Role(props) {
             handleChangeFrontend={handleChangeFrontend}
             handleChangeBackend={handleChangeBackend}
             ChangeBox={ChangeBox}
-            dataFrontend={dataFrontend}
-            dataBackend={dataBackend}
+            dataFrontend={activeFe}
+            dataBackend={activeBackend}
           />
         )}
       </div>

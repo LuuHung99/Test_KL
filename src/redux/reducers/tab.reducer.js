@@ -11,6 +11,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         tabs: action.payload.tabs,
       };
+      break;  
+    case tabContants.ADD_TAB_SUCCESS:
+      const newBackend = [...state.tabs, action.payload.tabs];
+      state = {
+        ...state,
+        tabs: newBackend,
+      };
       break;
     default:
       return state;
