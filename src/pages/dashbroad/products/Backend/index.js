@@ -107,7 +107,6 @@ function Resource(props) {
     dispatch(updateActivedBackend(l)).then((result) => {
       if (result) dispatch(getAllBackend());
     });
-    alert("Thay đổi thành công trạng thái chức năng backend");
     message.success("Cập nhật thành công trạng thái chức năng backend", 2);
     setVisible(false);
   };

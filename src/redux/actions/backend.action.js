@@ -39,7 +39,7 @@ export const updateBack = (backend) => {
 
 export const updateActivedBackend = (actived) => {
   return async (dispatch) => {
-    const res = await axiosClient.post(
+    const res = await axiosClient.put(
       "http://localhost:5000/api/root/funcLog",
       { log: actived }
     );

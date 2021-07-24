@@ -9,7 +9,6 @@ import {
 } from "@ant-design/icons";
 import "../css/tab-data.css";
 import {
-  pushRole,
   RoleApi,
   RoleActiveToHistory,
   UpdateRole,
