@@ -4,7 +4,8 @@ import Tools from "../../Tools/Tools";
 import LayoutPage from "../../components/layout";
 import { Form, Input, Button, message } from "antd";
 import { Link, Redirect } from "react-router-dom";
-import { UserApi, PushUser } from "../../services/api";
+import { useSelector, useDispatch } from "react-redux";
+import {getAllUsers, createUsers} from "../../redux/actions/user.action";
 import SpinNest from "./spin";
 
 const layout = {
@@ -18,7 +19,9 @@ const tailLayout = {
 function Register(props) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading] = useState(false);
-  const tokenUser = window.store.datauser;
+  const tokenUser = useSelector((state) => state.users.users);
+
+  const dispatch = useDispatch();
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -41,11 +44,14 @@ function Register(props) {
     const user = tokenUser.map((item) => item.username).indexOf(value.username);
     
     if (user === -1) {
-      await PushUser(l);
+      dispatch(createUsers(l)).then((result) => {
+        if (result) {
+          dispatch(getAllUsers());
+        }
+      });
       message.success("Đăng ký tài khoản thành công", 2);
       setIsSuccess(true);
-      const newData = await UserApi();
-      window.store["datauser"] = newData;
+      
     } else {
       setTimeout(() => {
         message.error("Tài khoản đã tồn tại. Xin mời nhập lại!", 2);

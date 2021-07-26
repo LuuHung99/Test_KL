@@ -146,7 +146,6 @@ function TabData(props) {
         dispatch(getAllRoles());
       }
     });
-    alert("Cập nhật thành công trạng thái chức năng frontend");
     message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
     setVisible(false);
   };

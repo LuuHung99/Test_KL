@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
-import TabData from "./Frontend/index";
-import Role from "./Role/index";
-import User from "./User/index";
-import Resource from "./Backend/index";
+// import TabData from "./Frontend/index";
+// import Role from "./Role/index";
+// import User from "./User/index";
+// import Resource from "./Backend/index";
+
+const TabData = lazy(() => import("./Frontend/index"));
+const Role = lazy(() => import("./Role/index"));
+const User = lazy(() => import("./User/index"));
+const Resource = lazy(() => import("./Backend/index"));
 
 const { TabPane } = Tabs;
 
@@ -13,15 +18,8 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-  // const [user, setUser] = useState();
 
   const tokenUser = JSON.parse(window.localStorage.user);
-
-  // useEffect(() => {
-  //   if (tokenUser.username === "admin") {
-  //     setUser(tokenUser.username);
-  //   }
-  // }, [tokenUser.username]);
 
   let item = researchItem(id);
 
@@ -88,13 +86,29 @@ function DetailProducts(props) {
             >
               {tokenUser.username && (
                 <div className="content_product">
-                  {pane.url === "tab" ? <TabData /> : null}
+                  {pane.url === "tab" ? (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                      <TabData />
+                    </Suspense>
+                  ) : null}
                   {pane.description}
-                  {pane.url === "role" ? <Role /> : null}
-                  {pane.url === "user" ? <User /> : null}
-                  {pane.url === "resource" ? <Resource /> : null}
+                  {pane.url === "role" ? (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                      <Role />
+                    </Suspense>
+                  ) : null}
+                  {pane.url === "user" ? (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                      <User />
+                    </Suspense>
+                  ) : null}
+                  {pane.url === "resource" ? (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                      <Resource />
+                    </Suspense>
+                  ) : null}
                 </div>
-              ) }
+              )}
             </TabPane>
           ))}
         </Tabs>
