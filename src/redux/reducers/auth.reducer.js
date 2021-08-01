@@ -36,7 +36,7 @@ const reducer = (state = initialState, action) => {
       break;
     case authContants.LOGOUT_SUCCES:
       state = {
-        ...initialState,
+        ...state,
       };
       break;
     default:

@@ -2,10 +2,7 @@ import React, { useState, Suspense, lazy } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
-// import TabData from "./Frontend/index";
-// import Role from "./Role/index";
-// import User from "./User/index";
-// import Resource from "./Backend/index";
+ 
 
 const TabData = lazy(() => import("./Frontend/index"));
 const Role = lazy(() => import("./Role/index"));
@@ -18,6 +15,7 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
+  // const data = useSelector(state=>state.products.sidebar);
 
   const tokenUser = JSON.parse(window.localStorage.user);
 
@@ -35,7 +33,6 @@ function DetailProducts(props) {
 
   const remove = (targetKey) => {
     const newPanes = panes.filter((pane) => pane.url !== targetKey);
-
     setPanes(newPanes);
   };
 
@@ -49,6 +46,7 @@ function DetailProducts(props) {
     // const data = window.store.products;
     const tabs = window.sessionStorage.getItem("tabs");
     const data = JSON.parse(tabs).data;
+    
     let item_parent = data.filter((x) => x.url === id);
     if (item_parent.length === 0) {
       let item = [];
@@ -91,7 +89,7 @@ function DetailProducts(props) {
                       <TabData />
                     </Suspense>
                   ) : null}
-                  {pane.description}
+                  
                   {pane.url === "role" ? (
                     <Suspense fallback={<h1>Loading...</h1>}>
                       <Role />
@@ -107,6 +105,7 @@ function DetailProducts(props) {
                       <Resource />
                     </Suspense>
                   ) : null}
+                  {pane.description}
                 </div>
               )}
             </TabPane>

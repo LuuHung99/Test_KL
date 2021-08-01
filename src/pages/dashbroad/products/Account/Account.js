@@ -23,6 +23,8 @@ function UpdateActive(props) {
   const data = useSelector((state) => state.auth);
   const [auth] = useState(data.user);
 
+  
+
   return (
     <Modal
       visible={showAccount}

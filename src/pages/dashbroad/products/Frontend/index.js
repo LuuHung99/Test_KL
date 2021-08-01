@@ -117,18 +117,20 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    if (f.title && f.url && f.description && f.author && item === -1) {
-      dispatch(createFrontend(f)).then((result) => {
-        if (result) {
-          dispatch(getAllTab());
-          dispatch(getAllProducts());
-        }
-      });
-      message.success("Thêm thành công chức năng frontend", 2);
+    if (item === -1) {
+      if (f.title && f.url && f.description && f.author) {
+        dispatch(createFrontend(f)).then((result) => {
+          if (result) {
+            dispatch(getAllTab());
+            dispatch(getAllProducts());
+          }
+        });
+        message.success("Thêm thành công chức năng frontend", 2);
+        setModel(false);
+      }
     } else {
       message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!");
     }
-    setModel(false);
   };
 
   const handleClickActive = async (id, active, author, reason) => {
@@ -208,7 +210,7 @@ function TabData(props) {
                             : "table_col_content_unactivated"
                         }
                       >
-                        <td>{item.title}</td>
+                        <td style={{ minWidth: 130 }}>{item.title}</td>
                         <td>{item.url}</td>
                         <td>{item.description}</td>
                         <td onClick={() => handleShowBox(item)}>
@@ -218,7 +220,7 @@ function TabData(props) {
                             <CloseOutlined className="icon_deactive" />
                           )}
                         </td>
-                        <td>{item.author}</td>
+                        <td style={{ minWidth: 130 }}>{item.author}</td>
                         <td>
                           <div
                             style={{

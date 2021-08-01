@@ -22,7 +22,7 @@ function HeaderTest(props) {
 
   const dispatch = useDispatch();
 
-  // const users = window.store.datauser;;
+  // const users = window.store.datauser;
   const users = useSelector((state) => state.users.users);
   const tokenUser = JSON.parse(window.localStorage.user);
 
