@@ -207,7 +207,7 @@ function Role(props) {
                     : null
                 )
                 .map((item, index) =>
-                  item.title !== "Root" ? (
+                  // item.title !== "Root" ? (
                     <tbody key={index}>
                       <tr
                         className={
@@ -273,7 +273,7 @@ function Role(props) {
                         </td>
                       </tr>
                     </tbody>
-                  ) : null
+                  // ) : null
                 )
             : null}
         </table>

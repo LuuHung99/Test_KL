@@ -213,7 +213,7 @@ function TabData(props) {
                         <td style={{ minWidth: 130 }}>{item.title}</td>
                         <td>{item.url}</td>
                         <td>{item.description}</td>
-                        <td onClick={() => handleShowBox(item)}>
+                        <td onClick={() => handleShowBox(item)} style={{minWidth: 120}}>
                           {String(item.activated) === "true" ? (
                             <CheckOutlined className="icon_active" />
                           ) : (

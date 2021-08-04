@@ -2,7 +2,6 @@ import React, { useState, Suspense, lazy } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
- 
 
 const TabData = lazy(() => import("./Frontend/index"));
 const Role = lazy(() => import("./Role/index"));
@@ -46,7 +45,7 @@ function DetailProducts(props) {
     // const data = window.store.products;
     const tabs = window.sessionStorage.getItem("tabs");
     const data = JSON.parse(tabs).data;
-    
+
     let item_parent = data.filter((x) => x.url === id);
     if (item_parent.length === 0) {
       let item = [];
@@ -89,7 +88,7 @@ function DetailProducts(props) {
                       <TabData />
                     </Suspense>
                   ) : null}
-                  
+
                   {pane.url === "role" ? (
                     <Suspense fallback={<h1>Loading...</h1>}>
                       <Role />
@@ -105,7 +104,9 @@ function DetailProducts(props) {
                       <Resource />
                     </Suspense>
                   ) : null}
-                  {pane.description}
+                  <Suspense fallback={<h1>Loading...</h1>}>
+                    {pane.description}
+                  </Suspense>
                 </div>
               )}
             </TabPane>
