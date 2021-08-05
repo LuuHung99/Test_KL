@@ -25,11 +25,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function TabData(props) {
   const frontends = useSelector((state) => state.tabs.tabs);
-  // const frontends = useSelector((state) =>
-  //   state.auth.user.roles?.map((item) => item.tabs)
-  // );
-  // console.log("frontends", frontends);
-  // console.log("author", author);
   const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
