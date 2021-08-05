@@ -23,7 +23,7 @@ import { getAllUsers } from "../../../../redux/actions/user.action";
 function Role(props) {
   const backends = useSelector((state) => state.backends.backends);
   const frontends = useSelector((state) => state.tabs.tabs);
-  const dataRole = useSelector((state) => state.roles.roles);
+  const dataRole = useSelector((state) => state.roles.roles)
 
   const dispatch = useDispatch();
 
@@ -104,6 +104,7 @@ function Role(props) {
     if (backend !== undefined) {
       request.backends = backend;
     }
+    // console.log("request", request);
     dispatch(updateRole(request)).then((result) => {
       if (result) {
         dispatch(getAllRoles());
@@ -116,6 +117,7 @@ function Role(props) {
 
   const handleChangeFrontend = (frontend, id) => {
     const newId = id.map((item) => item._id);
+    console.log("data fe", newId);
     setFrontend(newId);
   };
 

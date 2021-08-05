@@ -24,7 +24,12 @@ import { getAllRoles } from "../../../../redux/actions/role.action";
 import { useDispatch, useSelector } from "react-redux";
 
 function TabData(props) {
-  const frontends = useSelector((state) => state.tabs.tabs);
+  // const frontends = useSelector((state) => state.tabs.tabs);
+  const frontends = useSelector((state) =>
+    state.auth.user.roles?.map((item) => item.tabs)
+  );
+  // console.log("frontends", frontends);
+  // console.log("author", author);
   const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
@@ -194,57 +199,64 @@ function TabData(props) {
             </tr>
           </thead>
           {frontends.length > 0
-            ? frontends
-                .filter((val) =>
-                  val.title.toLowerCase().includes(searchProduct.toLowerCase())
-                    ? val
-                    : null
-                )
-                .map((item, index) =>
-                  item.description !== "" ? (
-                    <tbody key={index}>
-                      <tr
-                        className={
-                          item.activated === true
-                            ? "table_col_content"
-                            : "table_col_content_unactivated"
-                        }
-                      >
-                        <td style={{ minWidth: 130 }}>{item.title}</td>
-                        <td>{item.url}</td>
-                        <td>{item.description}</td>
-                        <td onClick={() => handleShowBox(item)} style={{minWidth: 120}}>
-                          {String(item.activated) === "true" ? (
-                            <CheckOutlined className="icon_active" />
-                          ) : (
-                            <CloseOutlined className="icon_deactive" />
-                          )}
-                        </td>
-                        <td style={{ minWidth: 130 }}>{item.author}</td>
-                        <td>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
+            ? frontends.map((item) =>
+                item
+                  .filter((val) =>
+                    val.title
+                      .toLowerCase()
+                      .includes(searchProduct.toLowerCase())
+                      ? val
+                      : null
+                  )
+                  .map((item, index) =>
+                    item.description !== "" ? (
+                      <tbody key={index}>
+                        <tr
+                          className={
+                            item.activated === true
+                              ? "table_col_content"
+                              : "table_col_content_unactivated"
+                          }
+                        >
+                          <td style={{ minWidth: 130 }}>{item.title}</td>
+                          <td>{item.url}</td>
+                          <td>{item.description}</td>
+                          <td
+                            onClick={() => handleShowBox(item)}
+                            style={{ minWidth: 120 }}
                           >
-                            <Button
+                            {String(item.activated) === "true" ? (
+                              <CheckOutlined className="icon_active" />
+                            ) : (
+                              <CloseOutlined className="icon_deactive" />
+                            )}
+                          </td>
+                          <td style={{ minWidth: 130 }}>{item.author}</td>
+                          <td>
+                            <div
                               style={{
-                                backgroundColor: "#00acc1",
-                                border: "none",
-                                color: "white",
+                                display: "flex",
+                                justifyContent: "center",
                               }}
-                              icon={<FormOutlined />}
-                              onClick={() => handleEditBox(item)}
                             >
-                              Edit
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  ) : null
-                )
+                              <Button
+                                style={{
+                                  backgroundColor: "#00acc1",
+                                  border: "none",
+                                  color: "white",
+                                }}
+                                icon={<FormOutlined />}
+                                onClick={() => handleEditBox(item)}
+                              >
+                                Edit
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    ) : null
+                  )
+              )
             : null}
         </table>
 

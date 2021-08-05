@@ -5,8 +5,10 @@ export const login = (user) => {
   return async (dispatch) => {
     dispatch({ type: authContants.LOGIN_REQUEST });
     const res = await axiosClient.post("/login", user);
+    console.log("res", res);
     if (res.status === 200) {
       const { token, user } = res.data;
+      
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       dispatch({

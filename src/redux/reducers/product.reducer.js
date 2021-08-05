@@ -2,7 +2,7 @@ import { productContants } from "../actions/constants";
 
 const initialState = {
   sidebar: [],
-  products: [],
+  tabs: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
       state = {
         ...state,
         sidebar: action.payload.sidebar,
-        products: action.payload.products,
+        tabs: action.payload.tabs,
       };
       break;
     default:
