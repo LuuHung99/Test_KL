@@ -16,14 +16,15 @@ function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
   const tokenUser = JSON.parse(window.localStorage.user);
-  // const data = useSelector(state=>state.products.sidebar);
-  const tabs = useSelector(state=> state.products.tabs);
-  const frontends = useSelector((state) =>
-    state.auth.user.roles?.map((item) => item.tabs)
-  );
-  const result = frontends?.map((item, index) => item[index])
-  const datas = tabs.concat(result);
-  console.log("datas", datas);
+  const data = useSelector(state=>state.products.sidebar);
+  // const tabs = useSelector(state=> state.products.tabs);
+  // const frontends = useSelector((state) =>
+  //   state.auth.user.roles?.map((item) => item.tabs)
+  // );
+  // console.log("frontends", frontends);
+  // const result = tabs.concat(frontends.map(item => item[0]));
+  // console.log("result", result);
+  // console.log("tabs", tabs);
 
   const handleClickTab = (item) => {
     const tabs = window.sessionStorage.getItem("tabs");
@@ -37,15 +38,15 @@ function Products(props) {
   };
 
   function renderProductList() {
-    return datas.length > 0
-      ? datas
+    return data
+      ? data
           .filter((val) =>
             val.title.toLowerCase().includes(searchSidebar.toLowerCase())
               ? val
               : null
           )
           .map((text) => {
-            if (text.subs > 0)
+            if (text.subs.length > 0)
               return (
                 <SubMenu key={text.id} title={text.title}>
                   {text.subs.map((item) => {

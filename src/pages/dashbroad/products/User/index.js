@@ -23,8 +23,6 @@ function User(props) {
   const dispatch = useDispatch();
   const dataUser = useSelector((state) => state.users.users);
   const activeRole = useSelector((state) => state.roles.activeRole);
-  const dataRoles = useSelector((state) => state.auth.user);
-  console.log("dataRoles", dataRoles);
 
   const [searchProduct, setSearchProduct] = useState("");
   const [visible, setVisible] = useState(false);
@@ -210,73 +208,81 @@ function User(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {dataRoles
-            ?  (
-                <tbody  >
-                  <tr
-                    className={
-                      dataRoles.activated === true
-                        ? "table_col_content_role"
-                        : "table_col_content_unactivated_role"
-                    }
-                  >
-                    <td>
-                      <img
-                        src={dataRoles.avatarUrl}
-                        alt=""
-                        style={{
-                          width: 50,
-                          height: 50,
-                          borderRadius: "50%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </td>
-                    <td>
-                      {dataRoles.roles.length > 0
-                        ? dataRoles.roles.map((item, index) => (
-                            <Tooltip
-                              placement="top"
-                              title={item.description}
-                              key={index}
-                            >
-                              <div className="title_user">{item.title}</div>
-                            </Tooltip>
-                          ))
-                        : null}
-                    </td>
-                    <td>{dataRoles.fullname}</td>
-                    <td>{dataRoles.username}</td>
-                    <td onClick={() => handleShowModel(dataRoles)}>
-                      {String(dataRoles.activated) === "true" ? (
-                        <CheckOutlined className="icon_active" />
-                      ) : (
-                        <CloseOutlined className="icon_deactive" />
-                      )}
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Button
+          {dataUser
+            ? dataUser
+                .filter((val) =>
+                  val.username
+                    .toLowerCase()
+                    .includes(searchProduct.toLowerCase())
+                    ? val
+                    : null
+                )
+                .map((item, index) => (
+                  <tbody key={index}>
+                    <tr
+                      className={
+                        item.activated === true
+                          ? "table_col_content_role"
+                          : "table_col_content_unactivated_role"
+                      }
+                    >
+                      <td>
+                        <img
+                          src={item.avatarUrl}
+                          alt=""
                           style={{
-                            backgroundColor: "#00acc1",
-                            border: "none",
-                            color: "white",
+                            width: 50,
+                            height: 50,
+                            borderRadius: "50%",
+                            objectFit: "cover",
                           }}
-                          icon={<FormOutlined />}
-                          onClick={() => handleEditBox(dataRoles)}
+                        />
+                      </td>
+                      <td>
+                        {item.roles.length > 0
+                          ? item.roles.map((item, index) => (
+                              <Tooltip
+                                placement="top"
+                                title={item.description}
+                                key={index}
+                              >
+                                <div className="title_user">{item.title}</div>
+                              </Tooltip>
+                            ))
+                          : null}
+                      </td>
+                      <td>{item.fullname}</td>
+                      <td>{item.username}</td>
+                      <td onClick={() => handleShowModel(item)}>
+                        {String(item.activated) === "true" ? (
+                          <CheckOutlined className="icon_active" />
+                        ) : (
+                          <CloseOutlined className="icon_deactive" />
+                        )}
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
                         >
-                          Edit
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              )
+                          <Button
+                            style={{
+                              backgroundColor: "#00acc1",
+                              border: "none",
+                              color: "white",
+                            }}
+                            icon={<FormOutlined />}
+                            onClick={() => handleEditBox(item)}
+                          >
+                            Edit
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
             : null}
         </table>
 

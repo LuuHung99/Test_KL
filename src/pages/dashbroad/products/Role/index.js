@@ -23,7 +23,7 @@ import { getAllUsers } from "../../../../redux/actions/user.action";
 function Role(props) {
   const backends = useSelector((state) => state.backends.backends);
   const frontends = useSelector((state) => state.tabs.tabs);
-  const dataRole = useSelector((state) => state.roles.roles)
+  const dataRole = useSelector((state) => state.roles.roles);
 
   const dispatch = useDispatch();
 
