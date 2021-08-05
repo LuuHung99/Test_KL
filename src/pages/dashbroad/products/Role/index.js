@@ -117,7 +117,6 @@ function Role(props) {
 
   const handleChangeFrontend = (frontend, id) => {
     const newId = id.map((item) => item._id);
-    console.log("data fe", newId);
     setFrontend(newId);
   };
 

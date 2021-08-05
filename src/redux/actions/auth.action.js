@@ -8,7 +8,6 @@ export const login = (user) => {
     console.log("res", res);
     if (res.status === 200) {
       const { token, user } = res.data;
-      
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       dispatch({
