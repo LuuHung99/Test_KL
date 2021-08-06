@@ -17,14 +17,13 @@ function Products(props) {
   const [searchSidebar, setSearchSidebar] = useState("");
   const tokenUser = JSON.parse(window.localStorage.user);
   const data = useSelector(state=>state.products.sidebar);
-  const tabs = useSelector(state=> state.products.tabs);
-  const frontends = useSelector((state) =>
-    state.auth.user.roles?.map((item) => item.tabs)
-  );
-  const result = frontends?.map((item, index) => item[index])
-  const datas = tabs.concat(result?.map(item =>item));
-  console.log("frontends", frontends);
-  console.log("datas", datas);
+  // const tabs = useSelector((state) => state.products.tabs);
+  // const frontends = useSelector((state) =>
+  //   state.auth.user.roles?.map((item) => item.tabs)
+  // );
+  // const result = frontends?.map((item, index) => item[index]);
+  // const datas = tabs.concat(result?.map((item) => item));
+  // setDataNew(datas);
 
   const handleClickTab = (item) => {
     const tabs = window.sessionStorage.getItem("tabs");
@@ -38,7 +37,8 @@ function Products(props) {
   };
 
   function renderProductList() {
-    return data.length > 0 ? data
+    return data.length > 0
+      ? data
           .filter((val) =>
             val.title.toLowerCase().includes(searchSidebar.toLowerCase())
               ? val
