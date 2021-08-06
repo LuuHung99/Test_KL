@@ -17,6 +17,8 @@ import {
   getAllRoles,
   updateRole,
   updateActivedRole,
+  getAllActveRoles
+
 } from "../../../../redux/actions/role.action";
 import { getAllUsers } from "../../../../redux/actions/user.action";
 
@@ -136,7 +138,10 @@ function Role(props) {
     };
     if (f.title && f.description && f.tabs && f.backends) {
       dispatch(createRoles(f)).then((result) => {
-        if (result) dispatch(getAllRoles());
+        if (result) {
+          dispatch(getAllRoles())
+          dispatch(getAllActveRoles())
+        } ;
       });
     }
   };
