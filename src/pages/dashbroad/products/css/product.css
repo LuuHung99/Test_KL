@@ -141,7 +141,7 @@ label #icon2 {
   background-color: #333547;
   position: fixed;
   margin-top: 64px;
-  width: 90%;
+  width: 87%;
 }
 
 .content_product {
@@ -150,6 +150,16 @@ label #icon2 {
   height: 81vh;
   width: auto;
   padding: 30px;
+  animation: check linear 1s;
+  
+}
+@keyframes check {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .tab_data {
@@ -161,9 +171,6 @@ label #icon2 {
   color: black;
 }
 
-/* .link_tab:hover {
-  color: blue;
-} */
 
 input.ant-input {
   background: none;
