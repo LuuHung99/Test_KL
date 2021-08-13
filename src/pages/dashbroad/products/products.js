@@ -1,7 +1,9 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { showLoading, hideLoading } from "../../../redux/actions/loading";
 
 const TabData = lazy(() => import("./Frontend/index"));
 const Role = lazy(() => import("./Role/index"));
@@ -14,13 +16,19 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-  // const data = useSelector(state=>state.products.sidebar);
+  const [activekey, setActiveKey] = useState();
 
+  useEffect(() => {
+    if (panes.length > 0) {
+      setActiveKey(panes[0].url);
+    }
+  }, [panes, props]);
+ 
   const tokenUser = JSON.parse(window.localStorage.user);
 
   let item = researchItem(id);
 
-  if (researchItem(id) !== undefined) {
+  if (item !== undefined) {
     let check = false;
     panes.forEach((i) => {
       if (i.url === id) check = true;
@@ -31,18 +39,36 @@ function DetailProducts(props) {
   }
 
   const remove = (targetKey) => {
-    const newPanes = panes.filter((pane) => pane.url !== targetKey);
-    setPanes(newPanes);
+    // const newPanes = panes.filter((pane) => pane.url !== targetKey);
+    // setPanes(newPanes);
+    // const tabs = window.sessionStorage.getItem("tabs");
+    // const data = JSON.parse(tabs).data;
+    // console.log("data", data);
+    let lastIndex;
+    panes.forEach((pane, i) => {
+      if (pane.url === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    const newpanes = panes.filter((pane) => pane.url !== targetKey);
+    let active = activekey ? activekey : null;
+    if (newpanes.length && active === targetKey) {
+      if (lastIndex >= 0) {
+        active = newpanes[lastIndex].url;
+      } else {
+        active = newpanes[0].url;
+      }
+    }
+    setPanes(newpanes);
+    setActiveKey(active);
   };
 
   const onChange = (activeKey) => {
-    console.log(activeKey);
     history.push(`/dashboard/${activeKey}`);
   };
 
   function researchItem(id) {
     let result = [];
-    // const data = window.store.products;
     const tabs = window.sessionStorage.getItem("tabs");
     const data = JSON.parse(tabs).data;
 
@@ -84,29 +110,26 @@ function DetailProducts(props) {
               {tokenUser.username && (
                 <div className="content_product">
                   {pane.url === "tab" ? (
-                    <Suspense fallback={<h1>Loading...</h1>}>
+                    <Suspense>
                       <TabData />
                     </Suspense>
                   ) : null}
-
                   {pane.url === "role" ? (
-                    <Suspense fallback={<h1>Loading...</h1>}>
+                    <Suspense>
                       <Role />
                     </Suspense>
                   ) : null}
                   {pane.url === "user" ? (
-                    <Suspense fallback={<h1>Loading...</h1>}>
+                    <Suspense>
                       <User />
                     </Suspense>
                   ) : null}
                   {pane.url === "resource" ? (
-                    <Suspense fallback={<h1>Loading...</h1>}>
+                    <Suspense>
                       <Resource />
                     </Suspense>
                   ) : null}
-                  <Suspense fallback={<h1>Loading...</h1>}>
-                    {pane.description}
-                  </Suspense>
+                  <Suspense>{pane.description}</Suspense>
                 </div>
               )}
             </TabPane>
@@ -119,4 +142,9 @@ function DetailProducts(props) {
   );
 }
 
-export default DetailProducts;
+const mapStateToProps = (state) => {
+  return {};
+};
+export default connect(mapStateToProps, { showLoading, hideLoading })(
+  DetailProducts
+);

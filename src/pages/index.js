@@ -10,7 +10,7 @@ function AppRouter() {
   return (
     <Router>
       <Suspense
-       fallback={<h1 style={{textAlign: "center", marginTop: 200}}>Loading...</h1>}
+       fallback={false}
       >
           <Route>
             {routes.map((route, index) => {

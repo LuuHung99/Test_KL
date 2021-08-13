@@ -36,3 +36,6 @@ export const userContants = {
   ADD_USER_SUCCESS: "ADD_USER_SUCCESS",
   GET_ALL_USER_SUCCESS: "GET_ALL_USER_SUCCESS",
 }
+
+export const SHOWLOADING = "SHOWLOADING";
+export const HIDELOADING = "HIDELOADING";
