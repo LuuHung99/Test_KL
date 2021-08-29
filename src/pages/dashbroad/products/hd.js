@@ -24,7 +24,8 @@ function HeaderTest(props) {
 
   // const users = window.store.datauser;
   const users = useSelector((state) => state.users.users);
-  const tokenUser = JSON.parse(window.localStorage.user);
+
+  const user = useSelector((state) => state.auth.user);
 
   const onChangeUpLoad = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -121,13 +122,11 @@ function HeaderTest(props) {
             <ul className="menu">
               <div className="menu-logo">
                 <img
-                  src={tokenUser.avatarUrl}
+                  src={user.avatarUrl}
                   alt=""
                   style={{ width: 40, height: 40, borderRadius: "50%" }}
                 />
-                <p style={{ textTransform: "capitalize" }}>
-                  {tokenUser.fullname}
-                </p>
+                <p style={{ textTransform: "capitalize" }}>{user.fullname}</p>
               </div>
               <div
                 style={{

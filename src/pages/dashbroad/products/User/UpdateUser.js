@@ -20,7 +20,7 @@ function UpdateUser(props) {
     handleChangeRole,
     dataRole,
     role,
-    ChangeBox
+    ChangeBox,
   } = props;
   return (
     <Modal
@@ -42,7 +42,7 @@ function UpdateUser(props) {
               fileList={fileList}
               onChange={onChangeUpLoad}
               onPreview={onPreview}
-              defaultFileList={editSelected?.avatarUrl}
+              defaultFileList={editSelected.avatarUrl}
             >
               {fileList.length < 1}
             </Upload>

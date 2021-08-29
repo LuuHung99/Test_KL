@@ -4,6 +4,7 @@ import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { showLoading, hideLoading } from "../../../redux/actions/loading";
+import { useSelector } from "react-redux";
 
 const TabData = lazy(() => import("./Frontend/index"));
 const Role = lazy(() => import("./Role/index"));
@@ -22,11 +23,13 @@ function DetailProducts(props) {
     if (panes.length > 0) {
       setActiveKey(panes[0].url);
     }
-  }, [panes, props]);
- 
-  const tokenUser = JSON.parse(window.localStorage.user);
+  }, [panes]);
+
+  const user = useSelector((state) => state.auth.user);
 
   let item = researchItem(id);
+
+  console.log("item", item);
 
   if (item !== undefined) {
     let check = false;
@@ -43,7 +46,7 @@ function DetailProducts(props) {
     // setPanes(newPanes);
     // const tabs = window.sessionStorage.getItem("tabs");
     // const data = JSON.parse(tabs).data;
-    // console.log("data", data);
+    // console.log("data", d);
     let lastIndex;
     panes.forEach((pane, i) => {
       if (pane.url === targetKey) {
@@ -51,16 +54,16 @@ function DetailProducts(props) {
       }
     });
     const newpanes = panes.filter((pane) => pane.url !== targetKey);
-    let active = activekey ? activekey : null;
-    if (newpanes.length && active === targetKey) {
+
+    if (newpanes.length && activekey === targetKey) {
       if (lastIndex >= 0) {
-        active = newpanes[lastIndex].url;
+        activekey = newpanes[lastIndex].url;
       } else {
-        active = newpanes[0].url;
+        activekey = newpanes[0].url;
       }
     }
     setPanes(newpanes);
-    setActiveKey(active);
+    setActiveKey(activekey);
   };
 
   const onChange = (activeKey) => {
@@ -107,7 +110,7 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              {tokenUser.username && (
+              {user.username && (
                 <div className="content_product">
                   {pane.url === "tab" ? (
                     <Suspense>

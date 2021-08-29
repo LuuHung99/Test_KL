@@ -15,8 +15,10 @@ const { SubMenu } = Menu;
 function Products(props) {
   let match = useRouteMatch();
   const [searchSidebar, setSearchSidebar] = useState("");
-  const tokenUser = JSON.parse(window.localStorage.user);
-  const data = useSelector(state=>state.products.sidebar);
+
+  const data = useSelector((state) => state.products.sidebar);
+
+  const user = useSelector((state) => state.auth.user);
 
   const handleClickTab = (item) => {
     const tabs = window.sessionStorage.getItem("tabs");
@@ -92,9 +94,9 @@ function Products(props) {
       <Layout id="sidebar-wrapper">
         <Sider className="sidebar_container">
           <div className="logo">
-            <img src={tokenUser.avatarUrl} className="logo__img" alt="" />
+            <img src={user.avatarUrl} className="logo__img" alt="" />
             <p style={{ color: "white", textTransform: "capitalize" }}>
-              Hi {tokenUser.fullname}
+              Hi {user.fullname}
             </p>
           </div>
           <Input
@@ -116,7 +118,7 @@ function Products(props) {
         </Sider>
         <div className="sidebar_image">
           <img
-            src={tokenUser.avatarUrl}
+            src={user.avatarUrl}
             alt=""
             style={{
               width: "100px",
@@ -131,5 +133,4 @@ function Products(props) {
   );
 }
 
-export default Products
-
+export default Products;

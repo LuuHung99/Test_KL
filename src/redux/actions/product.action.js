@@ -12,7 +12,6 @@ export const getAllProducts = (user) => {
         payload: {
           sidebar: createCategories(res1.data.concat(res2.data)),
           tabs: createCategories(res1.data),
-
         },
       });
     }

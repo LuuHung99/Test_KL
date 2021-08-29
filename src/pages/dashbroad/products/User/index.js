@@ -143,7 +143,9 @@ function User(props) {
 
     if (user === -1) {
       dispatch(updateUser(request)).then((result) => {
-        if (result) dispatch(getAllUsers());
+        if (result) {
+          dispatch(getAllUsers());
+        }
       });
       message.success("Cập nhật thành công chức năng user", 2);
       setEditBox(false);
