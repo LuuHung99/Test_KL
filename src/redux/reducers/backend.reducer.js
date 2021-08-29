@@ -14,7 +14,6 @@ const reducer = (state = initialState, action) => {
       break;
     case backendContants.ADD_BACKEND_SUCCESS:
       const newBackend = [...state.backends, action.payload.backends];
-      console.log(newBackend);
       state = {
         ...state,
         backends: newBackend,

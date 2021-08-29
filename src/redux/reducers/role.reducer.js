@@ -2,6 +2,7 @@ import { roleContants } from "../actions/constants";
 
 const initialState = {
   roles: [],
+  activeRole: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +11,19 @@ const reducer = (state = initialState, action) => {
       state = {
         ...state,
         roles: action.payload.roles,
+      };
+      break;
+    case roleContants.GET_ALL_ACTIVE_ROLE:
+      state = {
+        ...state,
+        activeRole: action.payload.activeRoles,
+      };
+      break;
+    case roleContants.ADD_ROLE_SUCCESS:
+      const newRole = [...state.roles, action.payload.roles];
+      state = {
+        ...state,
+        roles: newRole,
       };
       break;
     default:

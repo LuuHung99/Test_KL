@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
-import TabData from "./Frontend/index";
-import Role from "./Role/index";
-import User from "./User/index";
-import Resource from "./Backend/index";
+import { connect } from "react-redux";
+import { showLoading, hideLoading } from "../../../redux/actions/loading";
+import { useSelector } from "react-redux";
+
+const TabData = lazy(() => import("./Frontend/index"));
+const Role = lazy(() => import("./Role/index"));
+const User = lazy(() => import("./User/index"));
+const Resource = lazy(() => import("./Backend/index"));
 
 const { TabPane } = Tabs;
 
@@ -13,19 +17,21 @@ function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
   const [panes, setPanes] = useState([]);
-  // const [user, setUser] = useState();
+  const [activekey, setActiveKey] = useState();
 
-  const tokenUser = JSON.parse(window.localStorage.user);
+  useEffect(() => {
+    if (panes.length > 0) {
+      setActiveKey(panes[0].url);
+    }
+  }, [panes]);
 
-  // useEffect(() => {
-  //   if (tokenUser.username === "admin") {
-  //     setUser(tokenUser.username);
-  //   }
-  // }, [tokenUser.username]);
+  const user = useSelector((state) => state.auth.user);
 
   let item = researchItem(id);
 
-  if (researchItem(id) !== undefined) {
+  console.log("item", item);
+
+  if (item !== undefined) {
     let check = false;
     panes.forEach((i) => {
       if (i.url === id) check = true;
@@ -36,21 +42,39 @@ function DetailProducts(props) {
   }
 
   const remove = (targetKey) => {
-    const newPanes = panes.filter((pane) => pane.url !== targetKey);
+    // const newPanes = panes.filter((pane) => pane.url !== targetKey);
+    // setPanes(newPanes);
+    // const tabs = window.sessionStorage.getItem("tabs");
+    // const data = JSON.parse(tabs).data;
+    // console.log("data", d);
+    let lastIndex;
+    panes.forEach((pane, i) => {
+      if (pane.url === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    const newpanes = panes.filter((pane) => pane.url !== targetKey);
 
-    setPanes(newPanes);
+    if (newpanes.length && activekey === targetKey) {
+      if (lastIndex >= 0) {
+        activekey = newpanes[lastIndex].url;
+      } else {
+        activekey = newpanes[0].url;
+      }
+    }
+    setPanes(newpanes);
+    setActiveKey(activekey);
   };
 
   const onChange = (activeKey) => {
-    console.log(activeKey);
     history.push(`/dashboard/${activeKey}`);
   };
 
   function researchItem(id) {
     let result = [];
-    // const data = window.store.products;
     const tabs = window.sessionStorage.getItem("tabs");
     const data = JSON.parse(tabs).data;
+
     let item_parent = data.filter((x) => x.url === id);
     if (item_parent.length === 0) {
       let item = [];
@@ -86,15 +110,31 @@ function DetailProducts(props) {
                 backgroundColor: "#fff",
               }}
             >
-              {tokenUser.username && (
+              {user.username && (
                 <div className="content_product">
-                  {pane.url === "tab" ? <TabData /> : null}
-                  {pane.description}
-                  {pane.url === "role" ? <Role /> : null}
-                  {pane.url === "user" ? <User /> : null}
-                  {pane.url === "resource" ? <Resource /> : null}
+                  {pane.url === "tab" ? (
+                    <Suspense>
+                      <TabData />
+                    </Suspense>
+                  ) : null}
+                  {pane.url === "role" ? (
+                    <Suspense>
+                      <Role />
+                    </Suspense>
+                  ) : null}
+                  {pane.url === "user" ? (
+                    <Suspense>
+                      <User />
+                    </Suspense>
+                  ) : null}
+                  {pane.url === "resource" ? (
+                    <Suspense>
+                      <Resource />
+                    </Suspense>
+                  ) : null}
+                  <Suspense>{pane.description}</Suspense>
                 </div>
-              ) }
+              )}
             </TabPane>
           ))}
         </Tabs>
@@ -105,4 +145,9 @@ function DetailProducts(props) {
   );
 }
 
-export default DetailProducts;
+const mapStateToProps = (state) => {
+  return {};
+};
+export default connect(mapStateToProps, { showLoading, hideLoading })(
+  DetailProducts
+);

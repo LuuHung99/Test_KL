@@ -20,7 +20,7 @@ function UpdateUser(props) {
     handleChangeRole,
     dataRole,
     role,
-    ChangeBox
+    ChangeBox,
   } = props;
   return (
     <Modal
@@ -42,16 +42,16 @@ function UpdateUser(props) {
               fileList={fileList}
               onChange={onChangeUpLoad}
               onPreview={onPreview}
-              defaultFileList={editSelected?.avatarUrl}
+              defaultFileList={editSelected.avatarUrl}
             >
               {fileList.length < 1}
             </Upload>
           </ImgCrop>
         </Form.Item>
-        <Form.Item name="username" label="Họ tên">
+        <Form.Item name="fullname" label="Họ tên">
           <Input defaultValue={editSelected.fullname} />
         </Form.Item>
-        <Form.Item name="fullname" label="Tên tài khoản">
+        <Form.Item name="username" label="Tên tài khoản">
           <Input defaultValue={editSelected.username} />
         </Form.Item>
         <Form.Item name="roles" label="Quyền truy cập">

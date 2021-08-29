@@ -21,9 +21,15 @@ function UpdateActive(props) {
   return (
     <Modal
       visible={visible}
-      title={`${itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"} ${
+      title={
         itemSelected.title
-      }`}
+          ? `${itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"} ${
+              itemSelected.title
+            }`
+          : `${itemSelected.activated ? "Vô hiệu hóa" : "Kích hoạt"} ${
+              itemSelected.username
+            }`
+      }
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[]}

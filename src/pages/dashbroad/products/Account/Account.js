@@ -57,7 +57,7 @@ function UpdateActive(props) {
           <Input defaultValue={auth.username} />
         </Form.Item>
         <Form.Item name="hashedPass" label="Mật khẩu">
-          <Input.Password  defaultValue={auth.hashedPass} />
+          <Input.Password defaultValue={auth.hashedPass} />
         </Form.Item>
 
         <div style={{ justifyContent: "center", display: "flex" }}>

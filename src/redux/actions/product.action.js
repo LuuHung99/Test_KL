@@ -2,7 +2,7 @@ import axiosClient from "../../api";
 import { createCategories } from "../../services/middlewares";
 import { productContants } from "./constants";
 
-export const getAllProducts = () => {
+export const getAllProducts = (user) => {
   return async (dispatch) => {
     const res1 = await axiosClient.get("/root/sidebar");
     const res2 = await axiosClient.get("/root/tab");
@@ -11,7 +11,7 @@ export const getAllProducts = () => {
         type: productContants.GET_PRODUCT_SUCCESS,
         payload: {
           sidebar: createCategories(res1.data.concat(res2.data)),
-          products: res1.data,
+          tabs: createCategories(res1.data),
         },
       });
     }

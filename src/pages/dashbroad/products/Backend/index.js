@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, Pagination, message } from "antd";
+import { Input, Button, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -18,6 +18,7 @@ import {
   updateActivedBackend,
   updateBack,
 } from "../../../../redux/actions/backend.action";
+import { getAllRoles } from "../../../../redux/actions/role.action";
 
 function Resource(props) {
   const backends = useSelector((state) => state.backends.backends);
@@ -28,24 +29,21 @@ function Resource(props) {
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
 
-  // const tokenUser = JSON.parse(window.localStorage.user);
-
-  const [paginate, setPaginate] = useState(
-    backends.filter((item, index) => item && index < 10)
-  );
-
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
-  //Phan trang
-  const setPage = (page) => {
-    setPaginate(
-      backends.filter(
-        (item, index) =>
-          item && index <= page * 10 && index > (page - 1) * 10
-      )
-    );
-  };
+  // const [paginate, setPaginate] = useState(
+  //   backends.filter((item, index) => item && index < 10)
+  // );
+  // //Phan trang
+  // const setPage = (page) => {
+  //   setPaginate(
+  //     backends.filter(
+  //       (item, index) =>
+  //         item && index <= page * 10 && index > (page - 1) * 10
+  //     )
+  //   );
+  // };
 
   const handleEditBox = (item) => {
     setEditSelected(item);
@@ -92,13 +90,16 @@ function Resource(props) {
     }
 
     dispatch(updateBack(request)).then((result) => {
-      if (result) dispatch(getAllBackend());
+      if (result) {
+        dispatch(getAllBackend());
+        
+      }
     });
     message.success("Cập nhật thành công chức năng backend", 2);
     setEditBox(false);
   };
 
-  const handleClickActive = async (id, active, value, username) => {
+  const handleClickActive = (id, active, value, username) => {
     const l = {
       funcId: id,
       funcType: "backend",
@@ -107,9 +108,11 @@ function Resource(props) {
       activated: active ? false : true,
     };
     dispatch(updateActivedBackend(l)).then((result) => {
-      if (result) dispatch(getAllBackend());
+      if (result) {
+        dispatch(getAllRoles());
+        dispatch(getAllBackend());
+      } 
     });
-    alert("Thay đổi thành công trạng thái chức năng backend");
     message.success("Cập nhật thành công trạng thái chức năng backend", 2);
     setVisible(false);
   };
@@ -124,7 +127,10 @@ function Resource(props) {
     };
     if (f.title && f.description && f.httpVerb && f.locationPath) {
       dispatch(createBackend(f)).then((result) => {
-        if (result) dispatch(getAllBackend());
+        if (result) {
+          dispatch(getAllBackend());
+          dispatch(getAllRoles());
+        }
       });
       message.success("Thêm thành công chức năng backend", 2);
       setModel(false);
@@ -172,8 +178,8 @@ function Resource(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {paginate
-            ? paginate
+          {backends
+            ? backends
                 .filter((val) =>
                   val.title.toLowerCase().includes(searchProduct.toLowerCase())
                     ? val
@@ -225,12 +231,12 @@ function Resource(props) {
                 ))
             : null}
         </table>
-        <Pagination
+        {/* <Pagination
           style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}
           defaultCurrent={1}
           total={backends.length}
           onChange={(page) => setPage(page)}
-        />
+        /> */}
         {/* <div style={{ width: "100%", height: "100px" }}></div> */}
         {visible && (
           <UpdateActive

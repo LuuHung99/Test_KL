@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, message, Pagination } from "antd";
-import {
-  FrontendToFuncLog,
-  pushFrontend,
-  ProductApi,
-  UpdateFrontend,
-} from "../../../../services/api";
+import { Input, Button, message } from "antd";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -18,8 +12,21 @@ import UpdateFunc from "./UpdateFunc";
 import UpdateActive from "../components/UpdateActive";
 import "../css/tab-data.css";
 
+import {
+  getAllTab,
+  createFrontend,
+  updateActivedFrontend,
+  updateFe,
+} from "../../../../redux/actions/tab.action";
+
+import { getAllProducts } from "../../../../redux/actions/product.action";
+import { getAllRoles } from "../../../../redux/actions/role.action";
+import { useDispatch, useSelector } from "react-redux";
+
 function TabData(props) {
-  const [dataPd, setDataPd] = useState(window.store.products);
+  const frontends = useSelector((state) => state.tabs.tabs);
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState(false);
   const [model, setModel] = useState(false);
   const [editBox, setEditBox] = useState(false);
@@ -28,18 +35,18 @@ function TabData(props) {
   const [itemSelected, setItemSelected] = useState();
   const [editSelected, setEditSelected] = useState();
 
-  const [paginate, setPaginate] = useState(
-    dataPd.filter((item, index) => item && index < 10)
-  );
+  // const [paginate, setPaginate] = useState(
+  //   frontends.filter((item, index) => item && index < 10)
+  // );
 
-  //Phan trang
-  const setPage = (page) => {
-    setPaginate(
-      dataPd.filter(
-        (item, index) => item && index <= page * 10 && index > (page - 1) * 10
-      )
-    );
-  };
+  // //Phan trang
+  // const setPage = (page) => {
+  //   setPaginate(
+  //     frontends.filter(
+  //       (item, index) => item && index <= page * 10 && index > (page - 1) * 10
+  //     )
+  //   );
+  // };
 
   const handleShowBox = (item) => {
     setVisible(true);
@@ -70,7 +77,7 @@ function TabData(props) {
   };
 
   const handleFormSubmitUpdateFrontend = async (value) => {
-    const item = dataPd.map((item) => item.url).indexOf(value.url);
+    const item = frontends.map((item) => item.url).indexOf(value.url);
     const request = { _id: editSelected._id };
 
     if (value["url"] !== undefined) {
@@ -86,19 +93,22 @@ function TabData(props) {
       request.author = value["author"];
     }
     if (item === -1) {
-      await UpdateFrontend(request);
+      dispatch(updateFe(request)).then((result) => {
+        if (result) {
+          dispatch(getAllTab());
+          dispatch(getAllProducts());
+          dispatch(getAllRoles());
+        }
+      });
       message.success("Cập nhật thành công chức năng frontend", 2);
       setEditBox(false);
-      const newData = await ProductApi();
-      window.store["datatab"] = newData;
-      setDataPd(newData);
     } else {
       message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!", 2);
     }
   };
 
   const handleAddInfor = async (title, url, description, author) => {
-    const item = dataPd.map((item) => item.url).indexOf(url);
+    const item = frontends.map((item) => item.url).indexOf(url);
     const f = {
       title: title,
       url: url,
@@ -107,13 +117,17 @@ function TabData(props) {
       author: author,
       parentId: "",
     };
-    if (f.title && f.url && f.description && f.author && item === -1) {
-      await pushFrontend(f);
-      message.success("Thêm thành công chức năng frontend", 2);
-      setModel(false);
-      const newData = await ProductApi();
-      window.store["datatab"] = newData;
-      setDataPd(newData);
+    if (item === -1) {
+      if (f.title && f.url && f.description && f.author) {
+        dispatch(createFrontend(f)).then((result) => {
+          if (result) {
+            dispatch(getAllTab());
+            dispatch(getAllProducts());
+          }
+        });
+        message.success("Thêm thành công chức năng frontend", 2);
+        setModel(false);
+      }
     } else {
       message.error("Đường dẫn đã tồn tại. Xin mời nhập lại!");
     }
@@ -127,14 +141,15 @@ function TabData(props) {
       username: author,
       activated: active ? false : true,
     };
-
-    await FrontendToFuncLog(l);
-    alert("Thay đổi thành công trạng thái chức năng frontend");
+    dispatch(updateActivedFrontend(l)).then((result) => {
+      if (result) {
+        dispatch(getAllTab());
+        dispatch(getAllProducts());
+        dispatch(getAllRoles());
+      }
+    });
     message.success("Cập nhật thành công trạng thái chức năng frontend", 2);
     setVisible(false);
-    const newData = await ProductApi();
-    window.store["datatab"] = newData;
-    setDataPd(newData);
   };
 
   return (
@@ -178,8 +193,8 @@ function TabData(props) {
               <th>Tùy chọn</th>
             </tr>
           </thead>
-          {paginate.length > 0
-            ? paginate
+          {frontends.length > 0
+            ? frontends
                 .filter((val) =>
                   val.title.toLowerCase().includes(searchProduct.toLowerCase())
                     ? val
@@ -195,17 +210,20 @@ function TabData(props) {
                             : "table_col_content_unactivated"
                         }
                       >
-                        <td>{item.title}</td>
+                        <td style={{ minWidth: 130 }}>{item.title}</td>
                         <td>{item.url}</td>
                         <td>{item.description}</td>
-                        <td onClick={() => handleShowBox(item)}>
+                        <td
+                          onClick={() => handleShowBox(item)}
+                          style={{ minWidth: 120 }}
+                        >
                           {String(item.activated) === "true" ? (
                             <CheckOutlined className="icon_active" />
                           ) : (
                             <CloseOutlined className="icon_deactive" />
                           )}
                         </td>
-                        <td>{item.author}</td>
+                        <td style={{ minWidth: 130 }}>{item.author}</td>
                         <td>
                           <div
                             style={{
@@ -233,16 +251,16 @@ function TabData(props) {
             : null}
         </table>
 
-        <Pagination
+        {/* <Pagination
           style={{
             display: "flex",
             justifyContent: "flex-end",
             marginTop: 20,
           }}
           defaultCurrent={1}
-          total={dataPd.length}
+          total={frontends.length}
           onChange={(page) => setPage(page)}
-        />
+        /> */}
 
         {visible && (
           <UpdateActive

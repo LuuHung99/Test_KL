@@ -56,7 +56,7 @@ function Login() {
           duration: 2,
         });
         history.push("/");
-        
+
         setLoading(false);
       }, 1500);
     }

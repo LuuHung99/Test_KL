@@ -7,21 +7,25 @@ import {
   LogoutOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { UserApi, UpdateUser } from "../../../services/api";
 import { Link } from "react-router-dom";
 import Account from "./Account/Account";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser, getAllUsers } from "../../../redux/actions/user.action";
 
 const { Header } = Layout;
 function HeaderTest(props) {
   const data = useSelector((state) => state.auth);
-  const [auth, setAuth] = useState(data.user);
+  const [auth] = useState(data.user);
   const [showMenu, setShowMenu] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [fileList, setFileList] = useState([]);
 
-  const users = window.store.datauser;
-  const tokenUser = JSON.parse(window.localStorage.user);
+  const dispatch = useDispatch();
+
+  // const users = window.store.datauser;
+  const users = useSelector((state) => state.users.users);
+
+  const user = useSelector((state) => state.auth.user);
 
   const onChangeUpLoad = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -61,13 +65,12 @@ function HeaderTest(props) {
     }
 
     if (user === -1) {
-      await UpdateUser(request);
+      dispatch(updateUser(request)).then((result) => {
+        if (result) dispatch(getAllUsers());
+      });
       message.success("Cập nhật thông tin người dùng thành công", 2);
       setShowAccount(false);
       setFileList([]);
-      const newData = await UserApi();
-      window.store["datauser"] = newData;
-      setAuth(newData);
     } else {
       message.error("Tài khoản đã tồn tại. Xin mời nhập lại!", 2);
     }
@@ -93,7 +96,7 @@ function HeaderTest(props) {
     window.localStorage.clear();
     message.success("Đăng xuất thành công!", 2);
   };
-  
+
   return (
     <>
       <Header className="headerPd">
@@ -119,13 +122,11 @@ function HeaderTest(props) {
             <ul className="menu">
               <div className="menu-logo">
                 <img
-                  src={tokenUser.avatarUrl}
+                  src={user.avatarUrl}
                   alt=""
                   style={{ width: 40, height: 40, borderRadius: "50%" }}
                 />
-                <p style={{ textTransform: "capitalize" }}>
-                  {tokenUser.fullname}
-                </p>
+                <p style={{ textTransform: "capitalize" }}>{user.fullname}</p>
               </div>
               <div
                 style={{

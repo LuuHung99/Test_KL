@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Input, Select, Form, Modal, Button, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
+import Tools from "../../../../Tools/Tools";
 
 const layout = {
   labelCol: { span: 8 },
@@ -18,13 +19,14 @@ function AddUser(props) {
     onPreview,
     handleChangeRole,
     dataRole,
-    handleAddInfor,
     ChangeBox,
     role,
   } = props;
 
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <Modal
       visible={model}
@@ -34,16 +36,7 @@ function AddUser(props) {
       footer={[]}
     >
       <Form {...layout} name="control-hooks" onFinish={handleFormSubmitAddUser}>
-        <Form.Item
-          name="image"
-          label="Hình ảnh"
-          rules={[
-            {
-              required: true,
-              message: "Hình ảnh không được để trống!",
-            },
-          ]}
-        >
+        <Form.Item name="image" label="Hình ảnh">
           <ImgCrop rotate>
             <Upload
               listType="picture-card"
@@ -57,22 +50,22 @@ function AddUser(props) {
           </ImgCrop>
         </Form.Item>
         <Form.Item
-          name="username"
+          name="fullname"
           label="Họ tên"
           rules={[
             {
               required: true,
-              message: "họ tên không được để trống!",
+              message: "Họ tên không được để trống!",
             },
           ]}
         >
           <Input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
           />
         </Form.Item>
         <Form.Item
-          name="fullname"
+          name="username"
           label="Tên tài khoản"
           rules={[
             {
@@ -82,8 +75,32 @@ function AddUser(props) {
           ]}
         >
           <Input
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item
+          className="input_info"
+          label="Mật khẩu"
+          name="password"
+          hasFeedback
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!getFieldValue("password")) {
+                  return Promise.reject("Mật khẩu không được để trống!");
+                }
+                if (Tools.requireStrongPw(getFieldValue("password"))) {
+                  return Promise.resolve();
+                }
+                return Promise.reject("Mật khẩu quá yếu");
+              },
+            }),
+          ]}
+        >
+          <Input.Password
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
         <Form.Item
@@ -107,12 +124,7 @@ function AddUser(props) {
         </Form.Item>
 
         <div className="box_products">
-          <Button
-            key="submit"
-            type="primary"
-            htmlType="submit"
-            onClick={() => handleAddInfor(username, fullname, role, fileList)}
-          >
+          <Button key="submit" type="primary" htmlType="submit">
             Thêm mới
           </Button>
           <Button type="danger" onClick={ChangeBox}>

@@ -150,7 +150,35 @@ label #icon2 {
   height: 81vh;
   width: auto;
   padding: 30px;
+  animation-name: springy-text;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  font-family: 'Roboto', sans-serif;
+  /* animation: check linear 0.5s; */
+  
 }
+
+@keyframes springy-text {
+  0%   {
+    color: white;
+  }
+  100%   {
+    letter-spacing: 0.01em;
+    color:#000;
+  }
+}
+/* @keyframes check {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} */
 
 .tab_data {
   margin: 23px;
@@ -161,9 +189,6 @@ label #icon2 {
   color: black;
 }
 
-/* .link_tab:hover {
-  color: blue;
-} */
 
 input.ant-input {
   background: none;
