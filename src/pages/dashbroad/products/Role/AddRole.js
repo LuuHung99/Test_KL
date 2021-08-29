@@ -23,7 +23,6 @@ function AddRole(props) {
     dataFrontend,
     dataBackend,
   } = props;
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
