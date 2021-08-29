@@ -35,6 +35,8 @@ function DetailProducts(props) {
     }
   }
 
+  //Fix tabs
+
   const remove = (targetKey) => {
     const newPanes = panes.filter((item) => item.url !== targetKey);
     setPanes(newPanes);
