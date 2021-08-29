@@ -3,6 +3,7 @@ import { productContants } from "../actions/constants";
 const initialState = {
   sidebar: [],
   tabs: [],
+  historyTab: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +13,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         sidebar: action.payload.sidebar,
         tabs: action.payload.tabs,
+      };
+      break;
+
+    case productContants.GET_TAB_SESSION_SUCCESS:
+      state = {
+        ...state,
+        historyTab: action.payload.historyTab,
       };
       break;
     default:

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import AppRouter from "./pages/index";
 import { useDispatch } from "react-redux";
-import { getAllProducts } from "./redux/actions/product.action";
+import { getAllProducts, getTabSession } from "./redux/actions/product.action";
 import { isUserLogin } from "./redux/actions/auth.action";
 import { getAllTab } from "./redux/actions/tab.action";
 import { getAllBackend } from "./redux/actions/backend.action";
@@ -17,6 +17,7 @@ function App() {
     if (!auth.authenticate) {
       dispatch(isUserLogin());
     }
+    dispatch(getTabSession());
     dispatch(getAllProducts());
     dispatch(getAllTab());
     dispatch(getAllBackend());

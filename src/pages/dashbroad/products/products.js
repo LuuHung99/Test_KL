@@ -2,9 +2,8 @@ import React, { useState, Suspense, lazy, useEffect } from "react";
 import "./css/product.css";
 import { Layout, Tabs } from "antd";
 import { useParams, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../../redux/actions/loading";
-import { useSelector } from "react-redux";
 
 const TabData = lazy(() => import("./Frontend/index"));
 const Role = lazy(() => import("./Role/index"));
@@ -16,7 +15,10 @@ const { TabPane } = Tabs;
 function DetailProducts(props) {
   const { id } = useParams();
   const history = useHistory();
-  const [panes, setPanes] = useState([]);
+
+  const historyTab = useSelector((state) => state.products.historyTab);
+
+  const [panes, setPanes] = useState(historyTab);
   const [activekey, setActiveKey] = useState();
 
   useEffect(() => {
@@ -29,8 +31,6 @@ function DetailProducts(props) {
 
   let item = researchItem(id);
 
-  console.log("item", item);
-
   if (item !== undefined) {
     let check = false;
     panes.forEach((i) => {
@@ -42,28 +42,26 @@ function DetailProducts(props) {
   }
 
   const remove = (targetKey) => {
-    // const newPanes = panes.filter((pane) => pane.url !== targetKey);
-    // setPanes(newPanes);
-    // const tabs = window.sessionStorage.getItem("tabs");
-    // const data = JSON.parse(tabs).data;
-    // console.log("data", d);
-    let lastIndex;
-    panes.forEach((pane, i) => {
-      if (pane.url === targetKey) {
-        lastIndex = i - 1;
-      }
-    });
-    const newpanes = panes.filter((pane) => pane.url !== targetKey);
-
-    if (newpanes.length && activekey === targetKey) {
-      if (lastIndex >= 0) {
-        activekey = newpanes[lastIndex].url;
+    const newPanes = panes.filter((item) => item.url !== targetKey);
+    window.sessionStorage.setItem("tabs", JSON.stringify({ data: newPanes }));
+    const listUrl = panes.map((item) => item.url);
+    const indexUrl = listUrl.indexOf(targetKey);
+    let newUrl;
+    if (panes.length - 1 > 0) {
+      if (indexUrl === panes.length - 1) {
+        newUrl = listUrl[indexUrl - 1];
+        history.push(`/dashboard/${newUrl}`);
       } else {
-        activekey = newpanes[0].url;
+        if (indexUrl === activekey) {
+          newUrl = listUrl[indexUrl + 1];
+          history.push(`/dashboard/${newUrl}`);
+        }
       }
+      setPanes(newPanes);
+      setActiveKey(newUrl);
+    } else {
+      history.push(`/dashboard`);
     }
-    setPanes(newpanes);
-    setActiveKey(activekey);
   };
 
   const onChange = (activeKey) => {

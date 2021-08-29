@@ -17,3 +17,16 @@ export const getAllProducts = (user) => {
     }
   };
 };
+
+export const getTabSession = () => {
+  return async (dispatch) => {
+    const tabs = await window.sessionStorage.getItem("tabs");
+    if (tabs) {
+      const data = JSON.parse(tabs).data;
+      dispatch({
+        type: productContants.GET_TAB_SESSION_SUCCESS,
+        payload: { historyTab: data },
+      });
+    }
+  };
+};
